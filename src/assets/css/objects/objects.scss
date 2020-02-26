@@ -1,0 +1,267 @@
+@import "./lib-custom-styling/v-select";
+@import "../main";
+@import "../styleguide/tooltip";
+
+// outer wrap of module- page
+.object-wrap {
+  display: flex;
+  width: 100vw;
+  //overflow-x: hidden;
+}
+
+// main content itself, without nav but with main header
+.object {
+  flex: 1 0 auto;
+  width: 1px;
+  //padding: 40px;
+  //width: calc(100vw - 272px);
+  //overflow: auto;
+}
+
+.the-nav__wrap {
+  flex: 0 0 272px;
+  //min-width: 272px;
+  //width: 272px;
+}
+
+.object-content-wrap {
+  //width: 100%;
+  //max-width: 100%;
+  //min-width: 100%;
+}
+
+// inner content section
+.object-content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 65vh;
+  padding: 38px 58px;
+  background: #fff;
+  border-radius: $border-radius;
+
+  .pagination {
+    padding-top: 28px;
+    margin: auto 0 0 auto;
+  }
+}
+
+.btn-controls {
+  .btn {
+    margin-left: 28px;
+  }
+}
+
+// SECTION HEADING
+.content-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  margin-bottom: 25px;
+
+  .content-title {
+    @extend .typo-heading-md;
+    margin: 0;
+
+    + .hint {
+      top: -2px;
+    }
+  }
+
+  // WRAP FOR SEARCH INPUT
+  .content-header__actions-wrap {
+    display: flex;
+    align-items: center;
+
+    // ACTIONS
+    .icon-action {
+      margin-left: 30px;
+    }
+
+    //.table-action__actions {
+    //  display: flex;
+    //  align-items: center;
+
+    .active {
+      color: #000;
+    }
+
+    .upload-csv {
+      position: relative;
+      height: 24px;
+      margin-left: 30px;
+
+      .icon-icon_upload {
+        margin-left: 0;
+        opacity: 1;
+        pointer-events: none;
+      }
+
+      &:hover .icon-icon_upload {
+        color: #000;
+      }
+
+      .upload-csv__input {
+        position: absolute;
+        top: -2px;
+        left: 0;
+        width: 24px;
+        height: 24px;
+        font-size: 0;
+        cursor: pointer;
+        opacity: 0;
+      }
+    }
+
+    i:not(.icon-icon_search) {
+      @extend .icon-action;
+      margin-left: 30px;
+    }
+
+    //}
+  }
+}
+
+// GRID TEMPLATE FOR MODULE INPUTS
+.object-input-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-column-gap: 28px;
+  grid-row-gap: 8px;
+
+
+}
+
+.grid-w100 {
+  .object-input-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-w50 {
+  .object-input-grid {
+    grid-template-columns: 50%;
+  }
+
+  &.object-input-grid {
+    grid-template-columns: 50%;
+  }
+}
+
+.value-pair {
+  align-items: center;
+  grid-template-columns: 1fr 1fr 24px;
+  margin-bottom: 28px;
+}
+
+// used both in tags input and select dropdowns
+.select-options {
+  @extend .box-shadow;
+  @extend .scrollbar;
+
+  position: absolute;
+  width: 100%;
+  max-height: 190px;
+  padding: 8px 0;
+  margin-top: 8px;
+  background: #fff;
+  overflow-y: auto;
+  z-index: 10;
+
+  .select-option {
+    @extend .typo-body-md;
+
+    div {
+      padding: 12px 16px 11px;
+      cursor: pointer;
+    }
+
+    &.select-option__selected, &:hover {
+      color: #000;
+      background: rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.input-extension-wrap {
+  position: relative;
+
+  .input-extension {
+    display: flex;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -35%);
+
+    .input-extension__copy {
+      @extend .typo-input-text;
+      @extend .border-underline;
+      cursor: pointer;
+
+      &:before {
+        bottom: 6px;
+        height: 1px;
+        background: #000;
+      }
+    }
+
+    .input-extension__generate {
+      margin: 0 16px;
+      color: #000;
+      cursor: pointer;
+    }
+  }
+}
+
+.input-extension__copy {
+  .icon-icon_approve {
+    margin-right: 8px;
+    color: $true-color;
+  }
+
+  .tooltip-top {
+    justify-content: center;
+    bottom: 28px;
+    transform: translate(-60%, 0);
+  }
+}
+
+.module-new .object-input-grid .select-preview {
+  margin-bottom: 20px;
+}
+
+.module-new {
+  .new_w50 {
+    width: 50%;
+
+    .form-input {
+      margin: 8px 0;
+    }
+  }
+
+  &.object-with-tabs {
+    padding-top: 28px;
+    padding-left: 0;
+    padding-right: 0;
+
+    .tabs-inner-component {
+      padding: 0 58px 38px 58px;
+    }
+  }
+}
+
+.opened-calendar-work-week {
+  .vuetable tr {
+    border-bottom: transparent;
+
+    &.day-start {
+      //border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    &:last-child {
+      //border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+}
