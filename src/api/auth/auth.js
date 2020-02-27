@@ -6,9 +6,8 @@ export const login = async (credentials) => {
     try {
         const response = await instance.post(url, credentials);
         // localStorage.setItem('access-token', response.authorization.accessToken);
-        console.log(process.env);
         const messageData = { accessToken: response.accessToken };
-        parent.postMessage(messageData, process.env.BASE_URL+'*');
+        parent.postMessage(messageData); // targetOrigin default: '/'
     } catch (error) {
         throw error;
     }
