@@ -7,7 +7,7 @@ export const login = async (credentials) => {
         const response = await instance.post(url, credentials);
         // localStorage.setItem('access-token', response.authorization.accessToken);
         const messageData = { accessToken: response.accessToken };
-        parent.postMessage(messageData); // targetOrigin default: '/'
+        parent.postMessage(messageData, '*'); // targetOrigin default: '/'
     } catch (error) {
         throw error;
     }
