@@ -5,9 +5,12 @@
 
 <script>
 
+    import { mapActions } from "vuex";
+
     export default {
         name: 'app',
         created() {
+            this.checkToken();
             this.setLanguage();
         },
         methods: {
@@ -15,6 +18,10 @@
                 const lang = localStorage.getItem('lang');
                 if (lang) this.$i18n.locale = lang;
             },
+
+            ...mapActions('auth', {
+                checkToken: 'CHECK_TOKEN',
+            }),
         }
     };
 </script>

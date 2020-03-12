@@ -1,4 +1,4 @@
-import {login, register} from "../../../api/auth/auth";
+import {checkToken, login, register} from "../../../api/auth/auth";
 
 const defaultState = () => ({
     username: 'adm@demo.webitel.com',
@@ -23,19 +23,23 @@ const actions = {
         context.commit('SET_PROPERTY', {prop, value});
     },
 
-    LOGIN: async (context) => {
+    LOGIN: async () => {
         await login({
             username: state.username,
             password: state.password,
         });
     },
 
-    REGISTER: async (context) => {
+    REGISTER: async () => {
         await register({
             username: state.username,
             password: state.password,
             certificate: state.certificate
         });
+    },
+
+    CHECK_TOKEN: async () => {
+        await checkToken();
     },
 
     RESET_STATE: (context) => {
