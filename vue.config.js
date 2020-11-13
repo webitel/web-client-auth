@@ -4,7 +4,7 @@ process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : '
 // http://10.10.10.25:1907
 
 module.exports = {
-  // publicPath: '',
+    publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
   lintOnSave: false,
   css: {
     loaderOptions: {
