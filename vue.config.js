@@ -4,17 +4,18 @@ process.env.VUE_APP_API_URL = process.env.NODE_ENV === 'production' ? '/api' : '
 // http://10.10.10.25:1907
 
 module.exports = {
-    publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
-  lintOnSave: false,
-  css: {
-    loaderOptions: {
-      sass: {
-        data: `
+    // publicPath: process.env.NODE_ENV === 'production' ? '' : '/',
+    publicPath: '/app/auth',
+    lintOnSave: false,
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `
           @import "@/assets/css/main.scss";
           @import "@/assets/css/objects/objects.scss";
           @import "@/assets/css/media.scss";
-        `
-      }
-    }
-  },
+        `,
+            },
+        },
+    },
 };

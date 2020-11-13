@@ -12,7 +12,7 @@ const router = new Router({
     },
     routes: [
         {
-            path: '/app/auth',
+            path: '/',
             name: 'auth',
             component: auth,
         },
