@@ -3,15 +3,16 @@
 // auth pages wrap
 .auth {
   display: flex;
-  width: 100vw;
-  padding: 0 !important;
+  //width: 100vw;
+  //padding: 0 !important;
   min-height: 100vh;
   background: #eee;
 
   .auth-form {
     width: 673px;
     padding: 50px 78px;
-    background: #f9f9f9;
+    //background: #f9f9f9;
+    background: var(--main-page-bg-color);
 
     .object-content {
       min-height: auto;
@@ -27,7 +28,7 @@
 
 .auth__form {
   position: relative;
-  width: 517px;
+  //width: 517px;
   background: #fff;
   z-index: 2;
 }
@@ -38,8 +39,8 @@
 
 .form__button {
   display: block;
-  width: 124px;
-  margin: 3px 0 0 auto;
+  min-width: 124px;
+  margin: var(--component-spacing) 0 auto auto;
 }
 
 /*auth link*/
@@ -47,8 +48,8 @@
   @extend .typo-heading-md;
   @extend .border-underline;
 
-  display: block;
   position: relative;
+  display: block;
   padding-bottom: 2px;
   text-decoration: none;
   color: #fff;
