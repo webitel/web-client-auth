@@ -35,9 +35,9 @@
 </template>
 
 <script>
-    import eventBus from '@/utils/eventBus';
-    import requiredLabelMixin from '@/mixins/requiredLabelMixin';
-    import validationMessage from './validation-message';
+    import eventBus from '../../../utils/eventBus';
+    import requiredLabelMixin from '../../../mixins/requiredLabelMixin';
+    import validationMessage from '../validation-message';
 
     export default {
         name: 'login-input',
