@@ -3,16 +3,13 @@
 // auth pages wrap
 .auth {
   display: flex;
-  //width: 100vw;
-  //padding: 0 !important;
   min-height: 100vh;
-  background: #eee;
+  background: var(--main-page-bg-color);
 
   .auth-form {
     width: 673px;
     padding: 50px 78px;
-    //background: #f9f9f9;
-    background: var(--main-page-bg-color);
+    background: #f9f9f9;
 
     .object-content {
       min-height: auto;
@@ -20,7 +17,6 @@
   }
 
   .auth-info {
-    flex-grow: 1;
     color: #fff;
     background: $sidebar-color;
   }
@@ -28,7 +24,7 @@
 
 .auth__form {
   position: relative;
-  //width: 517px;
+  width: 517px;
   background: #fff;
   z-index: 2;
 }
@@ -39,7 +35,6 @@
 
 .form__button {
   display: block;
-  min-width: 124px;
   margin: var(--component-spacing) 0 auto auto;
 }
 
