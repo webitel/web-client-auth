@@ -9,7 +9,7 @@ import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
 import './assets/css/fonts.scss';
 import './assets/css/main.scss';
-import './plugins/webitel.ui'
+import './plugins/webitel-ui';
 
 Vue.config.productionTip = false;
 

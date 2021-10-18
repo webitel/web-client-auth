@@ -20,26 +20,21 @@
     <!--                {{$t('auth.resetPasswordLink')}}-->
     <!--            </router-link>-->
 
-    <btn
+    <wt-button
         class="btn form__button"
         type="submit"
         :disabled="computeDisabled"
     >
       {{ $t('auth.loginSubmit') }}
-    </btn>
+    </wt-button>
   </form>
 </template>
 
 <script>
-import btn from '../utils/btn';
-
 import { mapActions } from "vuex";
 
 export default {
   name: 'the-login',
-  components: {
-    btn,
-  },
 
   props: {
     v: {
@@ -80,9 +75,7 @@ export default {
   methods: {
     checkValidations() {
       this.v.$touch();
-      // if its still pending or an error is returned do not submit
-      return this.v.$pending ||
-          this.v.$error;
+      return this.v.username.$anyError || this.v.password.$anyError;
     },
 
     submit() {

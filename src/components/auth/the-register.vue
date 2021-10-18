@@ -26,25 +26,21 @@
         :label="$t('auth.key')"
         :v="v.certificate"
     ></wt-input>
-        <btn
-            class="btn form__button"
-            type="submit"
-            :disabled="computeDisabled"
-        >{{ computeButton }}
-        </btn>
+    <wt-button
+        class="btn form__button"
+        type="submit"
+        :disabled="computeDisabled"
+    >{{ computeButton }}
+    </wt-button>
   </form>
 </template>
 
 <script>
 import { sameAs } from 'vuelidate/lib/validators';
-import btn from '../utils/btn';
 import { mapActions } from "vuex";
 
 export default {
   name: 'the-register',
-  components: {
-    btn,
-  },
 
   props: {
     v: {
@@ -54,7 +50,7 @@ export default {
 
   data() {
     return {
-      confirmPassword: '12qwaszx',
+      confirmPassword: '',
     };
   },
 
