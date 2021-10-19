@@ -27,15 +27,15 @@
   width: 517px;
   background: #fff;
   z-index: 2;
+
+  .wt-button {
+    display: block;
+    margin: var(--component-spacing) 0 auto auto;
+  }
 }
 
 .form__input {
   margin-bottom: 4px;
-}
-
-.btn.form__button {
-  display: block;
-  margin: var(--component-spacing) 0 auto auto;
 }
 
 /*auth link*/

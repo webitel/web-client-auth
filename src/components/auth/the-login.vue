@@ -6,13 +6,13 @@
     <wt-input
         v-model.trim="username"
         :label="$t('auth.user')"
-        :v="v.username"
+        :v="$v.username"
     ></wt-input>
     <wt-input
         v-model.trim="password"
         :label="$t('auth.password')"
-        :v="v.password"
-        :type="'password'"
+        :v="$v.password"
+        type="password"
     ></wt-input>
     <!--            <router-link-->
     <!--                    class="form__reset-password"-->
@@ -21,7 +21,6 @@
     <!--            </router-link>-->
 
     <wt-button
-        class="btn form__button"
         type="submit"
         :disabled="computeDisabled"
     >
@@ -32,19 +31,21 @@
 
 <script>
 import { mapActions } from "vuex";
+import { required, email } from 'vuelidate/lib/validators';
+
 
 export default {
   name: 'the-login',
-
-  props: {
-    v: {
-      type: Object,
-    },
+//  by vuelidate
+validations: {
+  username: {
+    required,
+    email,
   },
-
-  data() {
-    return {};
+  password: {
+    required,
   },
+},
 
   mounted() {
     this.resetState();
@@ -74,8 +75,9 @@ export default {
 
   methods: {
     checkValidations() {
-      this.v.$touch();
-      return this.v.username.$anyError || this.v.password.$anyError;
+      this.$v.$touch();
+      // if its still pending or an error is returned do not submit
+      return this.$v.$pending || this.$v.$error;
     },
 
     submit() {

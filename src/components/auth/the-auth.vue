@@ -18,7 +18,6 @@
             <component
                 class="tabs-inner-component"
                 :is="props.currentTab"
-                :v="$v"
             ></component>
           </template>
         </tabs-component>
@@ -65,8 +64,6 @@
 import authLogin from './the-login';
 import authRegister from './the-register';
 import tabsComponent from '../utils/tabs-component';
-import { required, email } from 'vuelidate/lib/validators';
-import { mapState } from "vuex";
 import { VueAgile } from 'vue-agile';
 import Notification from "../utils/notification";
 
@@ -138,31 +135,7 @@ export default {
     };
   },
 
-  // by vuelidate
-  validations: {
-    username: {
-      required,
-      email,
-    },
-    password: {
-      required,
-    },
-    certificate: {
-      required,
-    },
-  },
-
-  mounted() {
-
-  },
-
   computed: {
-    ...mapState('auth', {
-      username: state => state.username,
-      password: state => state.password,
-      certificate: state => state.certificate,
-    }),
-
     computeInitialTab() {
       return this.$route.query.reset ? 'register' : 'login';
     },

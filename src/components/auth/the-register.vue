@@ -6,28 +6,27 @@
     <wt-input
         v-model.trim="username"
         :label="$t('auth.user')"
-        :v="v.username"
+        :v="$v.username"
     ></wt-input>
     <wt-input
         class="form__input"
         v-model.trim="password"
         :label="$t('auth.password')"
-        :v="v.password"
-        :type="'password'"
+        :v="$v.password"
+        type="password"
     ></wt-input>
     <wt-input
         v-model.trim="confirmPassword"
         :label="$t('auth.confirmPassword')"
         :v="$v.confirmPassword"
-        :type="'password'"
+        type="password"
     ></wt-input>
     <wt-input
         v-model.trim="certificate"
         :label="$t('auth.key')"
-        :v="v.certificate"
+        :v="$v.certificate"
     ></wt-input>
     <wt-button
-        class="btn form__button"
         type="submit"
         :disabled="computeDisabled"
     >{{ computeButton }}
@@ -36,17 +35,11 @@
 </template>
 
 <script>
-import { sameAs } from 'vuelidate/lib/validators';
+import { email, required, sameAs } from 'vuelidate/lib/validators';
 import { mapActions } from "vuex";
 
 export default {
   name: 'the-register',
-
-  props: {
-    v: {
-      type: Object,
-    },
-  },
 
   data() {
     return {
@@ -57,6 +50,16 @@ export default {
   validations: {
     confirmPassword: {
       sameAs: sameAs('password'),
+    },
+    username: {
+      required,
+      email,
+    },
+    password: {
+      required,
+    },
+    certificate: {
+      required,
     },
   },
 
@@ -104,10 +107,8 @@ export default {
   methods: {
     checkValidations() {
       this.$v.$touch();
-      this.v.$touch();
       // if its still pending or an error is returned do not submit
-      return this.$v.$pending || this.$v.$error ||
-          this.v.$pending || this.v.$error;
+      return this.$v.$pending || this.$v.$error;
     },
 
     submit() {
