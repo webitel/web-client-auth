@@ -5,7 +5,7 @@ export default {
         registerReset: 'Reset password',
         detailsSubtitle: 'Enter your details below',
         resetPasswordLink: 'Forgot password?',
-        user: 'Username',
+        user: 'Login',
         password: 'Password',
         confirmPassword: 'Repeat password',
         key: 'License key',

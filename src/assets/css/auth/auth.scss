@@ -3,10 +3,8 @@
 // auth pages wrap
 .auth {
   display: flex;
-  width: 100vw;
-  padding: 0 !important;
   min-height: 100vh;
-  background: #eee;
+  background: var(--main-page-bg-color);
 
   .auth-form {
     width: 673px;
@@ -19,7 +17,6 @@
   }
 
   .auth-info {
-    flex-grow: 1;
     color: #fff;
     background: $sidebar-color;
   }
@@ -30,16 +27,15 @@
   width: 517px;
   background: #fff;
   z-index: 2;
+
+  .wt-button {
+    display: block;
+    margin: var(--component-spacing) 0 auto auto;
+  }
 }
 
 .form__input {
   margin-bottom: 4px;
-}
-
-.form__button {
-  display: block;
-  width: 124px;
-  margin: 3px 0 0 auto;
 }
 
 /*auth link*/
@@ -47,8 +43,8 @@
   @extend .typo-heading-md;
   @extend .border-underline;
 
-  display: block;
   position: relative;
+  display: block;
   padding-bottom: 2px;
   text-decoration: none;
   color: #fff;
