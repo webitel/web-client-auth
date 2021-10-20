@@ -3,7 +3,7 @@ export default {
     register: 'Реєстрація',
     login: 'Вхід',
     detailsSubtitle: 'Введіть свої дані',
-    user: 'Ім\'я користувача',
+    user: 'Логін',
     password: 'Пароль',
     confirmPassword: 'Повторіть пароль',
     key: 'Ключ',

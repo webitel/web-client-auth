@@ -8,7 +8,7 @@ export default {
     registerReset: 'Сбросить пароль',
     loginSubtitle: 'Введите даные: ',
     resetPasswordLink: 'Сбросить пароль?',
-    user: 'Имя пользователя',
+    user: 'Логин',
     userPlaceholder: 'Введите логин',
     password: 'Пароль',
     confirmPassword: 'Повторите пароль',
