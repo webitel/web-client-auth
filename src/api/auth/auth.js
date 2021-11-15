@@ -26,6 +26,19 @@ export const register = async (credentials) => {
 export const checkToken = async () => {
     const url = '/userinfo';
 
+    /* OAUTH CHECK, IF THIS USER IS AUTHENTICATED AND HAS COOKIES */
+  const accessToken = localStorage.getItem('access-token');
+  if (!accessToken) {
+    try {
+      // remove /api from baseUrl for only this request
+      const baseURL = instance.defaults.baseURL.replace('api', '');
+      const response = await instance.get('/oauth/login', { baseURL, withCredentials: true });
+      localStorage.setItem('access-token', response.accessToken);
+      instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
+    } catch (err) {
+      console.error(err);
+    }
+  }
     try {
         await instance.get(url);
         postToken();
