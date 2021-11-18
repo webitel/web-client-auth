@@ -31,8 +31,7 @@ export const checkToken = async () => {
   if (!accessToken) {
     try {
       // remove /api from baseUrl for only this request
-      const baseURL = instance.defaults.baseURL.replace('api', '');
-      const response = await instance.get('/oauth/login', { baseURL, withCredentials: true });
+      const response = await instance.get('/login', { withCredentials: true });
       localStorage.setItem('access-token', response.accessToken);
       instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
     } catch (err) {
