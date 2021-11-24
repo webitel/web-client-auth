@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theCommunications from '@/components/objects/lookups/communication-types/the-communication-types';
 import openedCommunication from '@/components/objects/lookups/communication-types/opened-communication-type';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getCommunicationsList} from "../../../../src/api/lookups/communications/communications";
+import { getCommunicationsList } from "../../../../src/api/lookups/communications/communications";
 
 const $t = () => {
 };
@@ -18,7 +18,7 @@ const router = new VueRouter();
 
 describe('opened communication', () => {
     const wrapper = mount(openedCommunication, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -54,7 +54,7 @@ describe('opened communication', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -89,7 +89,7 @@ describe('opened communication', () => {
 
 describe('the communications', () => {
     const wrapper = mount(theCommunications, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n

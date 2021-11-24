@@ -7,13 +7,13 @@ import ua from './ua/ua';
 Vue.use(VueI18n);
 
 const messages = {
-  en,
-  ru,
-  ua,
+    en,
+    ru,
+    ua,
 };
 
 export default new VueI18n({
-  locale: 'en',
-  fallbackLocale: 'en',
-  messages,
+    locale: 'en',
+    fallbackLocale: 'en',
+    messages,
 });

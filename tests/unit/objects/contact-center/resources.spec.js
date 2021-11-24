@@ -1,12 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theRes from '@/components/objects/contact-center/resources/the-resources';
 import openedRes from '@/components/objects/contact-center/resources/opened-resource';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResourceList} from "../../../../src/api/contact-center/resources/resources";
-import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups/resourceGroups";
-import {getDeviceList} from "../../../../src/api/directory/devices/devices";
+import { getResourceList } from "../../../../src/api/contact-center/resources/resources";
 
 const $t = () => {
 };
@@ -20,7 +18,7 @@ const router = new VueRouter();
 
 describe('opened res', () => {
     const wrapper = mount(openedRes, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -32,14 +30,14 @@ describe('opened res', () => {
             itemInstance: {
                 res: {
                     name: 'jest-res',
-                    gateway: {name: "itemInstance", id: "104"},
+                    gateway: { name: "itemInstance", id: "104" },
                     cps: 110,
                     limit: 110,
                     description: 'jest-res',
                     maxErrors: 2,
-                    errorIds: [{text: '23x'}],
+                    errorIds: [{ text: '23x' }],
                 },
-                numberList: [{display: '1'}, {display: '2'}],
+                numberList: [{ display: '1' }, { display: '2' }],
             },
         });
 
@@ -63,7 +61,7 @@ describe('opened res', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -74,14 +72,14 @@ describe('opened res', () => {
             itemInstance: {
                 res: {
                     name: 'upd-jest-res',
-                    gateway: {name: "itemInstance", id: "104"},
+                    gateway: { name: "itemInstance", id: "104" },
                     cps: 110,
                     limit: 110,
                     description: 'upd-jest-res',
                     maxErrors: 2,
-                    errorIds: [{text: '223x'}],
+                    errorIds: [{ text: '223x' }],
                 },
-                numberList: [{display: '21'}, {display: 'upd-2'}],
+                numberList: [{ display: '21' }, { display: 'upd-2' }],
             },
         };
 
@@ -106,7 +104,7 @@ describe('opened res', () => {
 
 describe('the res', () => {
     const wrapper = mount(theRes, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -136,7 +134,7 @@ describe('the res', () => {
         expect(wrapper.findAll('tr')).toHaveLength(wrapper.vm.dataList.length + 1);
     });
 
-    it('updates resource enable switchers', async (done) =>{
+    it('updates resource enable switchers', async (done) => {
         // copy initial value and prevent it from reactive changing
         const initialEnableState = !!createdItem.enabled;
 
@@ -159,7 +157,7 @@ describe('the res', () => {
         }, 100);
     });
 
-    it('updates resource reserve switchers', async (done) =>{
+    it('updates resource reserve switchers', async (done) => {
         // copy initial value and prevent it from reactive changing
         const initialReserveState = !!createdItem.reserve;
 

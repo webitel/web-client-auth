@@ -1,10 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theResGroups from '@/components/objects/contact-center/resource-groups/the-resource-groups';
 import openedResGroup from '@/components/objects/contact-center/resource-groups/opened-resource-group';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getResGroupList} from "../../../../src/api/contact-center/resourceGroups/resourceGroups";
+import { getResGroupList } from "../../../../src/api/contact-center/resourceGroups/resourceGroups";
 
 const $t = () => {
 };
@@ -18,7 +18,7 @@ const router = new VueRouter();
 
 describe('opened res group', () => {
     const wrapper = mount(openedResGroup, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -30,7 +30,7 @@ describe('opened res group', () => {
             itemInstance: {
                 resGroup: {
                     name: 'jest-res-gr',
-                    communication: {id: "25", name: "jst-tst-comm"},
+                    communication: { id: "25", name: "jst-tst-comm" },
                     description: 'jest-res-gr',
                     time: [
                         {
@@ -39,7 +39,7 @@ describe('opened res group', () => {
                         }
                     ],
                 },
-                resList: [{text: 'jest', id: 65}],
+                resList: [{ text: 'jest', id: 65 }],
             },
         });
 
@@ -62,7 +62,7 @@ describe('opened res group', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -75,7 +75,7 @@ describe('opened res group', () => {
             itemInstance: {
                 resGroup: {
                     name: 'upd-jest-res-gr',
-                    communication: {id: "25", name: "jst-tst-comm"},
+                    communication: { id: "25", name: "jst-tst-comm" },
                     description: 'upd-jest-res-gr',
                     time: [
                         {
@@ -84,7 +84,7 @@ describe('opened res group', () => {
                         }
                     ],
                 },
-                resList: [{text: 'jest', id: 65}],
+                resList: [{ text: 'jest', id: 65 }],
             },
         };
         wrapper.setData(newItemInstance);
@@ -107,7 +107,7 @@ describe('opened res group', () => {
 
 describe('the res groups', () => {
     const wrapper = mount(theResGroups, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n

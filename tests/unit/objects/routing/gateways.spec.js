@@ -1,12 +1,12 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theGateways from '../../../../src/components/routing/sip-gateways/the-sip-gateways';
 import registerGateway from '../../../../src/components/routing/sip-gateways/opened-register-sip-gateway';
 import trunkingGateway from '../../../../src/components/routing/sip-gateways/opened-trunking-sip-gateway';
-import {getGatewayList} from '../../../../src/api/routing/gateways/gateways';
+import { getGatewayList } from '../../../../src/api/routing/gateways/gateways';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getRoleList} from "../../../../src/api/permissions/roles/roles";
+import { getRoleList } from "../../../../src/api/permissions/roles/roles";
 
 const $t = () => {
 };
@@ -20,7 +20,7 @@ const router = new VueRouter();
 
 describe('opened-register-gateway.vue', () => {
     const wrapper = mount(registerGateway, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -64,7 +64,7 @@ describe('opened-register-gateway.vue', () => {
             return item.name === 'jest-name'
         });
         // emulate item path by setting id
-        wrapper.setData({id: createdRegGateway.id});
+        wrapper.setData({ id: createdRegGateway.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -110,7 +110,7 @@ describe('opened-register-gateway.vue', () => {
 
 describe('opened-trunking-gateway.vue', () => {
     const wrapper = mount(trunkingGateway, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -159,7 +159,7 @@ describe('opened-trunking-gateway.vue', () => {
             return item.name === 'jest-trunking-name'
         });
         // emulate item path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -210,7 +210,7 @@ describe('opened-trunking-gateway.vue', () => {
 
 describe('the-gateways.vue', () => {
     const wrapper = mount(theGateways, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n

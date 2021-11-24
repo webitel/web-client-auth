@@ -1,4 +1,4 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theCalendars from '@/components/objects/lookups/calendars/the-calendars';
 import openedCalendar from '@/components/objects/lookups/calendars/opened-calendar';
 import openedCalendarWorkWeek from '@/components/objects/lookups/calendars/opened-calendar-work-week';
@@ -6,8 +6,7 @@ import openedCalendarHolidays from '@/components/objects/lookups/calendars/opene
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getCalendarList, getHolidayList, getWorkdayList} from "../../../../src/api/lookups/calendars/calendars";
-import {getCommunicationsList} from "../../../../src/api/lookups/communications/communications";
+import { getCalendarList, getHolidayList, getWorkdayList } from "../../../../src/api/lookups/calendars/calendars";
 
 const $t = () => {
 };
@@ -21,7 +20,7 @@ const router = new VueRouter();
 
 describe('opened calendar', () => {
     const wrapper = mount(openedCalendar, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -33,7 +32,7 @@ describe('opened calendar', () => {
             itemInstance: {
                 calendar: {
                     name: 'jest-calendar',
-                    timezone: {id: '1', name: 'jest'},
+                    timezone: { id: '1', name: 'jest' },
                     description: '11calendar',
                     start: Date.now(),
                     end: Date.now(),
@@ -70,7 +69,7 @@ describe('opened calendar', () => {
             itemInstance: {
                 calendar: {
                     name: 'jest-temp-calendar',
-                    timezone: {id: '1', name: 'jest'},
+                    timezone: { id: '1', name: 'jest' },
                     description: '11calendar',
                     start: Date.now(),
                     end: Date.now(),
@@ -99,7 +98,7 @@ describe('opened calendar', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -109,7 +108,7 @@ describe('opened calendar', () => {
             itemInstance: {
                 calendar: {
                     name: 'upd-jest-calendar',
-                    timezone: {id: '2', name: 'jest'},
+                    timezone: { id: '2', name: 'jest' },
                     description: '11calendar',
                     start: Date.now(),
                     end: Date.now(),
@@ -142,7 +141,7 @@ describe('opened calendar', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
         // load item by its id
         await wrapper.vm.loadItem();
 
@@ -193,7 +192,7 @@ describe('opened calendar', () => {
             return item.name === 'upd-jest-calendar'
         });
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
         // load item by its id
         await wrapper.vm.loadItem();
 
@@ -208,7 +207,7 @@ describe('opened calendar', () => {
             itemInstance: {
                 holidays: [updatedHoliday, {
                     name: 'new jest year',
-                    date: Date.now() + 10**4,
+                    date: Date.now() + 10 ** 4,
                     repeat: false,
                 }],
             }
@@ -237,7 +236,7 @@ describe('opened calendar', () => {
 
 describe('opened calendar work week', () => {
     const wrapper = mount(openedCalendarWorkWeek, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         propsData: {
             itemInstanceProp: {
                 workWeek: []
@@ -260,7 +259,6 @@ describe('opened calendar work week', () => {
     });
 
 
-
     it('removes workday from list', async (done) => {
         // find all delete icons and choose tested item by index
         wrapper.findAll('.vuetable-action.icon-icon_delete').at(0)
@@ -280,7 +278,7 @@ describe('opened calendar work week', () => {
 
 describe('opened calendar holidays', () => {
     const wrapper = mount(openedCalendarHolidays, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         propsData: {
             itemInstanceProp: {
                 holidays: []
@@ -330,7 +328,7 @@ describe('opened calendar holidays', () => {
 
 describe('the calendars', () => {
     const wrapper = mount(theCalendars, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n

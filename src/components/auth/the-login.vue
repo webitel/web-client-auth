@@ -21,8 +21,8 @@
     <!--            </router-link>-->
 
     <wt-button
-        type="submit"
         :disabled="computeDisabled"
+        type="submit"
     >
       {{ $t('auth.loginSubmit') }}
     </wt-button>
@@ -31,21 +31,21 @@
 
 <script>
 import { mapActions } from "vuex";
-import { required, email } from 'vuelidate/lib/validators';
+import { email, required } from 'vuelidate/lib/validators';
 
 
 export default {
   name: 'the-login',
 //  by vuelidate
-validations: {
-  username: {
-    required,
-    email,
+  validations: {
+    username: {
+      required,
+      email,
+    },
+    password: {
+      required,
+    },
   },
-  password: {
-    required,
-  },
-},
 
   mounted() {
     this.resetState();

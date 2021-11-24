@@ -9,10 +9,10 @@
         :v="$v.username"
     ></wt-input>
     <wt-input
-        class="form__input"
         v-model.trim="password"
         :label="$t('auth.password')"
         :v="$v.password"
+        class="form__input"
         type="password"
     ></wt-input>
     <wt-input
@@ -27,8 +27,8 @@
         :v="$v.certificate"
     ></wt-input>
     <wt-button
-        type="submit"
         :disabled="computeDisabled"
+        type="submit"
     >{{ computeButton }}
     </wt-button>
   </form>

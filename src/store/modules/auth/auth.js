@@ -1,4 +1,4 @@
-import {checkToken, login, register} from "../../../api/auth/auth";
+import { checkToken, login, register } from "../../../api/auth/auth";
 
 const defaultState = () => ({
     username: '',
@@ -17,8 +17,8 @@ const actions = {
         context.commit('SET_DOMAIN_ID', domainId);
     },
 
-    SET_PROPERTY: (context, {prop, value}) => {
-        context.commit('SET_PROPERTY', {prop, value});
+    SET_PROPERTY: (context, { prop, value }) => {
+        context.commit('SET_PROPERTY', { prop, value });
     },
 
     LOGIN: async () => {
@@ -50,7 +50,7 @@ const mutations = {
         state.domainId = domainId;
     },
 
-    SET_PROPERTY: (state, {prop, value}) => {
+    SET_PROPERTY: (state, { prop, value }) => {
         state[prop] = value;
     },
 

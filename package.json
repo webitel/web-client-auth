@@ -5,12 +5,12 @@
   "scripts": {
     "serve": "vue-cli-service serve --hot",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
+    "lint:fix": "vue-cli-service lint --fix",
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@webitel/ui-sdk": "^0.9.8",
-    "axios": "^0.21.2",
+    "@webitel/ui-sdk": "^0.9.44",
+    "axios": "^0.24.0",
     "core-js": "^2.6.5",
     "css-loader": "^3.2.0",
     "deep-copy": "^1.4.2",

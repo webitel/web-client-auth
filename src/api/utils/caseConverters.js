@@ -9,7 +9,7 @@ export const objSnakeToCamel = (obj) => {
         });
     } else {
         Object.keys(obj).forEach(oldKey => {
-            if(oldKey === 'schema') {
+            if (oldKey === 'schema') {
                 newObj[oldKey] = obj[oldKey];
             } else {
                 const newKey = snakeToCamel(oldKey);
@@ -36,7 +36,7 @@ export const objCamelToSnake = (obj) => {
         });
     } else {
         Object.keys(obj).forEach(oldKey => {
-            if(oldKey === 'schema') {
+            if (oldKey === 'schema') {
                 newObj[oldKey] = obj[oldKey];
             } else {
                 const newKey = camelToSnake(oldKey);

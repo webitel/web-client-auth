@@ -17,7 +17,7 @@ export const register = async (credentials) => {
 
     try {
         await instance.post(url, credentials);
-        await login({username: credentials.username, password: credentials.password});
+        await login({ username: credentials.username, password: credentials.password });
     } catch (err) {
         throw err;
     }
@@ -27,17 +27,17 @@ export const checkToken = async () => {
     const url = '/userinfo';
 
     /* OAUTH CHECK, IF THIS USER IS AUTHENTICATED AND HAS COOKIES */
-  const accessToken = localStorage.getItem('access-token');
-  if (!accessToken) {
-    try {
-      // remove /api from baseUrl for only this request
-      const response = await instance.get('/login', { withCredentials: true });
-      localStorage.setItem('access-token', response.accessToken);
-      instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
-    } catch (err) {
-      console.error(err);
+    const accessToken = localStorage.getItem('access-token');
+    if (!accessToken) {
+        try {
+            // remove /api from baseUrl for only this request
+            const response = await instance.get('/login', { withCredentials: true });
+            localStorage.setItem('access-token', response.accessToken);
+            instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
+        } catch (err) {
+            console.error(err);
+        }
     }
-  }
     try {
         await instance.get(url);
         postToken();
@@ -55,6 +55,6 @@ const clearToken = () => {
 
 const postToken = () => {
     const accessToken = localStorage.getItem('access-token');
-    const messageData = {accessToken};
+    const messageData = { accessToken };
     parent.postMessage(messageData, '*'); // targetOrigin default: '/'
 };

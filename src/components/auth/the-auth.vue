@@ -2,22 +2,22 @@
   <main class="auth">
     <notification/>
     <section class="auth-form">
-      <div class="logo"><img src="../../assets/img/logo-dark.svg" alt="logo"></div>
+      <div class="logo"><img alt="logo" src="../../assets/img/logo-dark.svg"></div>
       <header class="">
         <h2 class="auth__title">{{ computeTitle }}</h2>
         <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
       </header>
       <div class="auth-tab__wrap">
         <tabs-component
-            :tabs="tabs"
-            :root="$options.name"
             :initialTab="computeInitialTab"
+            :root="$options.name"
+            :tabs="tabs"
             @change="currentTab = $event"
         >
           <template slot="component" slot-scope="props">
             <component
-                class="tabs-inner-component"
                 :is="props.currentTab"
+                class="tabs-inner-component"
             ></component>
           </template>
         </tabs-component>
@@ -26,17 +26,17 @@
     <section class="auth-info">
       <div class="carousel-wrap">
         <agile
-            :nav-buttons="false"
             :autoplay-speed="60000"
+            :nav-buttons="false"
             :speed="500"
-            pause-on-hover
-            pause-on-dots-hover
-            infinite
             autoplay
+            infinite
+            pause-on-dots-hover
+            pause-on-hover
         >
-          <div class="slide"
-               v-for="(item, key) in carouselItems"
+          <div v-for="(item, key) in carouselItems"
                :key="key"
+               class="slide"
           >
             <div class="item-wrap">
               <div class="item">
@@ -51,7 +51,7 @@
                   {{ item.text }}
                 </p>
               </div>
-              <img class="item-bg" src="../../assets/img/auth/bg1.svg" alt="pic">
+              <img alt="pic" class="item-bg" src="../../assets/img/auth/bg1.svg">
             </div>
           </div>
         </agile>

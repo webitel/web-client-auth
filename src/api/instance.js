@@ -1,6 +1,6 @@
 import axios from 'axios';
 import eventBus from "../utils/eventBus";
-import {objCamelToSnake, objSnakeToCamel} from "./utils/caseConverters";
+import { objCamelToSnake, objSnakeToCamel } from "./utils/caseConverters";
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -19,7 +19,7 @@ instance.interceptors.request.use(
         if (request.method === 'post' ||
             request.method === 'put' ||
             request.method === 'patch') {
-            if(typeof request.data === 'string') {
+            if (typeof request.data === 'string') {
                 request.data = JSON.stringify(objCamelToSnake(JSON.parse(request.data)));
             } else {
                 request.data = objCamelToSnake(request.data);

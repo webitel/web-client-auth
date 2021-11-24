@@ -1,7 +1,7 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theObjects from '@/components/objects/permissions/objects/the-objects-permissions';
 import editObject from '@/components/objects/permissions/objects/opened-object-permissions';
-import {getObjectList} from '../../../../src/api/permissions/objects/objects';
+import { getObjectList } from '../../../../src/api/permissions/objects/objects';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
@@ -25,7 +25,7 @@ const getTestedObject = async () => {
 
 describe('the-objects.vue', () => {
     const wrapper = mount(theObjects, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -98,7 +98,7 @@ describe('the-objects.vue', () => {
 
 describe('objects-edit.vue', () => {
     const wrapper = mount(editObject, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -197,7 +197,7 @@ describe('objects-edit.vue', () => {
     });
 
     it('saves []changes to database', async (done) => {
-        wrapper.setData({id: testedObject.id});
+        wrapper.setData({ id: testedObject.id });
 
         wrapper.find('.object-header .primary-btn').trigger('click');
 

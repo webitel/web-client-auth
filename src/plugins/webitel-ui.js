@@ -11,7 +11,7 @@ import eventBus from '../utils/eventBus';
 import '@webitel/ui-sdk/dist/ui-sdk.css';
 
 const globals = {
-  $baseURL: process.env.BASE_URL,
+    $baseURL: process.env.BASE_URL,
 };
 
 Vue.use(WebitelUI, { eventBus, globals });

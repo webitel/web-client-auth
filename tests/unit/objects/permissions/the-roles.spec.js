@@ -1,7 +1,7 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theRoles from '../../../../src/components/permissions/roles/the-roles';
 import newRole from '../../../../src/components/permissions/roles/opened-role';
-import {getRoleList} from '../../../../src/api/permissions/roles/roles';
+import { getRoleList } from '../../../../src/api/permissions/roles/roles';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
@@ -18,7 +18,7 @@ const router = new VueRouter();
 
 describe('roles-new.vue', () => {
     const wrapper = mount(newRole, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -54,7 +54,7 @@ describe('roles-new.vue', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdRole.id});
+        wrapper.setData({ id: createdRole.id });
 
         // load role by its id
         await wrapper.vm.loadItem();
@@ -93,7 +93,7 @@ describe('roles-new.vue', () => {
 
 describe('the-roles.vue', () => {
     const wrapper = mount(theRoles, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n

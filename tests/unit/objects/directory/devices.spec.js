@@ -1,11 +1,10 @@
-import {shallowMount, mount, createLocalVue} from '@vue/test-utils'
+import { createLocalVue, mount } from '@vue/test-utils'
 import theDevices from '../../../../src/components/directory/devices/the-devices';
 import openedDevice from '../../../../src/components/directory/devices/opened-device';
-import deviceHistoryPopup from '../../../../src/components/directory/devices/device-history-popup';
 import VueRouter from 'vue-router';
 import Vuelidate from 'vuelidate';
 import i18n from 'vue-i18n';
-import {getDeviceList} from "../../../../src/api/directory/devices/devices";
+import { getDeviceList } from "../../../../src/api/directory/devices/devices";
 
 const $t = () => {
 };
@@ -19,7 +18,7 @@ const router = new VueRouter();
 
 describe('opened device', () => {
     const wrapper = mount(openedDevice, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
@@ -64,7 +63,7 @@ describe('opened device', () => {
         });
 
         // emulate route path by setting id
-        wrapper.setData({id: createdItem.id});
+        wrapper.setData({ id: createdItem.id });
 
         // load item by its id
         await wrapper.vm.loadItem();
@@ -109,7 +108,7 @@ describe('opened device', () => {
 
 describe('the devices', () => {
     const wrapper = mount(theDevices, {
-        mocks: {$t, $tc},
+        mocks: { $t, $tc },
         localVue,
         router,
         i18n
