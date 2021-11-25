@@ -1,7 +1,7 @@
 <template>
   <main class="auth">
     <notification/>
-    <section class="auth-form">
+    <section class="auth-form-wrapper">
       <div class="logo"><img alt="logo" src="../../assets/img/logo-dark.svg"></div>
       <header class="">
         <h2 class="auth__title">{{ computeTitle }}</h2>

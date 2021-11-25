@@ -10,7 +10,7 @@ import { mapActions } from "vuex";
 export default {
   name: 'app',
   created() {
-    this.checkToken();
+    this.checkCurrentSession();
     this.setLanguage();
   },
   methods: {
@@ -20,7 +20,7 @@ export default {
     },
 
     ...mapActions('auth', {
-      checkToken: 'CHECK_TOKEN',
+      checkCurrentSession: 'CHECK_CURRENT_SESSION',
     }),
   }
 };

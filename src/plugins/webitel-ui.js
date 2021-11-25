@@ -9,6 +9,10 @@ import i18n from '../locale/i18n';
 import eventBus from '../utils/eventBus';
 //styles
 import '@webitel/ui-sdk/dist/ui-sdk.css';
+// import scss variables and other reusables
+import '@webitel/ui-sdk/src/css/main.scss';
+
+import '@webitel/ui-sdk/dist/img/sprite';
 
 const globals = {
     $baseURL: process.env.BASE_URL,

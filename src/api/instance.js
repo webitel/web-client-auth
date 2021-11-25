@@ -11,6 +11,7 @@ const instance = axios.create({
         // 'X-Webitel-Access': 'USER_TOKEN',
         // 'X-Webitel-Access': 'ITS_TOKEN',
     },
+    validateStatus: (status) => status <= 300, // 300 multiple choice for service providers check at get /login?domain
 });
 
 

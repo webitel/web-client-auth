@@ -1,43 +1,48 @@
-import { checkToken, login, register } from "../../../api/auth/auth";
+import AuthAPI from "../../../api/auth/auth";
+import ServiceProvider from "../../../enums/ServiceProvider.enum";
 
 const defaultState = () => ({
-    username: '',
+    username: 'adm@demo.webitel.com',
     password: '',
     certificate: '',
 });
 
 const state = {
-    ...defaultState()
+    ...defaultState(),
+    loginProviders: {},
 };
 
 const getters = {};
 
 const actions = {
-    SET_DOMAIN_ID: (context, domainId) => {
-        context.commit('SET_DOMAIN_ID', domainId);
-    },
-
     SET_PROPERTY: (context, { prop, value }) => {
         context.commit('SET_PROPERTY', { prop, value });
     },
 
-    LOGIN: async () => {
-        await login({
+    LOGIN: () => {
+        return AuthAPI.login({
             username: state.username,
             password: state.password,
         });
     },
 
-    REGISTER: async () => {
-        await register({
+    REGISTER: () => {
+        return AuthAPI.register({
             username: state.username,
             password: state.password,
             certificate: state.certificate
         });
     },
 
-    CHECK_TOKEN: async () => {
-        await checkToken();
+    LOAD_SERVICE_PROVIDERS: async (context) => {
+        const domain = context.state.username.split('@').pop();
+        const response = await AuthAPI.loadServiceProviders({ domain });
+        const { federation = {} } = response;
+        context.commit('SET_SERVICE_PROVIDERS', federation);
+    },
+
+    CHECK_CURRENT_SESSION: () => {
+        return AuthAPI.checkCurrentSession();
     },
 
     RESET_STATE: (context) => {
@@ -46,14 +51,12 @@ const actions = {
 };
 
 const mutations = {
-    SET_DOMAIN_ID: (state, domainId) => {
-        state.domainId = domainId;
-    },
-
     SET_PROPERTY: (state, { prop, value }) => {
         state[prop] = value;
     },
-
+    SET_SERVICE_PROVIDERS: (state, providers) => {
+        state.loginProviders = { ...state.loginProviders, ...providers };
+    },
     RESET_STATE: (state) => {
         Object.assign(state, defaultState());
     },

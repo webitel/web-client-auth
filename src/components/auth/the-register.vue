@@ -1,6 +1,6 @@
 <template>
   <form
-      class="auth__form"
+      class="auth-form"
       @submit.prevent="submit"
   >
     <wt-input
@@ -26,11 +26,14 @@
         :label="$t('auth.key')"
         :v="$v.certificate"
     ></wt-input>
-    <wt-button
-        :disabled="computeDisabled"
-        type="submit"
-    >{{ computeButton }}
-    </wt-button>
+    <footer class="auth-form__actions">
+      <wt-button
+          class="auth-form__action--primary"
+          :disabled="computeDisabled"
+          type="submit"
+      >{{ computeButton }}
+      </wt-button>
+    </footer>
   </form>
 </template>
 
