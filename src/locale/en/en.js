@@ -13,7 +13,7 @@ export default {
         resetSubmit: 'Reset',
         loginSubmit: 'Log in',
         oauthProviders: {
-            checkProvidersTooltip: 'Check providers',
+            checkProvidersTooltip: 'Check service providers for alternative authentication',
         },
         carousel: {
             title1: 'Cloud vs. On-Site',

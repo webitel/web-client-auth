@@ -19,6 +19,9 @@ export default {
         resetSubmit: 'Сбросить',
         loginSubmit: 'Войти',
         toLogin: 'Войти',
+      oauthProviders: {
+        checkProvidersTooltip: 'Проверить наличие альтернативных способов входа',
+      },
     },
     validation: {
         email: 'Должно выглядить как эмейл',

@@ -9,6 +9,9 @@ export default {
         key: 'Ключ',
         registerSubmit: 'Створити',
         loginSubmit: 'Увійти',
+      oauthProviders: {
+        checkProvidersTooltip: 'Перевірити наявність альтернативних способів входу',
+      },
     },
     validation: {
         email: 'Повинно виглядати як email',
