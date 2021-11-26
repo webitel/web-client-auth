@@ -27,11 +27,14 @@
     ></wt-input>
     <footer class="auth-form__actions">
       <wt-button
-          v-for="(providerName, key) of Object.keys(loginProviders)"
+          class="auth-form__action--service-provider"
+          v-for="({ ticket, icon }, key) of serviceProviders"
           :key="key"
           color="secondary"
-          @click="redirectToServiceProvider({ name: providerName })"
-      >{{ providerName }}</wt-button>
+          @click="redirectToServiceProvider({ ticket })"
+      >
+        <wt-icon :icon="icon"></wt-icon>
+      </wt-button>
       <wt-button
           :disabled="computeDisabled"
           type="submit"
@@ -71,6 +74,18 @@ export default {
     ...mapState('auth', {
       loginProviders: (state) => state.loginProviders,
     }),
+    serviceProviders() {
+      const providerIcon = {
+        [ServiceProvider.ADFS]: 'adfs',
+        [ServiceProvider.GOOGLE]: 'google',
+        [ServiceProvider.FACEBOOK]: 'messenger-facebook',
+      };
+      return Object.keys(this.loginProviders).map((provider) => ({
+        name: provider,
+        icon: providerIcon[provider],
+        ticket: this.loginProviders[provider],
+      }));
+    },
     username: {
       get() {
         return this.$store.state.auth.username;
@@ -99,17 +114,14 @@ export default {
       return this.$v.$pending || this.$v.$error;
     },
 
-    checkAvailableProviders() {},
-
     submit() {
       const invalid = this.checkValidations();
       if (!invalid) this.login();
 
     },
 
-    redirectToServiceProvider({ name }) {
+    redirectToServiceProvider({ ticket }) {
       const baseUrl = `${process.env.VUE_APP_API_URL}/login`;
-      const ticket = this.loginProviders[name];
       const query = {
         redirect_uri: window.parent.location.href,
       };
@@ -130,12 +142,10 @@ export default {
 <style lang="scss" scoped>
 @import "../../assets/css/auth/auth";
 
-.form__reset-password {
-
-  display: block;
-  text-align: right;
-  margin: 14px 0 28px;
-  color: #000;
-  text-decoration: none;
+.wt-button.auth-form__action--service-provider {
+  // FIXME
+  padding: calc(var(--spacing--sm) - 1px); // вирівняти під стару кнопку
+  line-height: 0;
+  border: none;
 }
 </style>
