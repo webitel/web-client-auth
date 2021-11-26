@@ -31,6 +31,11 @@ export default {
     this.setLanguage();
   },
   mounted() {
+    console.info('mounted');
+    this.handlePathQuery();
+  },
+  activated() {
+    console.info('activated');
     this.handlePathQuery();
   },
 };
