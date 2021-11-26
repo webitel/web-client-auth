@@ -1,5 +1,5 @@
 import axios from 'axios';
-import eventBus from "../utils/eventBus";
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { objCamelToSnake, objSnakeToCamel } from "./utils/caseConverters";
 
 // global API configuration
@@ -38,9 +38,10 @@ instance.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             console.warn('intercepted 401');
             localStorage.removeItem('access-token');
+        } else {
+          // if error isn't 401, returns it
+          eventBus.$emit('notification', { type: 'error', text: error.response.data.detail });
         }
-        // if error isn't 401, returns it
-        eventBus.$emit('notificationError', error.response.data.detail);
         return Promise.reject(error.response.data);
     });
 

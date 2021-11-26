@@ -13,6 +13,7 @@
             icon="generate"
             :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"
             tooltip-position="left"
+            :disabled="$v.username.$error"
             @click="loadAvailableProviders"
         ></wt-icon-btn>
       </template>
@@ -131,7 +132,6 @@ export default {
 @import "../../assets/css/auth/auth";
 
 .form__reset-password {
-  @extend .typo-input-label;
 
   display: block;
   text-align: right;

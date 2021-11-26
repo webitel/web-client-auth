@@ -61,8 +61,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+%typo-tab {
+  font-family: 'Montserrat Semi', monospace;
+  font-size: 14px;
+  line-height: 22px;
+}
+
 .tabs {
-  @extend .typo-tab;
+  @extend %typo-tab;
   display: block;
   position: relative;
   margin: 0 0 28px;

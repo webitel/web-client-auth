@@ -1,6 +1,6 @@
 <template>
   <main class="auth">
-    <notification/>
+    <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="logo"><img alt="logo" src="../../assets/img/logo-dark.svg"></div>
       <header class="">
@@ -65,12 +65,10 @@ import authLogin from './the-login';
 import authRegister from './the-register';
 import tabsComponent from '../utils/tabs-component';
 import { VueAgile } from 'vue-agile';
-import Notification from "../utils/notification";
 
 export default {
   name: 'auth',
   components: {
-    Notification,
     authLogin,
     authRegister,
     tabsComponent,
@@ -158,12 +156,12 @@ export default {
   }
 
   .auth__title {
-    @extend .typo-heading-lg;
+    @extend %typo-heading-lg;
     margin: 0 0 14px;
   }
 
   .auth__subtitle {
-    @extend .typo-body-lg;
+    @extend %typo-body-lg;
     margin: 0 0 38px;
   }
 
@@ -210,7 +208,7 @@ export default {
       }
 
       .item-header {
-        @extend .typo-heading-lg;
+        @extend %typo-heading-lg;
 
         text-align: right;
         width: min-content;
@@ -243,7 +241,7 @@ export default {
       }
 
       .item-text {
-        @extend .typo-body-lg;
+        @extend %typo-body-lg;
         min-width: 250px;
         width: 300px;
         max-width: 500px;

@@ -12,8 +12,6 @@ module.exports = {
             sass: {
                 data: `
           @import "@/assets/css/main.scss";
-          @import "@/assets/css/objects/objects.scss";
-          @import "@/assets/css/media.scss";
         `,
             },
         },
