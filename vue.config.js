@@ -16,9 +16,9 @@ module.exports = {
             },
         },
     },
-    devServer: {
-      https: true,
-    },
+    // devServer: {
+    //   https: true,
+    // },
     chainWebpack: (config) => {
         // exclude sprites default building
         config.module
