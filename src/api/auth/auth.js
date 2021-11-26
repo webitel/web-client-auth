@@ -23,21 +23,9 @@ export const register = async (credentials) => {
     }
 };
 
-export const checkToken = async () => {
+const checkSessionByToken = async () => {
     const url = '/userinfo';
 
-    /* OAUTH CHECK, IF THIS USER IS AUTHENTICATED AND HAS COOKIES */
-    const accessToken = localStorage.getItem('access-token');
-    if (!accessToken) {
-        try {
-            // remove /api from baseUrl for only this request
-            const response = await instance.get('/login', { withCredentials: true });
-            localStorage.setItem('access-token', response.accessToken);
-            instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
-        } catch (err) {
-            console.error(err);
-        }
-    }
     try {
         await instance.get(url);
         postToken();
@@ -45,6 +33,34 @@ export const checkToken = async () => {
         clearToken();
         throw err;
     }
+};
+
+const checkSessionByCookies = async () => {
+    const url = '/login';
+
+    /* OAUTH CHECK, IF THIS USER IS AUTHENTICATED AND HAS COOKIES */
+    const accessToken = localStorage.getItem('access-token');
+    if (!accessToken) {
+        try {
+            const response = await instance.get(url, { withCredentials: true });
+            localStorage.setItem('access-token', response.accessToken);
+            instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') || '';
+        } catch (err) {
+            console.error(err);
+        }
+    }
+};
+
+const checkCurrentSession = async () => {
+    await checkSessionByCookies();
+    return checkSessionByToken();
+};
+
+const loadServiceProviders = async ({ domain }) => {
+    const baseUrl = '/login';
+    const url = `${baseUrl}?domain=${domain}`;
+    const response = await instance.get(url);
+    return response;
 };
 
 const clearToken = () => {
@@ -58,3 +74,12 @@ const postToken = () => {
     const messageData = { accessToken };
     parent.postMessage(messageData, '*'); // targetOrigin default: '/'
 };
+
+const AuthAPI = {
+    login,
+    register,
+    checkCurrentSession,
+    loadServiceProviders,
+};
+
+export default AuthAPI;

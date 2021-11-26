@@ -1,6 +1,6 @@
 import axios from 'axios';
-import eventBus from "../utils/eventBus";
-import { objCamelToSnake, objSnakeToCamel } from "./utils/caseConverters";
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import { objCamelToSnake, objSnakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -11,6 +11,7 @@ const instance = axios.create({
         // 'X-Webitel-Access': 'USER_TOKEN',
         // 'X-Webitel-Access': 'ITS_TOKEN',
     },
+    validateStatus: (status) => status <= 300, // 300 multiple choice for service providers check at get /login?domain
 });
 
 
@@ -37,9 +38,10 @@ instance.interceptors.response.use(
         if (error.response && error.response.status === 401) {
             console.warn('intercepted 401');
             localStorage.removeItem('access-token');
+        } else {
+          // if error isn't 401, returns it
+          eventBus.$emit('notification', { type: 'error', text: error.response.data.detail });
         }
-        // if error isn't 401, returns it
-        eventBus.$emit('notificationError', error.response.data.detail);
         return Promise.reject(error.response.data);
     });
 
