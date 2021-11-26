@@ -7,6 +7,7 @@
 
 import { mapActions } from "vuex";
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import qs from 'querystring';
 
 export default {
   name: 'app',
@@ -19,7 +20,7 @@ export default {
       if (lang) this.$i18n.locale = lang;
     },
     handlePathQuery() {
-      const query = objSnakeToCamel(this.$route.query);
+      const query = objSnakeToCamel(qs.parse(window.parent.location.search.slice(1))); // query, without "?" sign
       if (query.error || query.errorDescription) this.handleErrorsInQuery(query);
     },
     handleErrorsInQuery({ error, errorDescription }) {
@@ -31,11 +32,6 @@ export default {
     this.setLanguage();
   },
   mounted() {
-    console.info('mounted');
-    this.handlePathQuery();
-  },
-  activated() {
-    console.info('activated');
     this.handlePathQuery();
   },
 };
