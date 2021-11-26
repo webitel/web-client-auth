@@ -28,7 +28,6 @@
     ></wt-input>
     <footer class="auth-form__actions">
       <wt-button
-          class="auth-form__action--primary"
           :disabled="computeDisabled"
           type="submit"
       >{{ computeButton }}

@@ -88,13 +88,13 @@ export default {
     transition: $transition;
 
     &.active, &:focus {
-      font-family: 'Montserrat Bold', monospace;
+      font-family: 'Montserrat Semi', monospace;
       border-bottom: 2px solid $accent-color;
       color: #000;
     }
 
     &:hover {
-      font-family: 'Montserrat Bold', monospace;
+      font-family: 'Montserrat Semi', monospace;
       color: #000;
     }
 
@@ -102,7 +102,7 @@ export default {
     &:after {
       display: block;
       content: attr(value);
-      font-family: 'Montserrat Bold', monospace;
+      font-family: 'Montserrat Semi', monospace;
       height: 0;
       overflow: hidden;
       visibility: hidden;

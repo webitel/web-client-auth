@@ -247,7 +247,7 @@ export default {
         max-width: 500px;
         max-height: 200px;
         margin: 0;
-        font-family: 'Montserrat Medium', monospace;
+        font-family: 'Montserrat Regular', monospace;
         font-size: 18px;
         line-height: 1.8;
       }

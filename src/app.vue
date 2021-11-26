@@ -6,7 +6,7 @@
 <script>
 
 import { mapActions } from "vuex";
-import { objSnakeToCamel } from './api/utils/caseConverters';
+import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 
 export default {
   name: 'app',

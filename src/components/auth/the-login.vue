@@ -29,14 +29,13 @@
       <wt-button
           v-for="(providerName, key) of Object.keys(loginProviders)"
           :key="key"
+          color="secondary"
           @click="redirectToServiceProvider({ name: providerName })"
       >{{ providerName }}</wt-button>
       <wt-button
-          class="auth-form__action auth-form__action--primary"
           :disabled="computeDisabled"
           type="submit"
-      >
-        {{ $t('auth.loginSubmit') }}
+      >{{ $t('auth.loginSubmit') }}
       </wt-button>
     </footer>
   </form>
