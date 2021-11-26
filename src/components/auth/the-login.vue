@@ -111,10 +111,10 @@ export default {
       const baseUrl = `${process.env.VUE_APP_API_URL}/login`;
       const ticket = this.loginProviders[name];
       const query = {
-        redirect_url: window.location.href,
+        redirect_url: window.parent.location.href,
       };
       const url = `${baseUrl}${ticket}?${qs.stringify(query)}`;
-      window.location.replace(url);
+      window.parent.location.replace(url);
     },
 
     ...mapActions('auth', {
