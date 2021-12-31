@@ -2,7 +2,7 @@ import AuthAPI from "../../../api/auth/auth";
 import ServiceProvider from "../../../enums/ServiceProvider.enum";
 
 const defaultState = () => ({
-    username: 'adm@demo.webitel.com',
+    username: '',
     password: '',
     certificate: '',
 });
