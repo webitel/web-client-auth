@@ -8,15 +8,15 @@
         :label="$t('auth.user')"
         :v="$v.username"
     >
-      <template slot="after-input">
-        <wt-icon-btn
-            icon="generate"
-            :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"
-            tooltip-position="left"
-            :disabled="$v.username.$error"
-            @click="loadAvailableProviders"
-        ></wt-icon-btn>
-      </template>
+<!--      <template slot="after-input">-->
+<!--        <wt-icon-btn-->
+<!--            icon="generate"-->
+<!--            :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"-->
+<!--            tooltip-position="left"-->
+<!--            :disabled="$v.username.$error"-->
+<!--            @click="loadAvailableProviders"-->
+<!--        ></wt-icon-btn>-->
+<!--      </template>-->
     </wt-input>
     <wt-input
         v-model.trim="password"
