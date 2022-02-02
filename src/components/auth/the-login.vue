@@ -144,7 +144,7 @@ export default {
 
 .wt-button.auth-form__action--service-provider {
   // FIXME
-  padding: calc(var(--spacing--sm) - 1px); // вирівняти під стару кнопку
+  padding: calc(var(--spacing-xs) - 1px); // вирівняти під стару кнопку
   line-height: 0;
   border: none;
 }

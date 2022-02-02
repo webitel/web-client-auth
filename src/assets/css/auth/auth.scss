@@ -30,11 +30,11 @@
 
   &__actions {
     display: flex;
-    gap: var(--spacing--lg);
+    gap: var(--spacing-sm);
     align-items: center;
     justify-content: stretch;
     width: 100%;
-    margin-top: var(--spacing--lg);
+    margin-top: var(--spacing-sm);
   }
 
   .wt-button {
