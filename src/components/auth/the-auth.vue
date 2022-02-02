@@ -156,12 +156,12 @@ export default {
   }
 
   .auth__title {
-    @extend %typo-heading-lg;
+    @extend %typo-heading-1;
     margin: 0 0 14px;
   }
 
   .auth__subtitle {
-    @extend %typo-body-lg;
+    @extend %typo-body-1;
     margin: 0 0 38px;
   }
 
@@ -208,7 +208,7 @@ export default {
       }
 
       .item-header {
-        @extend %typo-heading-lg;
+        @extend %typo-heading-1;
 
         text-align: right;
         width: min-content;
@@ -241,7 +241,7 @@ export default {
       }
 
       .item-text {
-        @extend %typo-body-lg;
+        @extend %typo-body-1;
         min-width: 250px;
         width: 300px;
         max-width: 500px;
