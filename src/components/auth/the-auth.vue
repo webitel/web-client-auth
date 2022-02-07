@@ -8,35 +8,31 @@
         <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
       </header>
       <div class="auth-tab__wrap">
-        <tabs-component
-            :initialTab="computeInitialTab"
-            :root="$options.name"
-            :tabs="tabs"
-            @change="currentTab = $event"
-        >
-          <template slot="component" slot-scope="props">
-            <component
-                :is="props.currentTab"
-                class="tabs-inner-component"
-            ></component>
-          </template>
-        </tabs-component>
+        <wt-tabs
+          v-model="currentTab"
+          :tabs="tabs"
+        ></wt-tabs>
+        <component
+          :is="currentTab.value"
+          class="tabs-inner-component"
+        ></component>
       </div>
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
         <agile
-            :autoplay-speed="60000"
-            :nav-buttons="false"
-            :speed="500"
-            autoplay
-            infinite
-            pause-on-dots-hover
-            pause-on-hover
+          :autoplay-speed="60000"
+          :nav-buttons="false"
+          :speed="500"
+          autoplay
+          infinite
+          pause-on-dots-hover
+          pause-on-hover
         >
-          <div v-for="(item, key) in carouselItems"
-               :key="key"
-               class="slide"
+          <div
+            v-for="(item, key) in carouselItems"
+            :key="key"
+            class="slide"
           >
             <div class="item-wrap">
               <div class="item">
@@ -61,17 +57,15 @@
 </template>
 
 <script>
-import authLogin from './the-login';
-import authRegister from './the-register';
-import tabsComponent from '../utils/tabs-component';
 import { VueAgile } from 'vue-agile';
+import Login from './the-login';
+import Register from './the-register';
 
 export default {
   name: 'auth',
   components: {
-    authLogin,
-    authRegister,
-    tabsComponent,
+    Login,
+    Register,
     agile: VueAgile,
   },
   data() {
@@ -134,22 +128,28 @@ export default {
   },
 
   computed: {
-    computeInitialTab() {
-      return this.$route.query.reset ? 'register' : 'login';
-    },
-
     computeTitle() {
       return this.currentTab.value === 'login' ?
-          this.$t('auth.login') : this.$t('auth.register');
+        this.$t('auth.login') : this.$t('auth.register');
     },
+  },
+  methods: {
+    setInnitialTab() {
+      this.currentTab.value = this.$route.query.reset ? 'register' : 'login';
+    },
+  },
+  created() {
+    this.setInnitialTab();
   },
 };
 </script>
 
 <style lang="scss">
-@import "../../assets/css/auth/auth";
+@import '../../assets/css/auth/auth';
 
 .auth {
+  display: flex;
+
 
   .logo {
     margin-bottom: 68px;
@@ -165,11 +165,15 @@ export default {
     margin: 0 0 38px;
   }
 
+  .auth-info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
   .carousel-wrap {
     position: relative;
+    width: 100%;
     height: 100%;
-    width: calc(100vw - 673px);
-    /*padding: 60px 92px;*/
 
     .agile {
       display: flex;
@@ -199,8 +203,8 @@ export default {
       position: relative;
       display: flex;
       flex-direction: column-reverse;
-      height: 100%;
       width: 100%;
+      height: 100%;
 
       .item {
         display: flex;
@@ -210,31 +214,31 @@ export default {
       .item-header {
         @extend %typo-heading-1;
 
-        text-align: right;
         width: min-content;
         width: -moz-min-content;
         margin: 0 46px 0 0;
         font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi', sans-serif;
         font-size: 50px;
         line-height: 1;
+        text-align: right;
         text-transform: uppercase;
         color: $accent-color;
         /*margin-bottom: 44px;*/
 
         &__strong {
-          display: inline-block;
           position: relative;
+          display: inline-block;
           color: #000;
 
           &:before {
-            content: '';
             position: absolute;
+            z-index: -1;
             top: -20px;
             right: -15px;
-            left: -15px;
             bottom: -5px;
+            left: -15px;
+            content: '';
             background: #EB5757;
-            z-index: -1;
           }
         }
 
@@ -242,12 +246,12 @@ export default {
 
       .item-text {
         @extend %typo-body-1;
-        min-width: 250px;
         width: 300px;
+        min-width: 250px;
         max-width: 500px;
         max-height: 200px;
         margin: 0;
-        font-family: 'Montserrat Regular', monospace;
+        font-family: 'Montserrat', monospace;
         font-size: 18px;
         line-height: 1.8;
       }
@@ -255,8 +259,8 @@ export default {
       .item-bg {
         position: absolute;
         top: 0;
-        bottom: 0;
         right: 0;
+        bottom: 0;
         left: 0;
         width: 100%;
         height: 100%;
@@ -267,18 +271,18 @@ export default {
       margin: 0 6px;
 
       button {
+        display: block;
         width: 10px;
         height: 10px;
-        background: #fff;
-        border: none;
-        border-radius: 50%;
-        cursor: pointer;
-        display: block;
-        font-size: 0;
-        line-height: 0;
         margin: 0;
         padding: 0;
+        cursor: pointer;
         transition-duration: .3s;
+        font-size: 0;
+        line-height: 0;
+        border: none;
+        border-radius: 50%;
+        background: #fff;
       }
 
       &--current button, &:hover button {

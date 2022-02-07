@@ -7,12 +7,18 @@
   background: var(--page-bg-color);
 
   .auth-form-wrapper {
-    width: 673px;
     padding: 50px 78px;
-    background: #f9f9f9;
+    height: 100%;
 
-    .object-content {
-      min-height: auto;
+    .auth-tab__wrap {
+      box-sizing: border-box;
+      padding: var(--spacing-sm);
+      background: var(--main-color);
+      border-radius: var(--border-radius);
+
+      .wt-tabs {
+        margin-bottom: var(--spacing-sm);
+      }
     }
   }
 
