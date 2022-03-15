@@ -1,6 +1,8 @@
-import axios from 'axios';
-import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import { objCamelToSnake, objSnakeToCamel } from "@webitel/ui-sdk/src/scripts/caseConverters";
+import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
+import axios from 'axios';
+
+const isLicenseMissing = (error) => error.response.data.id === 'app.context.authz.license.err';
 
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
@@ -35,11 +37,14 @@ instance.interceptors.response.use(
         return objSnakeToCamel(response.data);
     },
     (error) => { // catches 401 error across all api's
-        if (error.response && error.response.status === 401) {
-            console.warn('intercepted 401');
-            localStorage.removeItem('access-token');
+        if (error.response && error.response.status === 401 && !isLicenseMissing(error)) {
+                console.warn('intercepted 401');
+                localStorage.removeItem('access-token');
         } else {
           // if error isn't 401, returns it
+          if (isLicenseMissing(error)) {
+            return eventBus.$emit('notification', { type: 'error', text: 'User has no license grants' });
+          }
           eventBus.$emit('notification', { type: 'error', text: error.response.data.detail });
         }
         return Promise.reject(error.response.data);
