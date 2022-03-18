@@ -32,7 +32,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
     // show notification abount no license
-    undefined, 
+    undefined,
     (error) => {
         if (error.response?.data.id === 'app.context.authz.license.err') {
             eventBus.$emit('notification', { type: 'error', text: 'User has no license grants' });
@@ -50,7 +50,7 @@ instance.interceptors.response.use(
                 localStorage.removeItem('access-token');
         } else {
           // if error isn't 401, returns it
-          eventBus.$emit('notification', { type: 'error', text: error.response?.data.detail });
+          eventBus.$emit('notification', { type: 'error', text: error.response.data.detail });
         }
         return Promise.reject(error.response.data);
     });
