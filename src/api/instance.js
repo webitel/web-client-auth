@@ -50,7 +50,8 @@ instance.interceptors.response.use(
                 localStorage.removeItem('access-token');
         } else {
           // if error isn't 401, returns it
-          eventBus.$emit('notification', { type: 'error', text: error.response.data.detail });
+          // error.detail or err.response.data.detail cause Promise.rehect(error.response.data) could already be thrown
+          eventBus.$emit('notification', { type: 'error', text: error.detail || error.response.data.detail });
         }
         return Promise.reject(error.response.data);
     });
