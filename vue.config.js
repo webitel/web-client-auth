@@ -10,7 +10,7 @@ module.exports = {
     css: {
         loaderOptions: {
             sass: {
-                prependData: `
+                additionalData: `
           @import "@/assets/css/main.scss";
         `,
             },

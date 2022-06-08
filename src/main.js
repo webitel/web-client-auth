@@ -7,7 +7,6 @@ import i18n from './locale/i18n';
 
 import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
-import './assets/css/main.scss';
 import './plugins/webitel-ui';
 
 Vue.config.productionTip = false;
