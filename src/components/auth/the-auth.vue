@@ -148,8 +148,6 @@ export default {
 @import '../../assets/css/auth/auth';
 
 .auth {
-  display: flex;
-
 
   .logo {
     margin-bottom: 68px;
@@ -157,12 +155,12 @@ export default {
 
   .auth__title {
     @extend %typo-heading-1;
-    margin: 0 0 14px;
+    margin: 0 0 var(--spacing-sm);
   }
 
   .auth__subtitle {
     @extend %typo-body-1;
-    margin: 0 0 38px;
+    margin: 0 0 var(--spacing-sm);
   }
 
   .auth-info {
