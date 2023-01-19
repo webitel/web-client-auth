@@ -150,11 +150,15 @@ export default {
 .auth {
 
   .logo {
-    margin-bottom: 68px;
+    //display: none;
+    @media (max-width: $viewport-sm) {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
   }
 
   .auth__title {
-    @extend %typo-heading-1;
+    @extend %typo-heading-2;
     margin: 0 0 var(--spacing-sm);
   }
 

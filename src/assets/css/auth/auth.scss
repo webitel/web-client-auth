@@ -35,10 +35,16 @@
 
       @media (max-width: $viewport-sm) {
         width: 100%;
+        padding: var(--spacing-xs);;
       }
 
       .wt-tabs {
         margin-bottom: var(--spacing-sm);
+        padding: var(--spacing-sm);
+
+        @media (max-width: $viewport-sm) {
+          padding: var(--spacing-xs);
+        }
       }
     }
   }
@@ -51,7 +57,6 @@
 
 .auth-form {
   position: relative;
-  //width: 517px;
   background: #fff;
   z-index: 2;
 
