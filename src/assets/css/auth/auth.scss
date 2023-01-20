@@ -6,49 +6,6 @@
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  .auth-form-wrapper {
-    padding: 64px;
-    height: 100%;
-
-    @media (max-width: $viewport-lg) {
-      padding: var(--spacing-lg);
-    }
-
-    @media (max-width: $viewport-sm) {
-      padding: var(--spacing-sm);
-    }
-
-    .auth-tab__wrap {
-      width: 400px;
-      box-sizing: border-box;
-      padding: var(--spacing-sm);
-      background: var(--main-color);
-      border-radius: var(--border-radius);
-
-      @media (max-width: $viewport-lg) {
-        width: 320px;
-      }
-
-      @media (max-width: $viewport-md) {
-        width: 512px;
-      }
-
-      @media (max-width: $viewport-sm) {
-        width: 100%;
-        padding: var(--spacing-xs);;
-      }
-
-      .wt-tabs {
-        margin-bottom: var(--spacing-sm);
-        padding: var(--spacing-sm);
-
-        @media (max-width: $viewport-sm) {
-          padding: var(--spacing-xs);
-        }
-      }
-    }
-  }
-
   .auth-info {
     color: #fff;
     background: $sidebar-color;

@@ -1,21 +1,23 @@
 <template>
   <main class="auth">
     <wt-notifications-bar></wt-notifications-bar>
-    <section class="auth-form-wrapper">
-      <div class="logo"><img alt="logo" src="../../assets/img/logo-dark.svg"></div>
-      <header class="">
-        <h2 class="auth__title">{{ computeTitle }}</h2>
-        <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-      </header>
-      <div class="auth-tab__wrap">
-        <wt-tabs
-          v-model="currentTab"
-          :tabs="tabs"
-        ></wt-tabs>
-        <component
-          :is="currentTab.value"
-          class="tabs-inner-component"
-        ></component>
+    <section class="auth-form-block">
+      <div class="auth-form-wrapper">
+        <div class="logo"><img alt="logo" src="../../assets/img/logo-dark1.svg"></div>
+        <header class="auth-form-header">
+          <h2 class="auth__title">{{ computeTitle }}</h2>
+          <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
+        </header>
+        <div class="auth-tab__wrap">
+          <wt-tabs
+            v-model="currentTab"
+            :tabs="tabs"
+          ></wt-tabs>
+          <component
+            :is="currentTab.value"
+            class="tabs-inner-component"
+          ></component>
+      </div>
       </div>
     </section>
     <section class="auth-info">
@@ -52,6 +54,7 @@
           </div>
         </agile>
       </div>
+      <img alt="pic" class="auth-info__background" src="../../assets/img/auth/background.svg">
     </section>
   </main>
 </template>
@@ -148,34 +151,119 @@ export default {
 @import '../../assets/css/auth/auth';
 
 .auth {
+  position: relative;
+  overflow-x: hidden;
+
+  .auth-form-block {
+    position: relative;
+    background: #F0F2F5;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .auth-form-wrapper {
+    padding: 0 64px;
+
+    @media (max-width: $viewport-lg) {
+      padding: var(--spacing-lg);
+    }
+
+    @media (max-width: $viewport-sm) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: var(--spacing-sm);
+    }
+
+    .auth-tab__wrap {
+      width: 400px;
+      box-sizing: border-box;
+      padding: var(--spacing-sm);
+      background: var(--main-color);
+      border-radius: var(--border-radius);
+
+      @media (max-width: $viewport-lg) {
+        width: 320px;
+      }
+
+      @media (max-width: $viewport-md) {
+        width: 512px;
+      }
+
+      @media (max-width: $viewport-sm) {
+        width: 100%;
+        padding: var(--spacing-xs);;
+      }
+
+      .wt-tabs {
+        margin-bottom: var(--spacing-sm);
+        padding: var(--spacing-sm);
+
+        @media (max-width: $viewport-sm) {
+          padding: var(--spacing-xs);
+        }
+      }
+    }
+  }
 
   .logo {
-    //display: none;
+    display: none;
     @media (max-width: $viewport-sm) {
       display: block;
-      margin-bottom: var(--spacing-xs);
+      margin-bottom: 0 var(--spacing-xs);
+    }
+
+    img {
+      width: 60px;
     }
   }
 
   .auth__title {
     @extend %typo-heading-2;
     margin: 0 0 var(--spacing-sm);
+
+    @media (max-width: $viewport-sm) {
+      text-align: center;
+    }
   }
 
   .auth__subtitle {
     @extend %typo-body-1;
     margin: 0 0 var(--spacing-sm);
+
+    @media (max-width: $viewport-sm) {
+      text-align: center;
+    }
   }
 
   .auth-info {
     flex-grow: 1;
     min-width: 0;
+
+    @media (max-width: $viewport-sm) {
+      flex-grow: 0;
+    }
+
+    &__background {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+    }
   }
 
   .carousel-wrap {
+    display: none;
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 1;
+
+    @media (max-width: $viewport-sm) {
+      display: none;
+    }
 
     .agile {
       display: flex;
