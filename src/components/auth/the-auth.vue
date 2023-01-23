@@ -3,7 +3,7 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-block">
       <div class="auth-form-wrapper">
-        <div class="logo"><img alt="logo" src="../../assets/img/logo-dark1.svg"></div>
+        <img alt="logo" class="logo" src="../../assets/img/logo-dark1.svg">
         <header class="auth-form-header">
           <h2 class="auth__title">{{ computeTitle }}</h2>
           <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
@@ -149,74 +149,59 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
+$width-form-lg: 528px;
 
 .auth {
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
 
   .auth-form-block {
     position: relative;
-    background: #F0F2F5;
+    background: $content-bg-color-2;
     z-index: 2;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    width: $width-form-lg;
+    overflow: auto;
+
+    @media (max-width: $breakpoint-md) {
+      width: 384px;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      margin: var(--spacing-md) 0;
+      width: 576px;
+    }
+
+    @media (max-width: $breakpoint-xs) {
+      margin: var(--spacing-sm) 0;
+      width: 100%;
+    }
   }
 
   .auth-form-wrapper {
     padding: 0 64px;
+    width: 100%;
 
-    @media (max-width: $viewport-lg) {
+    @media (max-width: $breakpoint-md) {
       padding: var(--spacing-lg);
     }
 
-    @media (max-width: $viewport-sm) {
+    @media (max-width: $breakpoint-xs) {
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: var(--spacing-sm);
     }
-
-    .auth-tab__wrap {
-      width: 400px;
-      box-sizing: border-box;
-      padding: var(--spacing-sm);
-      background: var(--main-color);
-      border-radius: var(--border-radius);
-
-      @media (max-width: $viewport-lg) {
-        width: 320px;
-      }
-
-      @media (max-width: $viewport-md) {
-        width: 512px;
-      }
-
-      @media (max-width: $viewport-sm) {
-        width: 100%;
-        padding: var(--spacing-xs);;
-      }
-
-      .wt-tabs {
-        margin-bottom: var(--spacing-sm);
-        padding: var(--spacing-sm);
-
-        @media (max-width: $viewport-sm) {
-          padding: var(--spacing-xs);
-        }
-      }
-    }
   }
 
   .logo {
     display: none;
-    @media (max-width: $viewport-sm) {
-      display: block;
-      margin-bottom: 0 var(--spacing-xs);
-    }
+    width: 60px;
 
-    img {
-      width: 60px;
+    @media (max-width: $breakpoint-xs) {
+      display: block;
+      margin-bottom: var(--spacing-xs);
     }
   }
 
@@ -224,8 +209,12 @@ export default {
     @extend %typo-heading-2;
     margin: 0 0 var(--spacing-sm);
 
-    @media (max-width: $viewport-sm) {
+    @media (max-width: $breakpoint-xs) {
       text-align: center;
+      margin: 0 0 var(--spacing-xs);
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 32px;
     }
   }
 
@@ -233,8 +222,30 @@ export default {
     @extend %typo-body-1;
     margin: 0 0 var(--spacing-sm);
 
-    @media (max-width: $viewport-sm) {
+    @media (max-width: $breakpoint-xs) {
+      margin: 0 0 var(--spacing-xs);
       text-align: center;
+    }
+  }
+
+  .auth-tab__wrap {
+    box-sizing: border-box;
+    padding: var(--spacing-sm);
+    background: var(--main-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+
+    @media (max-width: $breakpoint-xs) {
+      padding: var(--spacing-xs);
+    }
+
+    .wt-tabs {
+      margin-bottom: var(--spacing-sm);
+      padding: var(--spacing-sm);
+
+      @media (max-width: $breakpoint-xs) {
+        padding: var(--spacing-xs);
+      }
     }
   }
 
@@ -242,8 +253,12 @@ export default {
     flex-grow: 1;
     min-width: 0;
 
-    @media (max-width: $viewport-sm) {
-      flex-grow: 0;
+    @media (max-width: $breakpoint-sm) {
+      flex-grow: initial;
+    }
+
+    @media (max-width: $breakpoint-xs) {
+      display: none;
     }
 
     &__background {
@@ -251,6 +266,11 @@ export default {
       right: 0;
       top: 0;
       z-index: 0;
+      width: 1920px;
+
+      @media (min-width: $breakpoint-lg) {
+        width: calc(100% - $width-form-lg);
+      }
     }
   }
 
@@ -261,7 +281,7 @@ export default {
     height: 100%;
     z-index: 1;
 
-    @media (max-width: $viewport-sm) {
+    @media (max-width: $breakpoint-xs) {
       display: none;
     }
 
@@ -318,7 +338,7 @@ export default {
         &__strong {
           position: relative;
           display: inline-block;
-          color: #000;
+          color: $label-color;
 
           &:before {
             position: absolute;
@@ -372,13 +392,20 @@ export default {
         line-height: 0;
         border: none;
         border-radius: 50%;
-        background: #fff;
+        background: $content-bg-color;
       }
 
       &--current button, &:hover button {
         background: $accent-color;
       }
     }
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 }
 </style>

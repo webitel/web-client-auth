@@ -1,10 +1,17 @@
 @import "~@webitel/ui-sdk/src/css/main.scss";
 @import './objects/objects';
 
+//BREAKPOINTS
+$breakpoint-lg: 1904px;
+$breakpoint-md: 1264px;
+$breakpoint-sm: 960px;
+$breakpoint-xs: 600px;
+
 // PRIMARY COLORS:
 $sidebar-color: #171A2A; // sidebar panel
 $header-color: #EAEAEA; // header
 $content-bg-color: #FFF; // content
+$content-bg-color-2: #F0F2F5;
 
 // ACCENT COLORS:
 $nav-icon-color: rgba(255, 255, 255, 1); //nav icon color
