@@ -3,7 +3,7 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-block">
       <div class="auth-form-wrapper">
-        <img alt="logo" class="logo" src="../../assets/img/logo-dark1.svg">
+        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
         <header class="auth-form-header">
           <h2 class="auth__title">{{ computeTitle }}</h2>
           <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
@@ -54,7 +54,11 @@
           </div>
         </agile>
       </div>
-      <img alt="pic" class="auth-info__background" src="../../assets/img/auth/background.svg">
+      <img
+        alt="pic"
+        class="auth-info__background"
+        src="../../assets/img/auth/background.svg"
+      >
     </section>
   </main>
 </template>
@@ -150,27 +154,29 @@ export default {
 <style lang="scss">
 @import '../../assets/css/auth/auth';
 $width-form-lg: 528px;
+$width-form-md: 384px;
+$width-form-sm: 576px;
 
 .auth {
   position: relative;
   overflow: hidden;
 
   .auth-form-block {
-    position: relative;
+    //position: relative;
     background: $content-bg-color-2;
     z-index: 2;
     display: flex;
     align-items: center;
-    width: $width-form-lg;
-    overflow: auto;
+    flex-basis: $width-form-lg;
+    //overflow: auto;
 
     @media (max-width: $breakpoint-md) {
-      width: 384px;
+      flex-basis: $width-form-md;
     }
 
     @media (max-width: $breakpoint-sm) {
       margin: var(--spacing-md) 0;
-      width: 576px;
+      flex-basis: $width-form-sm;
     }
 
     @media (max-width: $breakpoint-xs) {
@@ -180,7 +186,7 @@ $width-form-lg: 528px;
   }
 
   .auth-form-wrapper {
-    padding: 0 64px;
+    padding: 0 var(--spacing-3xl);
     width: 100%;
 
     @media (max-width: $breakpoint-md) {
@@ -207,23 +213,25 @@ $width-form-lg: 528px;
 
   .auth__title {
     @extend %typo-heading-2;
-    margin: 0 0 var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 
     @media (max-width: $breakpoint-xs) {
-      text-align: center;
-      margin: 0 0 var(--spacing-xs);
+      // @extend %typo-heading-3
+      // link to stackoverflow issue
       font-size: 20px;
       font-weight: 600;
       line-height: 32px;
+      text-align: center;
+      margin-bottom: var(--spacing-xs);
     }
   }
 
   .auth__subtitle {
     @extend %typo-body-1;
-    margin: 0 0 var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
 
     @media (max-width: $breakpoint-xs) {
-      margin: 0 0 var(--spacing-xs);
+      margin-bottom: var(--spacing-xs);
       text-align: center;
     }
   }
@@ -250,6 +258,7 @@ $width-form-lg: 528px;
   }
 
   .auth-info {
+    position: relative;
     flex-grow: 1;
     min-width: 0;
 
@@ -266,11 +275,7 @@ $width-form-lg: 528px;
       right: 0;
       top: 0;
       z-index: 0;
-      width: 1920px;
-
-      @media (min-width: $breakpoint-lg) {
-        width: calc(100% - $width-form-lg);
-      }
+      min-height: 100%;
     }
   }
 
