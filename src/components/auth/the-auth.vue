@@ -15,9 +15,8 @@
           ></wt-tabs>
           <component
             :is="currentTab.value"
-            class="tabs-inner-component"
           ></component>
-      </div>
+        </div>
       </div>
     </section>
     <section class="auth-info">
@@ -158,11 +157,14 @@ $width-form-md: 384px;
 $width-form-sm: 576px;
 
 .auth {
+  display: flex;
+  min-height: 100vh;
+  background: var(--page-bg-color);
   position: relative;
   overflow: hidden;
 
   .auth-form-block {
-    //position: relative;
+    position: relative;
     background: $content-bg-color-2;
     z-index: 2;
     display: flex;
@@ -261,6 +263,8 @@ $width-form-sm: 576px;
     position: relative;
     flex-grow: 1;
     min-width: 0;
+    color: $content-bg-color;
+    //background: $sidebar-color;
 
     @media (max-width: $breakpoint-sm) {
       flex-grow: initial;
