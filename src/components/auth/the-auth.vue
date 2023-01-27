@@ -1,14 +1,14 @@
 <template>
   <main class="auth">
     <wt-notifications-bar></wt-notifications-bar>
-    <section class="auth-form-block">
-      <div class="auth-form-wrapper">
+    <section class="auth-form-wrapper">
+      <div class="auth-form-wrapper__content">
         <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
         <header class="auth-form-header">
-          <h2 class="auth__title">{{ computeTitle }}</h2>
-          <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
+          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
+          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
         </header>
-        <div class="auth-tab__wrap">
+        <div class="auth-tabs-wrap">
           <wt-tabs
             v-model="currentTab"
             :tabs="tabs"
@@ -163,7 +163,7 @@ $width-form-sm: 576px;
   position: relative;
   overflow: hidden;
 
-  .auth-form-block {
+  .auth-form-wrapper {
     position: relative;
     background: $content-bg-color-2;
     z-index: 2;
@@ -187,7 +187,7 @@ $width-form-sm: 576px;
     }
   }
 
-  .auth-form-wrapper {
+  .auth-form-wrapper__content {
     padding: 0 var(--spacing-3xl);
     width: 100%;
 
@@ -213,7 +213,7 @@ $width-form-sm: 576px;
     }
   }
 
-  .auth__title {
+  .auth-form-header__title {
     @extend %typo-heading-2;
     margin-bottom: var(--spacing-sm);
 
@@ -228,7 +228,7 @@ $width-form-sm: 576px;
     }
   }
 
-  .auth__subtitle {
+  .auth-form-header__subtitle {
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
 
@@ -238,7 +238,7 @@ $width-form-sm: 576px;
     }
   }
 
-  .auth-tab__wrap {
+  .auth-tabs-wrap {
     box-sizing: border-box;
     padding: var(--spacing-sm);
     background: var(--main-color);
