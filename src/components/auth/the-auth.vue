@@ -157,39 +157,44 @@ $width-form-md: 384px;
 $width-form-sm: 576px;
 
 .auth {
+  position: relative;
   display: flex;
+  overflow: hidden;
   min-height: 100vh;
   background: var(--page-bg-color);
-  position: relative;
-  overflow: hidden;
+
+  @media (max-width: $breakpoint-sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
   .auth-form-wrapper {
     position: relative;
-    background: $content-bg-color-2;
     z-index: 2;
     display: flex;
     align-items: center;
     flex-basis: $width-form-lg;
-    //overflow: auto;
+    background: var(--page-bg-color);
 
     @media (max-width: $breakpoint-md) {
       flex-basis: $width-form-md;
     }
 
     @media (max-width: $breakpoint-sm) {
-      margin: var(--spacing-md) 0;
       flex-basis: $width-form-sm;
+      border-radius: var(--border-radius);
     }
 
     @media (max-width: $breakpoint-xs) {
-      margin: var(--spacing-sm) 0;
       width: 100%;
+      margin: var(--spacing-sm) 0;
     }
   }
 
   .auth-form-wrapper__content {
-    padding: 0 var(--spacing-3xl);
     width: 100%;
+    padding: 0 var(--spacing-3xl);
 
     @media (max-width: $breakpoint-md) {
       padding: var(--spacing-lg);
@@ -197,8 +202,8 @@ $width-form-sm: 576px;
 
     @media (max-width: $breakpoint-xs) {
       display: flex;
-      flex-direction: column;
       align-items: center;
+      flex-direction: column;
       padding: var(--spacing-sm);
     }
   }
@@ -220,11 +225,11 @@ $width-form-sm: 576px;
     @media (max-width: $breakpoint-xs) {
       // @extend %typo-heading-3
       // link to stackoverflow issue
+      margin-bottom: var(--spacing-xs);
       font-size: 20px;
       font-weight: 600;
       line-height: 32px;
       text-align: center;
-      margin-bottom: var(--spacing-xs);
     }
   }
 
@@ -240,10 +245,10 @@ $width-form-sm: 576px;
 
   .auth-tabs-wrap {
     box-sizing: border-box;
-    padding: var(--spacing-sm);
-    background: var(--main-color);
-    border-radius: var(--border-radius);
     width: 100%;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    background: var(--main-color);
 
     @media (max-width: $breakpoint-xs) {
       padding: var(--spacing-xs);
@@ -263,11 +268,11 @@ $width-form-sm: 576px;
     position: relative;
     flex-grow: 1;
     min-width: 0;
-    color: $content-bg-color;
-    //background: $sidebar-color;
+    color: var(--main-color);
 
     @media (max-width: $breakpoint-sm) {
       flex-grow: initial;
+      position: initial;
     }
 
     @media (max-width: $breakpoint-xs) {
@@ -290,7 +295,7 @@ $width-form-sm: 576px;
     height: 100%;
     z-index: 1;
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       display: none;
     }
 
@@ -341,13 +346,13 @@ $width-form-sm: 576px;
         line-height: 1;
         text-align: right;
         text-transform: uppercase;
-        color: $accent-color;
+        color: var(--accent-color);
         /*margin-bottom: 44px;*/
 
         &__strong {
           position: relative;
           display: inline-block;
-          color: $label-color;
+          color: var(--form-label-color);
 
           &:before {
             position: absolute;
@@ -401,20 +406,13 @@ $width-form-sm: 576px;
         line-height: 0;
         border: none;
         border-radius: 50%;
-        background: $content-bg-color;
+        background: var(--main-color);
       }
 
       &--current button, &:hover button {
-        background: $accent-color;
+        background: var(--accent-color);
       }
     }
-  }
-
-  @media (max-width: $breakpoint-sm) {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
   }
 }
 </style>
