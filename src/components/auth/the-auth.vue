@@ -174,15 +174,15 @@ $form-width-sm: 576px;
     z-index: 2;
     display: flex;
     align-items: center;
-    flex-basis: $width-form-lg;
+    flex-basis: $form-width-lg;
     background: var(--page-bg-color);
 
     @media (max-width: $breakpoint-md) {
-      flex-basis: $width-form-md;
+      flex-basis: $form-width-md;
     }
 
     @media (max-width: $breakpoint-sm) {
-      flex-basis: $width-form-sm;
+      flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
     }
 
