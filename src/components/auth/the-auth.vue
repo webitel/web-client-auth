@@ -152,9 +152,9 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
-$width-form-lg: 528px;
-$width-form-md: 384px;
-$width-form-sm: 576px;
+$form-width-lg: 528px;
+$form-width-md: 384px;
+$form-width-sm: 576px;
 
 .auth {
   position: relative;
@@ -225,11 +225,12 @@ $width-form-sm: 576px;
     @media (max-width: $breakpoint-xs) {
       // @extend %typo-heading-3
       // link to stackoverflow issue
-      margin-bottom: var(--spacing-xs);
+      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
       font-size: 20px;
       font-weight: 600;
       line-height: 32px;
       text-align: center;
+      margin-bottom: var(--spacing-xs);
     }
   }
 
