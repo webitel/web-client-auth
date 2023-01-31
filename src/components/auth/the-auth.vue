@@ -2,20 +2,21 @@
   <main class="auth">
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
-      <div class="logo"><img alt="logo" src="../../assets/img/logo-dark.svg"></div>
-      <header class="">
-        <h2 class="auth__title">{{ computeTitle }}</h2>
-        <p class="auth__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-      </header>
-      <div class="auth-tab__wrap">
-        <wt-tabs
-          v-model="currentTab"
-          :tabs="tabs"
-        ></wt-tabs>
-        <component
-          :is="currentTab.value"
-          class="tabs-inner-component"
-        ></component>
+      <div class="auth-form-wrapper__content">
+        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+        <header class="auth-form-header">
+          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
+          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
+        </header>
+        <div class="auth-tabs-wrap">
+          <wt-tabs
+            v-model="currentTab"
+            :tabs="tabs"
+          ></wt-tabs>
+          <component
+            :is="currentTab.value"
+          ></component>
+        </div>
       </div>
     </section>
     <section class="auth-info">
@@ -52,6 +53,11 @@
           </div>
         </agile>
       </div>
+      <img
+        alt="pic"
+        class="auth-info__background"
+        src="../../assets/img/auth/background.svg"
+      >
     </section>
   </main>
 </template>
@@ -146,34 +152,153 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
+$form-width-lg: 528px;
+$form-width-md: 384px;
+$form-width-sm: 576px;
 
 .auth {
+  position: relative;
   display: flex;
+  overflow: hidden;
+  min-height: 100vh;
+  background: var(--page-bg-color);
 
+  @media (max-width: $breakpoint-sm) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .auth-form-wrapper {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    flex-basis: $width-form-lg;
+    background: var(--page-bg-color);
+
+    @media (max-width: $breakpoint-md) {
+      flex-basis: $width-form-md;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      flex-basis: $width-form-sm;
+      border-radius: var(--border-radius);
+    }
+
+    @media (max-width: $breakpoint-xs) {
+      width: 100%;
+      margin: var(--spacing-sm) 0;
+    }
+  }
+
+  .auth-form-wrapper__content {
+    width: 100%;
+    padding: 0 var(--spacing-3xl);
+
+    @media (max-width: $breakpoint-md) {
+      padding: var(--spacing-lg);
+    }
+
+    @media (max-width: $breakpoint-xs) {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: var(--spacing-sm);
+    }
+  }
 
   .logo {
-    margin-bottom: 68px;
+    display: none;
+    width: 60px;
+
+    @media (max-width: $breakpoint-xs) {
+      display: block;
+      margin-bottom: var(--spacing-xs);
+    }
   }
 
-  .auth__title {
-    @extend %typo-heading-1;
-    margin: 0 0 14px;
+  .auth-form-header__title {
+    @extend %typo-heading-2;
+    margin-bottom: var(--spacing-sm);
+
+    @media (max-width: $breakpoint-xs) {
+      // @extend %typo-heading-3
+      // link to stackoverflow issue
+      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 32px;
+      text-align: center;
+      margin-bottom: var(--spacing-xs);
+    }
   }
 
-  .auth__subtitle {
+  .auth-form-header__subtitle {
     @extend %typo-body-1;
-    margin: 0 0 38px;
+    margin-bottom: var(--spacing-sm);
+
+    @media (max-width: $breakpoint-xs) {
+      margin-bottom: var(--spacing-xs);
+      text-align: center;
+    }
+  }
+
+  .auth-tabs-wrap {
+    box-sizing: border-box;
+    width: 100%;
+    padding: var(--spacing-sm);
+    border-radius: var(--border-radius);
+    background: var(--main-color);
+
+    @media (max-width: $breakpoint-xs) {
+      padding: var(--spacing-xs);
+    }
+
+    .wt-tabs {
+      margin-bottom: var(--spacing-sm);
+      padding: var(--spacing-sm);
+
+      @media (max-width: $breakpoint-xs) {
+        padding: var(--spacing-xs);
+      }
+    }
   }
 
   .auth-info {
+    position: relative;
     flex-grow: 1;
     min-width: 0;
+    color: var(--main-color);
+
+    @media (max-width: $breakpoint-sm) {
+      flex-grow: initial;
+      position: initial;
+    }
+
+    @media (max-width: $breakpoint-xs) {
+      display: none;
+    }
+
+    &__background {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 0;
+      min-height: 100%;
+    }
   }
 
   .carousel-wrap {
+    display: none;
     position: relative;
     width: 100%;
     height: 100%;
+    z-index: 1;
+
+    @media (max-width: $breakpoint-sm) {
+      display: none;
+    }
 
     .agile {
       display: flex;
@@ -222,13 +347,13 @@ export default {
         line-height: 1;
         text-align: right;
         text-transform: uppercase;
-        color: $accent-color;
+        color: var(--accent-color);
         /*margin-bottom: 44px;*/
 
         &__strong {
           position: relative;
           display: inline-block;
-          color: #000;
+          color: var(--form-label-color);
 
           &:before {
             position: absolute;
@@ -282,11 +407,11 @@ export default {
         line-height: 0;
         border: none;
         border-radius: 50%;
-        background: #fff;
+        background: var(--main-color);
       }
 
       &--current button, &:hover button {
-        background: $accent-color;
+        background: var(--accent-color);
       }
     }
   }
