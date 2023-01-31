@@ -53,11 +53,13 @@
           </div>
         </agile>
       </div>
-      <img
-        alt="pic"
-        class="auth-info__background"
-        src="../../assets/img/auth/background.svg"
-      >
+      <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
+      <div class="auth-info__background"></div>
+<!--      <img-->
+<!--        alt="pic"-->
+<!--        class="auth-info__background"-->
+<!--        src="../../assets/img/auth/background.svg"-->
+<!--      >-->
     </section>
   </main>
 </template>
@@ -174,15 +176,15 @@ $form-width-sm: 576px;
     z-index: 2;
     display: flex;
     align-items: center;
-    flex-basis: $width-form-lg;
+    flex-basis: $form-width-lg;
     background: var(--page-bg-color);
 
     @media (max-width: $breakpoint-md) {
-      flex-basis: $width-form-md;
+      flex-basis: $form-width-md;
     }
 
     @media (max-width: $breakpoint-sm) {
-      flex-basis: $width-form-sm;
+      flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
     }
 
@@ -286,6 +288,16 @@ $form-width-sm: 576px;
       top: 0;
       z-index: 0;
       min-height: 100%;
+      min-width: 1920px;
+      background-image: url("../../assets/img/auth/background.svg");
+    }
+
+    &__logo {
+      position: absolute;
+      right: 98px;
+      top: 50px;
+      width: 60px;
+      z-index: 1;
     }
   }
 
