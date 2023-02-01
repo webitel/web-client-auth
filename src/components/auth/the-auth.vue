@@ -21,45 +21,35 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <agile
-          :autoplay-speed="60000"
-          :nav-buttons="false"
-          :speed="500"
-          autoplay
-          infinite
-          pause-on-dots-hover
-          pause-on-hover
-        >
-          <div
-            v-for="(item, key) in carouselItems"
-            :key="key"
-            class="slide"
-          >
-            <div class="item-wrap">
-              <div class="item">
-                <h3 class="item-header">
-                  {{ item.titleStart }}
-                  <strong class="item-header__strong">
-                    {{ item.titleStrong }}
-                  </strong>
-                  {{ item.titleEnd }}
-                </h3>
-                <p class="item-text">
-                  {{ item.text }}
-                </p>
-              </div>
-              <img alt="pic" class="item-bg" src="../../assets/img/auth/bg1.svg">
-            </div>
-          </div>
-        </agile>
+<!--        <agile-->
+<!--          :autoplay-speed="60000"-->
+<!--          :nav-buttons="false"-->
+<!--          :speed="500"-->
+<!--          autoplay-->
+<!--          infinite-->
+<!--          pause-on-dots-hover-->
+<!--          pause-on-hover-->
+<!--        >-->
+<!--          <div-->
+<!--            class="slide"-->
+<!--          >-->
+<!--            <div class="item-wrap">-->
+<!--              <div class="item">-->
+<!--                <h3 class="item-header">-->
+<!--                  some text-->
+<!--                </h3>-->
+<!--                <p class="item-text">-->
+<!--                  some text 2-->
+<!--                </p>-->
+<!--              </div>-->
+<!--              <img alt="pic" class="item-bg" src="../../assets/img/auth/bg1.svg">-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </agile>-->
+        <contact-center-slide class="slide"></contact-center-slide>
       </div>
       <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
       <div class="auth-info__background"></div>
-<!--      <img-->
-<!--        alt="pic"-->
-<!--        class="auth-info__background"-->
-<!--        src="../../assets/img/auth/background.svg"-->
-<!--      >-->
     </section>
   </main>
 </template>
@@ -68,10 +58,12 @@
 import { VueAgile } from 'vue-agile';
 import Login from './the-login';
 import Register from './the-register';
+import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
 
 export default {
   name: 'auth',
   components: {
+    ContactCenterSlide,
     Login,
     Register,
     agile: VueAgile,
@@ -302,7 +294,6 @@ $form-width-sm: 576px;
   }
 
   .carousel-wrap {
-    display: none;
     position: relative;
     width: 100%;
     height: 100%;
