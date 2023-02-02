@@ -163,121 +163,127 @@ $form-width-sm: 576px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $breakpoint-sm) {
-    display: flex;
+  @media (min-width: $breakpoint-sm) {
     align-items: center;
     justify-content: center;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    align-items: normal;
+    justify-content: normal;
   }
 
   .auth-form-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: center;
-    flex-basis: $form-width-lg;
     background: var(--page-bg-color);
+    width: 100%;
+    margin: var(--spacing-sm) 0;
 
-    @media (max-width: $breakpoint-md) {
-      flex-basis: $form-width-md;
-    }
-
-    @media (max-width: $breakpoint-sm) {
+    @media (min-width: $breakpoint-sm) {
       flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
     }
 
-    @media (max-width: $breakpoint-xs) {
-      width: 100%;
-      margin: var(--spacing-sm) 0;
+    @media (min-width: $breakpoint-md) {
+      flex-basis: $form-width-md;
+      margin: 0;
+      border-radius: 0;
+    }
+
+    @media (min-width: $breakpoint-lg) {
+      flex-basis: $form-width-lg;
     }
   }
 
   .auth-form-wrapper__content {
     width: 100%;
-    padding: 0 var(--spacing-3xl);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-md) {
+    @media (min-width: $breakpoint-sm) {
+      align-items: flex-start;
       padding: var(--spacing-lg);
     }
 
-    @media (max-width: $breakpoint-xs) {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      padding: var(--spacing-sm);
+    @media (min-width: $breakpoint-lg) {
+      padding: var(--spacing-3xl);
     }
   }
 
   .logo {
-    display: none;
     width: 60px;
+    margin-bottom: var(--spacing-xs);
 
-    @media (max-width: $breakpoint-xs) {
-      display: block;
-      margin-bottom: var(--spacing-xs);
+    @media (min-width: $breakpoint-sm) {
+      display: none;
     }
   }
 
   .auth-form-header__title {
-    @extend %typo-heading-2;
-    margin-bottom: var(--spacing-sm);
+    @extend %typo-heading-3;
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
 
-    @media (max-width: $breakpoint-xs) {
-      // @extend %typo-heading-3
+    @media (min-width: $breakpoint-sm) {
+      //@extend %typo-heading-2;
       // link to stackoverflow issue
       // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
-      font-size: 20px;
       font-weight: 600;
-      line-height: 32px;
-      text-align: center;
-      margin-bottom: var(--spacing-xs);
+      font-size: 24px;
+      line-height: 40px;
+      margin-bottom: var(--spacing-sm);
+      text-align: left;
     }
   }
 
   .auth-form-header__subtitle {
     @extend %typo-body-1;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
 
-    @media (max-width: $breakpoint-xs) {
-      margin-bottom: var(--spacing-xs);
-      text-align: center;
+    @media (min-width: $breakpoint-sm) {
+      margin-bottom: var(--spacing-sm);
     }
   }
 
   .auth-tabs-wrap {
     box-sizing: border-box;
     width: 100%;
-    padding: var(--spacing-sm);
     border-radius: var(--border-radius);
     background: var(--main-color);
+    padding: var(--spacing-xs);
 
-    @media (max-width: $breakpoint-xs) {
-      padding: var(--spacing-xs);
+    @media (min-width: $breakpoint-sm) {
+      padding: var(--spacing-sm);
     }
 
     .wt-tabs {
       margin-bottom: var(--spacing-sm);
-      padding: var(--spacing-sm);
+      padding: var(--spacing-xs);
 
-      @media (max-width: $breakpoint-xs) {
-        padding: var(--spacing-xs);
+      @media (min-width: $breakpoint-sm) {
+        padding: var(--spacing-sm);
       }
     }
   }
 
   .auth-info {
-    position: relative;
-    flex-grow: 1;
-    min-width: 0;
+    display: none;
+    //position: relative;
+    //flex-grow: 1;
+    //min-width: 0;
     color: var(--main-color);
 
-    @media (max-width: $breakpoint-sm) {
-      flex-grow: initial;
-      position: initial;
-    }
+    //@media (max-width: $breakpoint-sm) {
+    //  flex-grow: initial;
+    //  position: initial;
+    //}
 
-    @media (max-width: $breakpoint-xs) {
-      display: none;
+    @media (min-width: $breakpoint-sm) {
+      display: flex;
     }
 
     &__background {
@@ -295,10 +301,6 @@ $form-width-sm: 576px;
     width: 100%;
     height: 100%;
     z-index: 1;
-
-    @media (max-width: $breakpoint-sm) {
-      display: none;
-    }
 
     .agile {
       display: flex;
