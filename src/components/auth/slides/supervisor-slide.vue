@@ -26,22 +26,35 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$text-width-lg: 473px;
+$text-width-md: 0;
+$img-width-lg: 1024px;
+$img-width-md: 640px;
 
 .supervisor-slide {
   position: relative;
 
   &__text-wrap {
-    width: 473px;
+    width: $text-width-lg;
+
+    @media (max-width: $breakpoint-md) {
+      max-width: $text-width-md;
+    }
+  }
+
+  &__line {
+    border-top: 2px solid var(--accent-color);
+    margin: var(--spacing-md) 0;
   }
 
   &__image {
     position: absolute;
-    max-width: 1024px;
+    max-width: $img-width-lg;
     top: 0;
     left:0;
 
     @media (max-width: $breakpoint-md) {
-      max-width: 640px;
+      max-width: $img-width-md;
     }
   }
 }

@@ -2,7 +2,8 @@
   <div class="contact-center-slide">
     <div class="contact-center-slide__text-wrap">
       <div class="contact-center-slide__title">
-        Contact Center Automation Platform
+       <span> Contact Center </span>
+        <span> Automation Platform </span>
       </div>
       <div class="contact-center-slide__line"></div>
       <div  class="contact-center-slide__text">
@@ -26,22 +27,37 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+$text-width-lg: 462px;
+$text-width-md: 0;
+$img-width-lg: 1024px;
+$img-width-md: 640px;
 
 .contact-center-slide {
   position: relative;
+  width: fit-content;
 
   &__text-wrap {
-    width: 462px;
-  }
-
-  &__image {
+    width: $text-width-lg;
     position: absolute;
-    max-width: 1024px;
     top: 0;
     left:0;
 
     @media (max-width: $breakpoint-md) {
-      max-width: 640px;
+      max-width: $text-width-md;
+    }
+  }
+
+  &__line {
+    border-top: 2px solid var(--accent-color);
+    margin: var(--spacing-md) 0;
+  }
+
+  &__image {
+    max-width: $img-width-lg;
+    width: 100%;
+
+    @media (max-width: $breakpoint-md) {
+      max-width: $img-width-md;
     }
   }
 }

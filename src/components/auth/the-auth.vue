@@ -298,6 +298,9 @@ $form-width-sm: 576px;
     width: 100%;
     height: 100%;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     @media (max-width: $breakpoint-sm) {
       display: none;
