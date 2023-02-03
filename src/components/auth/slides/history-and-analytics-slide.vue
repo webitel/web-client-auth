@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss" scoped>
 $text-width-lg: 387px;
-$text-width-md: 0;
+$text-width-md: 291px;
 $img-width-lg: 1024px;
 $img-width-md: 640px;
 
@@ -38,14 +38,18 @@ $img-width-md: 640px;
   &__text-wrap {
     width: $text-width-lg;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       max-width: $text-width-md;
     }
   }
 
   &__line {
-    border-top: 2px solid var(--accent-color);
+    border-top: 3px solid var(--accent-color);
     margin: var(--spacing-md) 0;
+
+    @media (max-width: $breakpoint-lg) {
+      border-top: 2px solid var(--accent-color);
+    }
   }
 
   &__image {
@@ -54,7 +58,7 @@ $img-width-md: 640px;
     top: 0;
     left:0;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       max-width: $img-width-md;
     }
   }

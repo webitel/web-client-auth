@@ -21,32 +21,20 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-<!--        <agile-->
-<!--          :autoplay-speed="60000"-->
-<!--          :nav-buttons="false"-->
-<!--          :speed="500"-->
-<!--          autoplay-->
-<!--          infinite-->
-<!--          pause-on-dots-hover-->
-<!--          pause-on-hover-->
-<!--        >-->
-<!--          <div-->
-<!--            class="slide"-->
-<!--          >-->
-<!--            <div class="item-wrap">-->
-<!--              <div class="item">-->
-<!--                <h3 class="item-header">-->
-<!--                  some text-->
-<!--                </h3>-->
-<!--                <p class="item-text">-->
-<!--                  some text 2-->
-<!--                </p>-->
-<!--              </div>-->
-<!--              <img alt="pic" class="item-bg" src="../../assets/img/auth/bg1.svg">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </agile>-->
-        <contact-center-slide class="slide"></contact-center-slide>
+        <agile
+          :autoplay-speed="60000"
+          :nav-buttons="false"
+          :speed="500"
+          autoplay
+          infinite
+          pause-on-dots-hover
+          pause-on-hover
+        >
+          <contact-center-slide class="slide"></contact-center-slide>
+          <supervisor-slide class="slide"></supervisor-slide>
+          <chats-slide class="slide"></chats-slide>
+          <history-and-analytics-slide class="slide"></history-and-analytics-slide>
+        </agile>
       </div>
       <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
       <div class="auth-info__background"></div>
@@ -59,10 +47,16 @@ import { VueAgile } from 'vue-agile';
 import Login from './the-login';
 import Register from './the-register';
 import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
+import ChatsSlide from '@/components/auth/slides/chats-slide';
+import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
+import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
 
 export default {
   name: 'auth',
   components: {
+    HistoryAndAnalyticsSlide,
+    ChatsSlide,
+    SupervisorSlide,
     ContactCenterSlide,
     Login,
     Register,
@@ -288,15 +282,20 @@ $form-width-sm: 576px;
       z-index: 0;
       min-height: 100%;
       min-width: 100%;
-      background-image: url("../../assets/img/auth/background.svg");
+      background: url("../../assets/img/auth/background.svg") no-repeat;
+      background-size: cover;
     }
 
     &__logo {
       position: absolute;
-      right: 98px;
-      top: 50px;
+      right: 96px;
+      top: 48px;
       width: 60px;
       z-index: 1;
+
+      @media (max-width: $breakpoint-md) {
+        display: none;
+      }
     }
   }
 
