@@ -163,25 +163,28 @@ $form-width-sm: 576px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width: $breakpoint-xs) {
+    align-items: normal;
   }
 
   .auth-form-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: center;
     flex-basis: $form-width-lg;
     background: var(--page-bg-color);
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       flex-basis: $form-width-md;
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
     }
@@ -194,9 +197,9 @@ $form-width-sm: 576px;
 
   .auth-form-wrapper__content {
     width: 100%;
-    padding: 0 var(--spacing-3xl);
+    padding: var(--spacing-3xl);
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       padding: var(--spacing-lg);
     }
 
@@ -212,8 +215,12 @@ $form-width-sm: 576px;
     display: none;
     width: 60px;
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-md) {
       display: block;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    @media (max-width: $breakpoint-xs) {
       margin-bottom: var(--spacing-xs);
     }
   }
@@ -271,7 +278,7 @@ $form-width-sm: 576px;
     min-width: 0;
     color: var(--main-color);
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       flex-grow: initial;
       position: initial;
     }
@@ -286,6 +293,7 @@ $form-width-sm: 576px;
       top: 0;
       z-index: 0;
       min-height: 100%;
+      min-width: 100%;
     }
   }
 
@@ -296,7 +304,7 @@ $form-width-sm: 576px;
     height: 100%;
     z-index: 1;
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       display: none;
     }
 
