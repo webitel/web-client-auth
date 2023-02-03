@@ -163,7 +163,7 @@ $form-width-sm: 576px;
     justify-content: center;
   }
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-xs) {
     align-items: normal;
   }
 
@@ -183,7 +183,7 @@ $form-width-sm: 576px;
       border-radius: var(--border-radius);
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       width: 100%;
       margin: var(--spacing-sm) 0;
     }
@@ -197,7 +197,7 @@ $form-width-sm: 576px;
       padding: var(--spacing-lg);
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -214,7 +214,7 @@ $form-width-sm: 576px;
       margin-bottom: var(--spacing-sm);
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       margin-bottom: var(--spacing-xs);
     }
   }
@@ -223,7 +223,7 @@ $form-width-sm: 576px;
     @extend %typo-heading-2;
     margin-bottom: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       // @extend %typo-heading-3
       // link to stackoverflow issue
       // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
@@ -239,7 +239,7 @@ $form-width-sm: 576px;
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       margin-bottom: var(--spacing-xs);
       text-align: center;
     }
@@ -252,7 +252,7 @@ $form-width-sm: 576px;
     border-radius: var(--border-radius);
     background: var(--main-color);
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       padding: var(--spacing-xs);
     }
 
@@ -260,7 +260,7 @@ $form-width-sm: 576px;
       margin-bottom: var(--spacing-sm);
       padding: var(--spacing-sm);
 
-      @media (max-width: $breakpoint-sm) {
+      @media (max-width: $breakpoint-xs) {
         padding: var(--spacing-xs);
       }
     }
@@ -277,7 +277,7 @@ $form-width-sm: 576px;
       position: initial;
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-xs) {
       display: none;
     }
 
