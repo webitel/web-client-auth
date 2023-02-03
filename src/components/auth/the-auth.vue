@@ -157,30 +157,33 @@ $form-width-sm: 576px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $breakpoint-sm) {
+  @media (max-width: $breakpoint-md) {
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    align-items: normal;
   }
 
   .auth-form-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
-    align-items: center;
     flex-basis: $form-width-lg;
     background: var(--page-bg-color);
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       flex-basis: $form-width-md;
     }
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       width: 100%;
       margin: var(--spacing-sm) 0;
     }
@@ -188,13 +191,13 @@ $form-width-sm: 576px;
 
   .auth-form-wrapper__content {
     width: 100%;
-    padding: 0 var(--spacing-3xl);
+    padding: var(--spacing-3xl);
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $breakpoint-lg) {
       padding: var(--spacing-lg);
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -206,8 +209,12 @@ $form-width-sm: 576px;
     display: none;
     width: 60px;
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-md) {
       display: block;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    @media (max-width: $breakpoint-sm) {
       margin-bottom: var(--spacing-xs);
     }
   }
@@ -216,7 +223,7 @@ $form-width-sm: 576px;
     @extend %typo-heading-2;
     margin-bottom: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       // @extend %typo-heading-3
       // link to stackoverflow issue
       // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
@@ -232,7 +239,7 @@ $form-width-sm: 576px;
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       margin-bottom: var(--spacing-xs);
       text-align: center;
     }
@@ -245,7 +252,7 @@ $form-width-sm: 576px;
     border-radius: var(--border-radius);
     background: var(--main-color);
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       padding: var(--spacing-xs);
     }
 
@@ -253,7 +260,7 @@ $form-width-sm: 576px;
       margin-bottom: var(--spacing-sm);
       padding: var(--spacing-sm);
 
-      @media (max-width: $breakpoint-xs) {
+      @media (max-width: $breakpoint-sm) {
         padding: var(--spacing-xs);
       }
     }
@@ -265,12 +272,12 @@ $form-width-sm: 576px;
     min-width: 0;
     color: var(--main-color);
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       flex-grow: initial;
       position: initial;
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $breakpoint-sm) {
       display: none;
     }
 
@@ -280,7 +287,7 @@ $form-width-sm: 576px;
       top: 0;
       z-index: 0;
       min-height: 100%;
-      min-width: 1920px;
+      min-width: 100%;
       background-image: url("../../assets/img/auth/background.svg");
     }
 
@@ -302,7 +309,7 @@ $form-width-sm: 576px;
     align-items: center;
     justify-content: center;
 
-    @media (max-width: $breakpoint-sm) {
+    @media (max-width: $breakpoint-md) {
       display: none;
     }
 
