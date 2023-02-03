@@ -152,7 +152,7 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
-$form-width-lg: 528px;
+$form-width-lg: 512px;
 $form-width-md: 384px;
 $form-width-sm: 576px;
 
@@ -164,7 +164,7 @@ $form-width-sm: 576px;
   background: var(--page-bg-color);
 
   @media (min-width: $breakpoint-sm) {
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
 
@@ -179,11 +179,11 @@ $form-width-sm: 576px;
     display: flex;
     background: var(--page-bg-color);
     width: 100%;
-    margin: var(--spacing-sm) 0;
 
     @media (min-width: $breakpoint-sm) {
       flex-basis: $form-width-sm;
       border-radius: var(--border-radius);
+      margin: var(--spacing-3xl) 0;
     }
 
     @media (min-width: $breakpoint-md) {
@@ -272,15 +272,7 @@ $form-width-sm: 576px;
 
   .auth-info {
     display: none;
-    //position: relative;
-    //flex-grow: 1;
-    //min-width: 0;
     color: var(--main-color);
-
-    //@media (max-width: $breakpoint-sm) {
-    //  flex-grow: initial;
-    //  position: initial;
-    //}
 
     @media (min-width: $breakpoint-sm) {
       display: flex;
