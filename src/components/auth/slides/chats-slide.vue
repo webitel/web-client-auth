@@ -1,16 +1,18 @@
 <template>
-  <div class="chats-slide">
-    <div class="chats-slide__text-wrap">
-      <div class="chats-slide__title">
-        Chats
+  <section class="chats-slide">
+    <div class="chats-slide__wrap">
+      <div class="chats-slide__text-wrap">
+        <div class="chats-slide__title">
+          Chats
+        </div>
+        <div class="chats-slide__line"></div>
+        <div  class="chats-slide__text">
+          Easy way to improve customer service and engagement. Efficient handling of text communications from multiple channels: messengers, emails, and website chats, on one platform.
+        </div>
       </div>
-      <div class="chats-slide__line"></div>
-      <div  class="chats-slide__text">
-        Easy way to improve customer service and engagement. Efficient handling of text communications from multiple channels: messengers, emails, and website chats, on one platform.
-      </div>
+      <img alt="chats-slide-pic" class="chats-slide__image" src="../../../assets/img/auth/slides/chats.svg">
     </div>
-    <img alt="pic" class="chats-slide__image" src="../../../assets/img/auth/slides/chats.svg">
-  </div>
+  </section>
 
 </template>
 
@@ -32,14 +34,35 @@ $img-width-lg: 1024px;
 $img-width-md: 640px;
 
 .chats-slide {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &__wrap {
+    position: relative;
+    width: fit-content;
+  }
 
   &__text-wrap {
     width: $text-width-lg;
+    position: absolute;
+    top: 0;
+    left: 0;
 
     @media (max-width: $breakpoint-lg) {
       max-width: $text-width-md;
     }
+  }
+
+  &__title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 78px;
+  }
+
+  &__text {
+    @extend %typo-body-1;
   }
 
   &__line {
@@ -52,10 +75,8 @@ $img-width-md: 640px;
   }
 
   &__image {
-    position: absolute;
     max-width: $img-width-lg;
-    top: 0;
-    left:0;
+    width: 100%;
 
     @media (max-width: $breakpoint-lg) {
       max-width: $img-width-md;

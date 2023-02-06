@@ -1,16 +1,18 @@
 <template>
-  <div class="supervisor-slide">
-    <div class="supervisor-slide__text-wrap">
-      <div class="supervisor-slide__title">
-        Supervisor Module
+  <section class="supervisor-slide">
+    <div class="supervisor-slide__wrap">
+      <div class="supervisor-slide__text-wrap">
+        <div class="supervisor-slide__title">
+          Supervisor
+        </div>
+        <div class="supervisor-slide__line"></div>
+        <div  class="supervisor-slide__text">
+          A comprehensive service to monitor and effectively manage queues, active calls, agents' work and KPIs. Advanced settings for configuring agent skills and statuses, dedicated teams, participating in ongoing calls, and forming detailed reports.
+        </div>
       </div>
-      <div class="supervisor-slide__line"></div>
-      <div  class="supervisor-slide__text">
-        A comprehensive service to monitor and effectively manage queues, active calls, agents' work and KPIs. Advanced settings for configuring agent skills and statuses, dedicated teams, participating in ongoing calls, and forming detailed reports.
-      </div>
+      <img alt="supervisor-pic" class="supervisor-slide__image" src="../../../assets/img/auth/slides/supervisor.svg">
     </div>
-    <img alt="pic" class="supervisor-slide__image" src="../../../assets/img/auth/slides/supervisor.svg">
-  </div>
+  </section>
 
 </template>
 
@@ -32,14 +34,35 @@ $img-width-lg: 1024px;
 $img-width-md: 640px;
 
 .supervisor-slide {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &__wrap {
+    position: relative;
+    width: fit-content;
+  }
 
   &__text-wrap {
     width: $text-width-lg;
+    position: absolute;
+    top: 0;
+    left: 0;
 
     @media (max-width: $breakpoint-lg) {
       max-width: $text-width-md;
     }
+  }
+
+  &__title {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 78px;
+  }
+
+  &__text {
+    @extend %typo-body-1;
   }
 
   &__line {
@@ -52,10 +75,8 @@ $img-width-md: 640px;
   }
 
   &__image {
-    position: absolute;
     max-width: $img-width-lg;
-    top: 0;
-    left:0;
+    width: 100%;
 
     @media (max-width: $breakpoint-lg) {
       max-width: $img-width-md;

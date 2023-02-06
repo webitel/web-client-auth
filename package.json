@@ -9,6 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@egjs/flicking-plugins": "^4.7.0",
     "@egjs/vue-flicking": "^4.10.4",
     "@webitel/ui-sdk": "^2.0.7",
     "axios": "^0.27.2",

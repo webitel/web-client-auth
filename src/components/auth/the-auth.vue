@@ -21,20 +21,28 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <agile
-          :autoplay-speed="60000"
-          :nav-buttons="false"
-          :speed="500"
-          autoplay
-          infinite
-          pause-on-dots-hover
-          pause-on-hover
-        >
-          <contact-center-slide class="slide"></contact-center-slide>
-          <supervisor-slide class="slide"></supervisor-slide>
-          <chats-slide class="slide"></chats-slide>
-          <history-and-analytics-slide class="slide"></history-and-analytics-slide>
-        </agile>
+<!--        <agile-->
+<!--          :autoplay-speed="60000"-->
+<!--          :nav-buttons="false"-->
+<!--          :speed="100"-->
+<!--          autoplay-->
+<!--          infinite-->
+<!--          pause-on-dots-hover-->
+<!--          pause-on-hover-->
+<!--        >-->
+        <flicking :options="{
+                      circular: true,
+                      // renderOnlyVisible: true,
+                      bound: true,
+                    }"
+                  :plugins="plugins">
+          <contact-center-slide class="card-panel"></contact-center-slide>
+          <supervisor-slide class="card-panel"></supervisor-slide>
+          <chats-slide class="card-panel"></chats-slide>
+          <history-and-analytics-slide class="card-panel"></history-and-analytics-slide>
+          <div slot="viewport" class="flicking-pagination"></div>
+        </flicking>
+<!--        </agile>-->
       </div>
       <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
       <div class="auth-info__background"></div>
@@ -50,6 +58,8 @@ import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
 import ChatsSlide from '@/components/auth/slides/chats-slide';
 import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
 import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
+import { Flicking } from "@egjs/vue-flicking";
+import { Pagination, AutoPlay } from "@egjs/flicking-plugins";
 
 export default {
   name: 'auth',
@@ -61,6 +71,7 @@ export default {
     Login,
     Register,
     agile: VueAgile,
+    flicking: Flicking,
   },
   data() {
     return {
@@ -118,6 +129,7 @@ export default {
         //     text: this.$t('auth.carousel.text6'),
         // },
       ],
+      plugins: [new Pagination({ type: 'bullet' })],
     };
   },
 
@@ -261,17 +273,17 @@ $form-width-sm: 576px;
   }
 
   .auth-info {
-    position: relative;
     flex-grow: 1;
     min-width: 0;
     color: var(--main-color);
 
     @media (max-width: $breakpoint-md) {
       flex-grow: initial;
-      position: initial;
+      //position: initial;
     }
 
     @media (max-width: $breakpoint-xs) {
+      position: relative;
       display: none;
     }
 
@@ -312,119 +324,139 @@ $form-width-sm: 576px;
       display: none;
     }
 
-    .agile {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      height: 100%;
+    //.agile {
+    //  display: flex;
+    //  flex-direction: column;
+    //  justify-content: flex-end;
+    //  height: 100%;
+    //
+    //  &__list {
+    //    height: 100%;
+    //
+    //    .agile__track, .slide {
+    //      height: 100%;
+    //    }
+    //  }
+    //
+    //  &__actions {
+    //    position: absolute;
+    //    bottom: 60px;
+    //    left: 50%;
+    //    transform: translateX(-50%);
+    //    /*margin: 150px auto 0;*/
+    //    /*display: block;*/
+    //  }
+    //}
+    //
+    //.item-wrap {
+    //  position: relative;
+    //  display: flex;
+    //  flex-direction: column-reverse;
+    //  width: 100%;
+    //  height: 100%;
+    //
+    //  .item {
+    //    display: flex;
+    //    margin: 0 0 228px 93px;
+    //  }
+    //
+    //  .item-header {
+    //    @extend %typo-heading-1;
+    //
+    //    width: min-content;
+    //    width: -moz-min-content;
+    //    margin: 0 46px 0 0;
+    //    font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi', sans-serif;
+    //    font-size: 50px;
+    //    line-height: 1;
+    //    text-align: right;
+    //    text-transform: uppercase;
+    //    color: var(--accent-color);
+    //    /*margin-bottom: 44px;*/
+    //
+    //    &__strong {
+    //      position: relative;
+    //      display: inline-block;
+    //      color: var(--form-label-color);
+    //
+    //      &:before {
+    //        position: absolute;
+    //        z-index: -1;
+    //        top: -20px;
+    //        right: -15px;
+    //        bottom: -5px;
+    //        left: -15px;
+    //        content: '';
+    //        background: #EB5757;
+    //      }
+    //    }
+    //
+    //  }
+    //
+    //  .item-text {
+    //    @extend %typo-body-1;
+    //    width: 300px;
+    //    min-width: 250px;
+    //    max-width: 500px;
+    //    max-height: 200px;
+    //    margin: 0;
+    //    font-family: 'Montserrat', monospace;
+    //    font-size: 18px;
+    //    line-height: 1.8;
+    //  }
+    //
+    //  .item-bg {
+    //    position: absolute;
+    //    top: 0;
+    //    right: 0;
+    //    bottom: 0;
+    //    left: 0;
+    //    width: 100%;
+    //    height: 100%;
+    //  }
+    //}
+    //
+    //.agile__dot {
+    //  margin: 0 6px;
+    //
+    //  button {
+    //    display: block;
+    //    width: 10px;
+    //    height: 10px;
+    //    margin: 0;
+    //    padding: 0;
+    //    cursor: pointer;
+    //    transition-duration: .3s;
+    //    font-size: 0;
+    //    line-height: 0;
+    //    border: none;
+    //    border-radius: 50%;
+    //    background: var(--main-color);
+    //  }
+    //
+    //  &--current button, &:hover button {
+    //    background: var(--accent-color);
+    //  }
+    //}
 
-      &__list {
-        height: 100%;
-
-        .agile__track, .slide {
-          height: 100%;
-        }
-      }
-
-      &__actions {
-        position: absolute;
-        bottom: 60px;
-        left: 50%;
-        transform: translateX(-50%);
-        /*margin: 150px auto 0;*/
-        /*display: block;*/
-      }
+    .flicking-pagination-bullet {
+      cursor: pointer;
+      display: inline-block;
+      font-size: 1rem;
+      height: 8px;
+      margin: 0 4px;
+      width: 8px;
+      background-color: #F7F7F7;
     }
 
-    .item-wrap {
+    .flicking-pagination-bullet-active {
+      background-color: #FF2BD4;
+    }
+
+    .flicking-pagination {
       position: relative;
-      display: flex;
-      flex-direction: column-reverse;
-      width: 100%;
-      height: 100%;
-
-      .item {
-        display: flex;
-        margin: 0 0 228px 93px;
-      }
-
-      .item-header {
-        @extend %typo-heading-1;
-
-        width: min-content;
-        width: -moz-min-content;
-        margin: 0 46px 0 0;
-        font-family: 'EN-AvantGardeDemi', 'RU-AvantGardeDemi', sans-serif;
-        font-size: 50px;
-        line-height: 1;
-        text-align: right;
-        text-transform: uppercase;
-        color: var(--accent-color);
-        /*margin-bottom: 44px;*/
-
-        &__strong {
-          position: relative;
-          display: inline-block;
-          color: var(--form-label-color);
-
-          &:before {
-            position: absolute;
-            z-index: -1;
-            top: -20px;
-            right: -15px;
-            bottom: -5px;
-            left: -15px;
-            content: '';
-            background: #EB5757;
-          }
-        }
-
-      }
-
-      .item-text {
-        @extend %typo-body-1;
-        width: 300px;
-        min-width: 250px;
-        max-width: 500px;
-        max-height: 200px;
-        margin: 0;
-        font-family: 'Montserrat', monospace;
-        font-size: 18px;
-        line-height: 1.8;
-      }
-
-      .item-bg {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-      }
-    }
-
-    .agile__dot {
-      margin: 0 6px;
-
-      button {
-        display: block;
-        width: 10px;
-        height: 10px;
-        margin: 0;
-        padding: 0;
-        cursor: pointer;
-        transition-duration: .3s;
-        font-size: 0;
-        line-height: 0;
-        border: none;
-        border-radius: 50%;
-        background: var(--main-color);
-      }
-
-      &--current button, &:hover button {
-        background: var(--accent-color);
-      }
+      left: 336px;
+      bottom: 25px;
     }
   }
 }

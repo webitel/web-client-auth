@@ -1,17 +1,21 @@
 <template>
-  <div class="contact-center-slide">
-    <div class="contact-center-slide__text-wrap">
-      <div class="contact-center-slide__title">
-       <span> Contact Center </span>
-        <span> Automation Platform </span>
+  <section class="contact-center-slide">
+    <div class="contact-center-slide__wrap">
+      <div class="contact-center-slide__text-wrap">
+        <div class="contact-center-slide__title">
+         Contact Center
+        </div>
+        <div class="contact-center-slide__subtitle">
+          Automation Platform
+        </div>
+        <div class="contact-center-slide__line"></div>
+        <div  class="contact-center-slide__text">
+          Flexible and fully customizable contact center software that drives business growth and delivers a unique customer experience. Powerful tools for managing omnichannel communications, teams, workflows, tasks, integrations, call history, analytics, and more.
+        </div>
       </div>
-      <div class="contact-center-slide__line"></div>
-      <div  class="contact-center-slide__text">
-        Flexible and fully customizable contact center software that drives business growth and delivers a unique customer experience. Powerful tools for managing omnichannel communications, teams, workflows, tasks, integrations, call history, analytics, and more.
-      </div>
+      <img alt="contact-center-pic" class="contact-center-slide__image" src="../../../assets/img/auth/slides/contact-center.svg">
     </div>
-    <img alt="pic" class="contact-center-slide__image" src="../../../assets/img/auth/slides/contact-center.svg">
-  </div>
+  </section>
 
 </template>
 
@@ -33,18 +37,41 @@ $img-width-lg: 1024px;
 $img-width-md: 640px;
 
 .contact-center-slide {
-  position: relative;
-  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+
+  &__wrap {
+    position: relative;
+    width: fit-content;
+  }
 
   &__text-wrap {
     width: $text-width-lg;
     position: absolute;
     top: 0;
-    left:0;
+    left: 0;
 
     @media (max-width: $breakpoint-lg) {
       max-width: $text-width-md;
     }
+  }
+
+  &__title {
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 71px;
+  }
+
+  &__subtitle {
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 49px;
+  }
+
+  &__text {
+    @extend %typo-body-1;
   }
 
   &__line {
