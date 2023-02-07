@@ -30,11 +30,7 @@
 <!--          pause-on-dots-hover-->
 <!--          pause-on-hover-->
 <!--        >-->
-        <flicking :options="{
-                      circular: true,
-                      // renderOnlyVisible: true,
-                      bound: true,
-                    }"
+        <flicking :options="{ circular: true }"
                   :plugins="plugins">
           <contact-center-slide class="card-panel"></contact-center-slide>
           <supervisor-slide class="card-panel"></supervisor-slide>
@@ -439,6 +435,14 @@ $form-width-sm: 576px;
     //  }
     //}
 
+    .flicking-viewport {
+      overflow: visible;
+    }
+
+    .flicking-viewport {
+      //width: 1024px;
+    }
+
     .flicking-pagination-bullet {
       cursor: pointer;
       display: inline-block;
@@ -455,8 +459,8 @@ $form-width-sm: 576px;
 
     .flicking-pagination {
       position: relative;
-      left: 336px;
-      bottom: 25px;
+      left: 0;
+      bottom: 0;
     }
   }
 }

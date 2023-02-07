@@ -62,16 +62,34 @@ $img-width-md: 640px;
     font-size: 58px;
     font-weight: 700;
     line-height: 71px;
+
+    @media (max-width: $breakpoint-lg) {
+      font-size: 36px;
+      line-height: 44px;
+    }
   }
 
   &__subtitle {
     font-size: 40px;
     font-weight: 700;
     line-height: 49px;
+
+    @media (max-width: $breakpoint-lg) {
+      font-size: 26px;
+      line-height: 32px;
+    }
   }
 
   &__text {
     @extend %typo-body-1;
+
+    @media (max-width: $breakpoint-lg) {
+      // @extend %typo-body-2
+      // link to stackoverflow issue
+      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
+      font-size: 12px;
+      line-height: 16px;
+    }
   }
 
   &__line {
@@ -80,6 +98,7 @@ $img-width-md: 640px;
 
     @media (max-width: $breakpoint-lg) {
       border-top: 2px solid var(--accent-color);
+      margin: var(--spacing-sm) 0;
     }
   }
 
