@@ -11,6 +11,7 @@
         </div>
       </div>
       <img alt="supervisor-pic" class="supervisor-slide__image" src="../../../assets/img/auth/slides/supervisor.svg">
+      <img alt="supervisor-pic2" class="supervisor-slide__image-2" src="../../../assets/img/auth/slides/supervisor2.png">
     </div>
   </section>
 
@@ -96,6 +97,13 @@ $img-width-md: 640px;
     @media (max-width: $breakpoint-lg) {
       max-width: $img-width-md;
     }
+  }
+
+  &__image-2 {
+    position: absolute;
+    left: 0;
+    bottom: -256px;
+    width: 1376px;
   }
 }
 
