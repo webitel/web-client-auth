@@ -11,7 +11,12 @@
           <span> A built-in analytical module for tracking, displaying, and visualizing key indicators and processes within a contact center with the possibility to create custom reports. </span>
         </div>
       </div>
-      <img alt="history-and-analytics-pic" class="history-and-analytics-slide__image" src="../../../assets/img/auth/slides/history-and-analytics.svg">
+      <img
+          alt="history-and-analytics-pic"
+          class="history-and-analytics-slide__image"
+          src="../../../assets/img/auth/slides/history-and-analytics.svg"
+          draggable="false"
+      >
     </div>
   </section>
 

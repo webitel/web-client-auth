@@ -10,7 +10,11 @@
           Easy way to improve customer service and engagement. Efficient handling of text communications from multiple channels: messengers, emails, and website chats, on one platform.
         </div>
       </div>
-      <img alt="chats-slide-pic" class="chats-slide__image" src="../../../assets/img/auth/slides/chats.svg">
+      <img
+          alt="chats-slide-pic" class="chats-slide__image"
+          src="../../../assets/img/auth/slides/chats.svg"
+          draggable="false"
+      >
     </div>
   </section>
 

@@ -21,7 +21,7 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <flicking :options="{ circular: true }" :plugins="plugins">
+        <flicking :options="{ circular: true, duration: 500 }" :plugins="plugins">
             <contact-center-slide class="card-panel"></contact-center-slide>
             <supervisor-slide class="card-panel"></supervisor-slide>
             <chats-slide class="card-panel"></chats-slide>
@@ -36,7 +36,6 @@
 </template>
 
 <script>
-import { VueAgile } from 'vue-agile';
 import Login from './the-login';
 import Register from './the-register';
 import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
@@ -55,7 +54,6 @@ export default {
     ContactCenterSlide,
     Login,
     Register,
-    agile: VueAgile,
     flicking: Flicking,
   },
   data() {
@@ -71,7 +69,10 @@ export default {
           value: 'register',
         },
       ],
-      plugins: [new Pagination({ type: 'bullet' })],
+      plugins: [
+        new Pagination({ type: 'bullet' }),
+        new AutoPlay({ duration: 4000, stopOnHover: false })
+      ],
     };
   },
 
@@ -97,6 +98,8 @@ export default {
 $form-width-lg: 528px;
 $form-width-md: 384px;
 $form-width-sm: 576px;
+$slide-width-lg: 1024px;
+$slide-width-md: 640px;
 
 .auth {
   position: relative;
@@ -221,7 +224,6 @@ $form-width-sm: 576px;
 
     @media (max-width: $breakpoint-md) {
       flex-grow: initial;
-      //position: initial;
     }
 
     @media (max-width: $breakpoint-xs) {
@@ -266,10 +268,6 @@ $form-width-sm: 576px;
       display: none;
     }
 
-    .flicking-viewport {
-      overflow: visible;
-    }
-
     .flicking-pagination-bullet {
       cursor: pointer;
       display: inline-block;
@@ -286,8 +284,13 @@ $form-width-sm: 576px;
 
     .flicking-pagination {
       position: relative;
-      left: 0;
+      width: fit-content;
+      left: calc(50% - ($slide-width-lg/2));
       bottom: 0;
+
+      @media (max-width: $breakpoint-lg) {
+        left: calc(50% - ($slide-width-md/2));
+      }
     }
   }
 }

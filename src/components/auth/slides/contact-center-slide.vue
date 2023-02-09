@@ -13,7 +13,12 @@
           Flexible and fully customizable contact center software that drives business growth and delivers a unique customer experience. Powerful tools for managing omnichannel communications, teams, workflows, tasks, integrations, call history, analytics, and more.
         </div>
       </div>
-      <img alt="contact-center-pic" class="contact-center-slide__image" src="../../../assets/img/auth/slides/contact-center.svg">
+      <img
+          alt="contact-center-pic"
+          class="contact-center-slide__image"
+          src="../../../assets/img/auth/slides/contact-center.svg"
+          draggable="false"
+      >
     </div>
   </section>
 
