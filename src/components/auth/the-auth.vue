@@ -21,7 +21,7 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <flicking :options="{ circular: true, duration: 500 }" :plugins="plugins">
+        <flicking :options="{ circular: true, duration: 700 }" :plugins="plugins">
             <contact-center-slide class="card-panel"></contact-center-slide>
             <supervisor-slide class="card-panel"></supervisor-slide>
             <chats-slide class="card-panel"></chats-slide>
@@ -71,7 +71,7 @@ export default {
       ],
       plugins: [
         new Pagination({ type: 'bullet' }),
-        new AutoPlay({ duration: 4000, stopOnHover: false })
+        new AutoPlay({ duration: 5000, stopOnHover: false })
       ],
     };
   },
@@ -200,8 +200,8 @@ $slide-width-md: 640px;
     box-sizing: border-box;
     width: 100%;
     padding: var(--spacing-sm);
-    border-radius: var(--border-radius);
     background: var(--main-color);
+    border-radius: var(--border-radius);
 
     @media (max-width: $breakpoint-xs) {
       padding: var(--spacing-xs);
@@ -259,7 +259,7 @@ $slide-width-md: 640px;
     position: relative;
     width: 100%;
     height: 100%;
-    z-index: 1;
+    //z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;

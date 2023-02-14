@@ -59,7 +59,7 @@ $img-width-md: 640px;
     left: 0;
 
     @media (max-width: $breakpoint-lg) {
-      max-width: $text-width-md;
+      width: $text-width-md;
     }
   }
 
@@ -108,11 +108,10 @@ $img-width-md: 640px;
   }
 
   &__image {
-    max-width: $img-width-lg;
-    width: 100%;
+    width: $img-width-lg;
 
     @media (max-width: $breakpoint-lg) {
-      max-width: $img-width-md;
+      width: $img-width-md;
     }
   }
 }

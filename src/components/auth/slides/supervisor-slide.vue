@@ -34,9 +34,9 @@ export default {
 
 <style lang="scss" scoped>
 $text-width-lg: 473px;
-$text-width-md: 376px;
+$text-width-md: 301px;
 $img-width-lg: 1024px;
-$img-width-md: 640px;
+$img-width-md: 602px;
 
 .supervisor-slide {
   display: flex;
@@ -47,6 +47,11 @@ $img-width-md: 640px;
   &__wrap {
     position: relative;
     width: fit-content;
+
+    @media (max-width: $breakpoint-lg) {
+      width: 640px;
+      height: 480px;
+    }
   }
 
   &__text-wrap {
@@ -56,8 +61,7 @@ $img-width-md: 640px;
     left: 0;
 
     @media (max-width: $breakpoint-lg) {
-      max-width: $text-width-md;
-      height: 480px;
+      width: $text-width-md;
     }
   }
 
@@ -95,11 +99,14 @@ $img-width-md: 640px;
   }
 
   &__image {
-    max-width: $img-width-lg;
-    width: 100%;
+    width: $img-width-lg;
+    //width: 100%;
 
     @media (max-width: $breakpoint-lg) {
-      max-width: $img-width-md;
+      width: $img-width-md;
+      position: absolute;
+      right: 0;
+      bottom: 0;
     }
   }
 }
