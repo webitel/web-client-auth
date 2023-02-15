@@ -135,6 +135,7 @@ $slide-width-md: 640px;
     }
 
     @media (max-width: $breakpoint-xs) {
+      flex: none;
       width: 100%;
       margin: var(--spacing-sm) 0;
     }
@@ -238,6 +239,8 @@ $slide-width-md: 640px;
       z-index: 0;
       min-height: 100%;
       min-width: 100%;
+      height: 1080px;
+      width: 1920px;
       background: url("../../assets/img/auth/background.svg") no-repeat;
       background-size: cover;
     }
@@ -259,7 +262,7 @@ $slide-width-md: 640px;
     position: relative;
     width: 100%;
     height: 100%;
-    //z-index: 1;
+    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: center;
