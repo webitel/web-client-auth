@@ -1,5 +1,8 @@
 <template>
-  <section class="history-and-analytics-slide">
+  <section
+    class="history-and-analytics-slide"
+    :class="{ 'history-and-analytics-slide--lg': $breakpoint.lgOnly }"
+  >
     <div class="history-and-analytics-slide__wrap">
       <div class="history-and-analytics-slide__text-wrap">
         <div class="history-and-analytics-slide__title">
@@ -7,8 +10,9 @@
         </div>
         <div class="history-and-analytics-slide__line"></div>
         <div  class="history-and-analytics-slide__text">
-          Records of all calls made through the platform, with the ability to comment, search by keywords and filter for a selected period. Enhanced options for transcribing conversation recordings into text, and text messages – into sound files.
-          <span> A built-in analytical module for tracking, displaying, and visualizing key indicators and processes within a contact center with the possibility to create custom reports. </span>
+          <p> Records of all calls made through the platform, with the ability to comment, search by keywords and filter for a selected period. Enhanced options for transcribing conversation recordings into text, and text messages – into sound files.</p>
+          <br/>
+          <p> A built-in analytical module for tracking, displaying, and visualizing key indicators and processes within a contact center with the possibility to create custom reports. </p>
         </div>
       </div>
       <img
@@ -56,7 +60,7 @@ $img-width-md: 640px;
     top: 0;
     left: 0;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       width: $text-width-md;
     }
   }
@@ -66,7 +70,7 @@ $img-width-md: 640px;
     font-weight: 700;
     line-height: 78px;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       font-size: 48px;
       line-height: 59px;
     }
@@ -74,21 +78,13 @@ $img-width-md: 640px;
 
   &__text {
     @extend %typo-body-1;
-
-    @media (max-width: $breakpoint-lg) {
-      // @extend %typo-body-2
-      // link to stackoverflow issue
-      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
-      font-size: 12px;
-      line-height: 16px;
-    }
   }
 
   &__line {
     border-top: 3px solid var(--accent-color);
     margin: var(--spacing-md) 0;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       border-top: 2px solid var(--accent-color);
       margin: var(--spacing-sm) 0;
     }
@@ -97,9 +93,15 @@ $img-width-md: 640px;
   &__image {
     width: $img-width-lg;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       width: $img-width-md;
     }
+  }
+}
+
+.history-and-analytics-slide--lg {
+  .history-and-analytics-slide__text {
+      @extend %typo-body-2;
   }
 }
 

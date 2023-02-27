@@ -1,5 +1,8 @@
 <template>
-  <section class="supervisor-slide">
+  <section
+    class="supervisor-slide"
+    :class="{ 'supervisor-slide--lg': $breakpoint.lgOnly }"
+  >
     <div class="supervisor-slide__wrap">
       <div class="supervisor-slide__text-wrap">
         <div class="supervisor-slide__title">
@@ -48,7 +51,7 @@ $img-width-md: 602px;
     position: relative;
     width: fit-content;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       width: 640px;
       height: 480px;
     }
@@ -60,7 +63,7 @@ $img-width-md: 602px;
     top: 0;
     left: 0;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       width: $text-width-md;
     }
   }
@@ -70,7 +73,7 @@ $img-width-md: 602px;
     font-weight: 700;
     line-height: 78px;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       font-size: 48px;
       line-height: 59px;
     }
@@ -78,21 +81,13 @@ $img-width-md: 602px;
 
   &__text {
     @extend %typo-body-1;
-
-    @media (max-width: $breakpoint-lg) {
-      // @extend %typo-body-2
-      // link to stackoverflow issue
-      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
-      font-size: 12px;
-      line-height: 16px;
-    }
   }
 
   &__line {
     border-top: 3px solid var(--accent-color);
     margin: var(--spacing-md) 0;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       border-top: 2px solid var(--accent-color);
       margin: var(--spacing-sm) 0;
     }
@@ -100,14 +95,19 @@ $img-width-md: 602px;
 
   &__image {
     width: $img-width-lg;
-    //width: 100%;
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       width: $img-width-md;
       position: absolute;
       right: 0;
       bottom: 0;
     }
+  }
+}
+
+.supervisor-slide--lg {
+  .supervisor-slide__text {
+      @extend %typo-body-2;
   }
 }
 
