@@ -1,37 +1,8 @@
-@import "../main";
-
-// auth pages wrap
-.auth {
-  display: flex;
-  min-height: 100vh;
-  background: var(--page-bg-color);
-
-  .auth-form-wrapper {
-    padding: 50px 78px;
-    height: 100%;
-
-    .auth-tab__wrap {
-      box-sizing: border-box;
-      padding: var(--spacing-sm);
-      background: var(--main-color);
-      border-radius: var(--border-radius);
-
-      .wt-tabs {
-        margin-bottom: var(--spacing-sm);
-      }
-    }
-  }
-
-  .auth-info {
-    color: #fff;
-    background: $sidebar-color;
-  }
-}
+@import '../main';
 
 .auth-form {
   position: relative;
-  width: 517px;
-  background: #fff;
+  background: var(--main-color);
   z-index: 2;
 
   &__actions {
@@ -40,7 +11,6 @@
     align-items: center;
     justify-content: stretch;
     width: 100%;
-    margin-top: var(--spacing-sm);
   }
 
   .wt-button {
