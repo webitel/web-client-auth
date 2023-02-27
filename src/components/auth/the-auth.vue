@@ -1,5 +1,8 @@
 <template>
-  <main class="auth">
+  <main
+    class="auth"
+    :class="{ 'auth--xs': $breakpoint.xsOnly }"
+  >
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
@@ -71,7 +74,7 @@ export default {
       ],
       plugins: [
         new Pagination({ type: 'bullet' }),
-        new AutoPlay({ duration: 5000, stopOnHover: false })
+        new AutoPlay({ duration: 9000, stopOnHover: false })
       ],
     };
   },
@@ -108,13 +111,13 @@ $slide-width-md: 640px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $breakpoint-md) {
+  @media (max-width: $viewport-md) {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  @media (max-width: $breakpoint-xs) {
+  @media (max-width: $viewport-xs) {
     align-items: normal;
   }
 
@@ -125,16 +128,16 @@ $slide-width-md: 640px;
     flex: 0 0 $form-width-lg;
     background: var(--page-bg-color);
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       flex: 0 0 $form-width-md;
     }
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $viewport-md) {
       flex: 0 0 $form-width-sm;
       border-radius: var(--border-radius);
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       flex: none;
       width: 100%;
       margin: var(--spacing-sm) 0;
@@ -145,11 +148,11 @@ $slide-width-md: 640px;
     width: 100%;
     padding: var(--spacing-3xl);
 
-    @media (max-width: $breakpoint-lg) {
+    @media (max-width: $viewport-lg) {
       padding: var(--spacing-lg);
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       display: flex;
       align-items: center;
       flex-direction: column;
@@ -161,12 +164,12 @@ $slide-width-md: 640px;
     display: none;
     width: 60px;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $viewport-md) {
       display: block;
       margin-bottom: var(--spacing-sm);
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       margin-bottom: var(--spacing-xs);
     }
   }
@@ -174,24 +177,13 @@ $slide-width-md: 640px;
   .auth-form-header__title {
     @extend %typo-heading-2;
     margin-bottom: var(--spacing-sm);
-
-    @media (max-width: $breakpoint-xs) {
-      // @extend %typo-heading-3
-      // link to stackoverflow issue
-      // https://stackoverflow.com/questions/14840918/extending-selectors-from-within-media-queries-with-sass
-      font-size: 20px;
-      font-weight: 600;
-      line-height: 32px;
-      text-align: center;
-      margin-bottom: var(--spacing-xs);
-    }
   }
 
   .auth-form-header__subtitle {
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       margin-bottom: var(--spacing-xs);
       text-align: center;
     }
@@ -204,7 +196,7 @@ $slide-width-md: 640px;
     background: var(--main-color);
     border-radius: var(--border-radius);
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       padding: var(--spacing-xs);
     }
 
@@ -212,7 +204,7 @@ $slide-width-md: 640px;
       margin-bottom: var(--spacing-sm);
       padding: var(--spacing-sm);
 
-      @media (max-width: $breakpoint-xs) {
+      @media (max-width: $viewport-xs) {
         padding: var(--spacing-xs);
       }
     }
@@ -223,11 +215,11 @@ $slide-width-md: 640px;
     min-width: 0;
     color: var(--main-color);
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $viewport-md) {
       flex-grow: initial;
     }
 
-    @media (max-width: $breakpoint-xs) {
+    @media (max-width: $viewport-xs) {
       position: relative;
       display: none;
     }
@@ -241,7 +233,7 @@ $slide-width-md: 640px;
       min-width: 100%;
       height: 1080px;
       width: 1920px;
-      background: url("../../assets/img/auth/background.svg") no-repeat;
+      background: url("../../assets/img/auth/background.png") no-repeat;
       background-size: cover;
     }
 
@@ -252,7 +244,7 @@ $slide-width-md: 640px;
       width: 60px;
       z-index: 1;
 
-      @media (max-width: $breakpoint-md) {
+      @media (max-width: $viewport-md) {
         display: none;
       }
     }
@@ -267,7 +259,7 @@ $slide-width-md: 640px;
     align-items: center;
     justify-content: center;
 
-    @media (max-width: $breakpoint-md) {
+    @media (max-width: $viewport-md) {
       display: none;
     }
 
@@ -291,10 +283,18 @@ $slide-width-md: 640px;
       left: calc(50% - ($slide-width-lg/2));
       bottom: 0;
 
-      @media (max-width: $breakpoint-lg) {
+      @media (max-width: $viewport-lg) {
         left: calc(50% - ($slide-width-md/2));
       }
     }
+  }
+}
+
+.auth--xs {
+  .auth-form-header__title {
+    @extend %typo-heading-3;
+    text-align: center;
+    margin-bottom: var(--spacing-xs);
   }
 }
 </style>
