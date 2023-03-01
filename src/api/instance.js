@@ -2,6 +2,10 @@ import { objCamelToSnake, objSnakeToCamel } from "@webitel/ui-sdk/src/scripts/ca
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import axios from 'axios';
 
+export const config = {
+  silent: false,
+};
+
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
 const instance = axios.create({
@@ -51,7 +55,7 @@ instance.interceptors.response.use(
         } else {
           // if error isn't 401, returns it
           // error.detail or err.response.data.detail cause Promise.rehect(error.response.data) could already be thrown
-          eventBus.$emit('notification', { type: 'error', text: error.detail || error.response.data.detail });
+          if (!config.silent) eventBus.$emit('notification', { type: 'error', text: error.detail || error.response.data.detail });
         }
         return Promise.reject(error.response.data);
     });
