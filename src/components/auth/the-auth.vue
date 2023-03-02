@@ -18,7 +18,7 @@
           ></wt-tabs>
           <component
             :is="currentTab.value"
-          ></component>
+          />
         </div>
       </div>
     </section>
@@ -111,67 +111,22 @@ $slide-width-md: 640px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $viewport-md) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: $viewport-xs) {
-    align-items: normal;
-  }
-
   .auth-form-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
     flex: 0 0 $form-width-lg;
     background: var(--page-bg-color);
-
-    @media (max-width: $viewport-lg) {
-      flex: 0 0 $form-width-md;
-    }
-
-    @media (max-width: $viewport-md) {
-      flex: 0 0 $form-width-sm;
-      border-radius: var(--border-radius);
-    }
-
-    @media (max-width: $viewport-xs) {
-      flex: none;
-      width: 100%;
-      margin: var(--spacing-sm) 0;
-    }
   }
 
   .auth-form-wrapper__content {
     width: 100%;
     padding: var(--spacing-3xl);
-
-    @media (max-width: $viewport-lg) {
-      padding: var(--spacing-lg);
-    }
-
-    @media (max-width: $viewport-xs) {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      padding: var(--spacing-sm);
-    }
   }
 
   .logo {
     display: none;
     width: 60px;
-
-    @media (max-width: $viewport-md) {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    @media (max-width: $viewport-xs) {
-      margin-bottom: var(--spacing-xs);
-    }
   }
 
   .auth-form-header__title {
@@ -182,11 +137,6 @@ $slide-width-md: 640px;
   .auth-form-header__subtitle {
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
-
-    @media (max-width: $viewport-xs) {
-      margin-bottom: var(--spacing-xs);
-      text-align: center;
-    }
   }
 
   .auth-tabs-wrap {
@@ -196,17 +146,9 @@ $slide-width-md: 640px;
     background: var(--main-color);
     border-radius: var(--border-radius);
 
-    @media (max-width: $viewport-xs) {
-      padding: var(--spacing-xs);
-    }
-
     .wt-tabs {
       margin-bottom: var(--spacing-sm);
       padding: var(--spacing-sm);
-
-      @media (max-width: $viewport-xs) {
-        padding: var(--spacing-xs);
-      }
     }
   }
 
@@ -214,15 +156,6 @@ $slide-width-md: 640px;
     flex-grow: 1;
     min-width: 0;
     color: var(--main-color);
-
-    @media (max-width: $viewport-md) {
-      flex-grow: initial;
-    }
-
-    @media (max-width: $viewport-xs) {
-      position: relative;
-      display: none;
-    }
 
     &__background {
       position: absolute;
@@ -243,10 +176,6 @@ $slide-width-md: 640px;
       top: 48px;
       width: 60px;
       z-index: 1;
-
-      @media (max-width: $viewport-md) {
-        display: none;
-      }
     }
   }
 
@@ -258,10 +187,6 @@ $slide-width-md: 640px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    @media (max-width: $viewport-md) {
-      display: none;
-    }
 
     .flicking-pagination-bullet {
       cursor: pointer;
@@ -282,10 +207,6 @@ $slide-width-md: 640px;
       width: fit-content;
       left: calc(50% - ($slide-width-lg/2));
       bottom: 0;
-
-      @media (max-width: $viewport-lg) {
-        left: calc(50% - ($slide-width-md/2));
-      }
     }
   }
 }
@@ -297,4 +218,92 @@ $slide-width-md: 640px;
     margin-bottom: var(--spacing-xs);
   }
 }
+
+@media (max-width: $viewport-lg) {
+  .auth {
+    .auth-form-wrapper {
+      flex: 0 0 $form-width-md;
+    }
+
+    .auth-form-wrapper__content {
+      padding: var(--spacing-lg);
+    }
+
+    .carousel-wrap .flicking-pagination {
+      left: calc(50% - ($slide-width-md/2));
+    }
+  }
+}
+
+@media (max-width: $viewport-md) {
+  .auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .auth-form-wrapper {
+      flex: 0 0 $form-width-sm;
+      border-radius: var(--border-radius);
+    }
+
+    .logo {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .auth-info {
+      flex-grow: initial;
+
+      &__logo {
+        display: none;
+      }
+    }
+
+    .carousel-wrap {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: $viewport-xs) {
+  .auth {
+    align-items: normal;
+
+    .auth-form-wrapper {
+      flex: none;
+      width: 100%;
+      margin: var(--spacing-sm) 0;
+    }
+
+    .auth-form-wrapper__content {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: var(--spacing-sm);
+    }
+
+    .logo {
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .auth-form-header__subtitle {
+      margin-bottom: var(--spacing-xs);
+      text-align: center;
+    }
+
+    .auth-tabs-wrap {
+      padding: var(--spacing-xs);
+
+      .wt-tabs {
+        padding: var(--spacing-xs);
+      }
+    }
+
+    .auth-info {
+      position: relative;
+      display: none;
+    }
+  }
+}
+
 </style>
