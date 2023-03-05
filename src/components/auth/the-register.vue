@@ -1,35 +1,35 @@
 <template>
   <form
-      class="auth-form"
-      @submit.prevent="submit"
+    class="auth-form"
+    @submit.prevent="submit"
   >
     <wt-input
-        v-model.trim="username"
-        :label="$t('auth.user')"
-        :v="$v.username"
+      v-model.trim="username"
+      :label="$t('auth.user')"
+      :v="v$.username"
     ></wt-input>
     <wt-input
-        v-model.trim="password"
-        :label="$t('auth.password')"
-        :v="$v.password"
-        class="form__input"
-        type="password"
+      v-model.trim="password"
+      :label="$t('auth.password')"
+      :v="v$.password"
+      class="form__input"
+      type="password"
     ></wt-input>
     <wt-input
-        v-model.trim="confirmPassword"
-        :label="$t('auth.confirmPassword')"
-        :v="$v.confirmPassword"
-        type="password"
+      v-model.trim="confirmPassword"
+      :label="$t('auth.confirmPassword')"
+      :v="v$.confirmPassword"
+      type="password"
     ></wt-input>
     <wt-input
-        v-model.trim="certificate"
-        :label="$t('auth.key')"
-        :v="$v.certificate"
+      v-model.trim="certificate"
+      :label="$t('auth.key')"
+      :v="v$.certificate"
     ></wt-input>
     <footer class="auth-form__actions">
       <wt-button
-          :disabled="computeDisabled"
-          type="submit"
+        :disabled="computeDisabled"
+        type="submit"
       >{{ computeButton }}
       </wt-button>
     </footer>
@@ -37,8 +37,9 @@
 </template>
 
 <script>
-import { email, required, sameAs } from 'vuelidate/lib/validators';
-import { mapActions } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { email, required, sameAs } from '@vuelidate/validators';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'the-register',
@@ -48,7 +49,9 @@ export default {
       confirmPassword: '',
     };
   },
-
+  setup: () => ({
+    v$: useVuelidate(),
+  }),
   validations: {
     confirmPassword: {
       sameAs: sameAs('password'),
@@ -108,9 +111,9 @@ export default {
 
   methods: {
     checkValidations() {
-      this.$v.$touch();
+      this.v$.$touch();
       // if its still pending or an error is returned do not submit
-      return this.$v.$pending || this.$v.$error;
+      return this.v$.$pending || this.v$.$error;
     },
 
     submit() {
@@ -129,5 +132,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/auth/auth";
+@import '../../assets/css/auth/auth';
 </style>
