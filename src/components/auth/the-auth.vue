@@ -24,12 +24,29 @@
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <flicking :options="{ circular: true, duration: 700 }" :plugins="plugins">
-            <contact-center-slide class="card-panel"></contact-center-slide>
-            <supervisor-slide class="card-panel"></supervisor-slide>
-            <chats-slide class="card-panel"></chats-slide>
-            <history-and-analytics-slide class="card-panel"></history-and-analytics-slide>
-            <div slot="viewport" class="flicking-pagination"></div>
+        <flicking
+          :options="{ circular: true, duration: 700 }"
+          :plugins="plugins"
+        >
+          <contact-center-slide
+            key="1"
+            class="card-panel"
+          ></contact-center-slide>
+          <supervisor-slide
+            key="2"
+            class="card-panel"
+          ></supervisor-slide>
+          <chats-slide
+            key="3"
+            class="card-panel"
+          ></chats-slide>
+          <history-and-analytics-slide
+            key="4"
+            class="card-panel"
+          ></history-and-analytics-slide>
+          <template v-slot:viewport>
+            <div class="flicking-pagination"></div>
+          </template>
         </flicking>
       </div>
       <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
@@ -41,12 +58,13 @@
 <script>
 import Login from './the-login';
 import Register from './the-register';
-import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
+import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
 import ChatsSlide from '@/components/auth/slides/chats-slide';
 import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
 import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
-import { Flicking } from "@egjs/vue-flicking";
-import { Pagination, AutoPlay } from "@egjs/flicking-plugins";
+import Flicking from '@egjs/vue3-flicking';
+import '@egjs/vue3-flicking/dist/flicking.css';
+import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
 
 export default {
   name: 'auth',
@@ -57,7 +75,7 @@ export default {
     ContactCenterSlide,
     Login,
     Register,
-    flicking: Flicking,
+    Flicking,
   },
   data() {
     return {
@@ -74,7 +92,7 @@ export default {
       ],
       plugins: [
         new Pagination({ type: 'bullet' }),
-        new AutoPlay({ duration: 9000, stopOnHover: false })
+        new AutoPlay({ duration: 9000, stopOnHover: false }),
       ],
     };
   },
@@ -98,6 +116,7 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
+
 $form-width-lg: 528px;
 $form-width-md: 384px;
 $form-width-sm: 576px;
@@ -166,7 +185,7 @@ $slide-width-md: 640px;
       min-width: 100%;
       height: 1080px;
       width: 1920px;
-      background: url("../../assets/img/auth/background.png") no-repeat;
+      background: url('../../assets/img/auth/background.png') no-repeat;
       background-size: cover;
     }
 
@@ -205,7 +224,7 @@ $slide-width-md: 640px;
     .flicking-pagination {
       position: relative;
       width: fit-content;
-      left: calc(50% - ($slide-width-lg/2));
+      left: calc(50% - ($slide-width-lg / 2));
       bottom: 0;
     }
   }
@@ -230,7 +249,7 @@ $slide-width-md: 640px;
     }
 
     .carousel-wrap .flicking-pagination {
-      left: calc(50% - ($slide-width-md/2));
+      left: calc(50% - ($slide-width-md / 2));
     }
   }
 }
