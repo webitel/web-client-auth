@@ -1,57 +1,59 @@
 <template>
   <main
     class="auth"
-    :class="{ 'auth--xs': $breakpoint.xsOnly }"
+    :class="{ 'auth--xs': $breakpoint.xs }"
   >
-    <wt-notifications-bar></wt-notifications-bar>
-    <section class="auth-form-wrapper">
-      <div class="auth-form-wrapper__content">
-        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
-        <header class="auth-form-header">
-          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
-          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-        </header>
-        <div class="auth-tabs-wrap">
-          <wt-tabs
-            v-model="currentTab"
-            :tabs="tabs"
-          ></wt-tabs>
-          <component
-            :is="currentTab.value"
-          />
+    <div class="auth-wrap">
+      <wt-notifications-bar></wt-notifications-bar>
+      <section class="auth-form-wrapper">
+        <div class="auth-form-wrapper__content">
+          <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+          <header class="auth-form-header">
+            <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
+            <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
+          </header>
+          <div class="auth-tabs-wrap">
+            <wt-tabs
+              v-model="currentTab"
+              :tabs="tabs"
+            ></wt-tabs>
+            <component
+              :is="currentTab.value"
+            />
+          </div>
         </div>
-      </div>
-    </section>
-    <section class="auth-info">
-      <div class="carousel-wrap">
-        <flicking
-          :options="{ circular: true, duration: 700 }"
-          :plugins="plugins"
-        >
-          <contact-center-slide
-            key="1"
-            class="card-panel"
-          ></contact-center-slide>
-          <supervisor-slide
-            key="2"
-            class="card-panel"
-          ></supervisor-slide>
-          <chats-slide
-            key="3"
-            class="card-panel"
-          ></chats-slide>
-          <history-and-analytics-slide
-            key="4"
-            class="card-panel"
-          ></history-and-analytics-slide>
-          <template v-slot:viewport>
-            <div class="flicking-pagination"></div>
-          </template>
-        </flicking>
-      </div>
-      <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
-      <div class="auth-info__background"></div>
-    </section>
+      </section>
+      <section class="auth-info">
+        <div class="carousel-wrap">
+          <flicking
+            :options="{ circular: true, duration: 700 }"
+            :plugins="plugins"
+          >
+            <contact-center-slide
+              key="1"
+              class="card-panel"
+            ></contact-center-slide>
+            <supervisor-slide
+              key="2"
+              class="card-panel"
+            ></supervisor-slide>
+            <chats-slide
+              key="3"
+              class="card-panel"
+            ></chats-slide>
+            <history-and-analytics-slide
+              key="4"
+              class="card-panel"
+            ></history-and-analytics-slide>
+            <template v-slot:viewport>
+              <div class="flicking-pagination"></div>
+            </template>
+          </flicking>
+        </div>
+        <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
+        <div class="auth-info__background"></div>
+      </section>
+    </div>
   </main>
 </template>
 
@@ -124,11 +126,12 @@ $slide-width-lg: 1024px;
 $slide-width-md: 640px;
 
 .auth {
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  min-height: 100vh;
-  background: var(--page-bg-color);
+  &-wrap {
+    position: relative;
+    display: flex;
+    min-height: 100vh;
+    overflow: hidden;
+  }
 
   .auth-form-wrapper {
     position: relative;
@@ -256,9 +259,15 @@ $slide-width-md: 640px;
 
 @media (max-width: $viewport-md) {
   .auth {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    //display: flex;
+    //align-items: center;
+    //justify-content: center;
+
+    &-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
     .auth-form-wrapper {
       flex: 0 0 $form-width-sm;
@@ -286,7 +295,11 @@ $slide-width-md: 640px;
 
 @media (max-width: $viewport-xs) {
   .auth {
-    align-items: normal;
+    //align-items: normal;
+
+    &-wrap {
+      align-items: normal;
+    }
 
     .auth-form-wrapper {
       flex: none;
