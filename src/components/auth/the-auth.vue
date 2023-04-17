@@ -13,8 +13,9 @@
         </header>
         <div class="auth-tabs-wrap">
           <wt-tabs
-            v-model="currentTab"
+            :current="currentTab"
             :tabs="tabs"
+            @change="currentTab = $event"
           ></wt-tabs>
           <component
             :is="currentTab.value"
@@ -105,7 +106,9 @@ export default {
   },
   methods: {
     setInnitialTab() {
-      this.currentTab.value = this.$route.query.reset ? 'register' : 'login';
+      const loginTab = this.tabs.find(({ value }) => value === 'login');
+      const registerTab = this.tabs.find(({ value }) => value === 'register');
+      this.currentTab = this.$route.query.reset ? registerTab : loginTab;
     },
   },
   created() {
