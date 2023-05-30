@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import Vuelidate from 'vuelidate';
+import { createApp } from 'vue';
 import App from './app.vue';
 import router from './router/router';
 import store from './store/store';
@@ -7,18 +6,14 @@ import i18n from './locale/i18n';
 
 import './assets/lib/normalize.scss';
 import './assets/lib/bootstrap-grid.min.css';
-import './plugins/webitel-ui';
-import './plugins/breakpoint';
-import VueFlicking from "@egjs/vue-flicking";
-import "@egjs/vue-flicking/dist/flicking.css";
+import WebitelUi from './plugins/webitel-ui';
+import BreakpointPlugin from './plugins/breakpoint';
 
-Vue.config.productionTip = false;
+const app = createApp(App)
+.use(router)
+.use(store)
+.use(i18n)
+.use(...WebitelUi)
+.use(BreakpointPlugin);
 
-Vue.use(Vuelidate, VueFlicking);
-
-new Vue({
-    router,
-    store,
-    i18n,
-    render: h => h(App),
-}).$mount('#app');
+app.mount('#app');

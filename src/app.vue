@@ -8,9 +8,12 @@
 import { mapActions } from "vuex";
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import qs from 'querystring';
+import Flicking from '@egjs/vue3-flicking';
 
 export default {
   name: 'app',
+  components: { Flicking },
+  inject: ['$eventBus'],
   methods: {
     ...mapActions('auth', {
       checkCurrentSession: 'CHECK_CURRENT_SESSION',

@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.common';
 // locales
 import WebitelUIEn from '@webitel/ui-sdk/src/locale/en/en';
@@ -15,9 +14,9 @@ const globals = {
     $baseURL: process.env.BASE_URL,
 };
 
-Vue.use(WebitelUI, { eventBus, globals });
+export default [WebitelUI, { eventBus, globals }];
 // add plugin locales to main i18n
-i18n.mergeLocaleMessage('en', WebitelUIEn);
-i18n.mergeLocaleMessage('ru', WebitelUIRu);
-i18n.mergeLocaleMessage('ua', WebitelUIUa);
+i18n.global.mergeLocaleMessage('en', WebitelUIEn);
+i18n.global.mergeLocaleMessage('ru', WebitelUIRu);
+i18n.global.mergeLocaleMessage('ua', WebitelUIUa);
 

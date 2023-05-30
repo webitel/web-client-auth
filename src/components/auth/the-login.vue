@@ -6,14 +6,14 @@
     <wt-input
         v-model.trim="username"
         :label="$t('auth.user')"
-        :v="$v.username"
+        :v="v$.username"
     >
 <!--      <template slot="after-input">-->
 <!--        <wt-icon-btn-->
 <!--            icon="generate"-->
 <!--            :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"-->
 <!--            tooltip-position="left"-->
-<!--            :disabled="$v.username.$error"-->
+<!--            :disabled="v$.username.$error"-->
 <!--            @click="loadAvailableProviders"-->
 <!--        ></wt-icon-btn>-->
 <!--      </template>-->
@@ -21,7 +21,7 @@
     <wt-input
         v-model.trim="password"
         :label="$t('auth.password')"
-        :v="$v.password"
+        :v="v$.password"
         type="password"
         has-show-password
     ></wt-input>
@@ -47,13 +47,17 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import qs from 'querystring';
-import { email, required } from 'vuelidate/lib/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { email, required } from '@vuelidate/validators';
 import ServiceProvider from '../../enums/ServiceProvider.enum';
 
 export default {
   name: 'the-login',
   data: () => ({
     ServiceProvider,
+  }),
+  setup: () => ({
+    v$: useVuelidate(),
   }),
 //  by vuelidate
   validations: {
@@ -109,9 +113,9 @@ export default {
 
   methods: {
     checkValidations() {
-      this.$v.$touch();
+      this.v$.$touch();
       // if its still pending or an error is returned do not submit
-      return this.$v.$pending || this.$v.$error;
+      return this.v$.$pending || this.v$.$error;
     },
 
     submit() {

@@ -13,23 +13,41 @@
         </header>
         <div class="auth-tabs-wrap">
           <wt-tabs
-            v-model="currentTab"
+            :current="currentTab"
             :tabs="tabs"
+            @change="currentTab = $event"
           ></wt-tabs>
           <component
             :is="currentTab.value"
-          ></component>
+          />
         </div>
       </div>
     </section>
     <section class="auth-info">
       <div class="carousel-wrap">
-        <flicking :options="{ circular: true, duration: 700 }" :plugins="plugins">
-            <contact-center-slide class="card-panel"></contact-center-slide>
-            <supervisor-slide class="card-panel"></supervisor-slide>
-            <chats-slide class="card-panel"></chats-slide>
-            <history-and-analytics-slide class="card-panel"></history-and-analytics-slide>
-            <div slot="viewport" class="flicking-pagination"></div>
+        <flicking
+          :options="{ circular: true, duration: 700 }"
+          :plugins="plugins"
+        >
+          <contact-center-slide
+            key="1"
+            class="card-panel"
+          ></contact-center-slide>
+          <supervisor-slide
+            key="2"
+            class="card-panel"
+          ></supervisor-slide>
+          <chats-slide
+            key="3"
+            class="card-panel"
+          ></chats-slide>
+          <history-and-analytics-slide
+            key="4"
+            class="card-panel"
+          ></history-and-analytics-slide>
+          <template v-slot:viewport>
+            <div class="flicking-pagination"></div>
+          </template>
         </flicking>
       </div>
       <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
@@ -41,12 +59,13 @@
 <script>
 import Login from './the-login';
 import Register from './the-register';
-import ContactCenterSlide from "@/components/auth/slides/contact-center-slide";
+import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
 import ChatsSlide from '@/components/auth/slides/chats-slide';
 import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
 import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
-import { Flicking } from "@egjs/vue-flicking";
-import { Pagination, AutoPlay } from "@egjs/flicking-plugins";
+import Flicking from '@egjs/vue3-flicking';
+import '@egjs/vue3-flicking/dist/flicking.css';
+import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
 
 export default {
   name: 'auth',
@@ -57,7 +76,7 @@ export default {
     ContactCenterSlide,
     Login,
     Register,
-    flicking: Flicking,
+    Flicking,
   },
   data() {
     return {
@@ -74,7 +93,7 @@ export default {
       ],
       plugins: [
         new Pagination({ type: 'bullet' }),
-        new AutoPlay({ duration: 9000, stopOnHover: false })
+        new AutoPlay({ duration: 9000, stopOnHover: false }),
       ],
     };
   },
@@ -87,7 +106,9 @@ export default {
   },
   methods: {
     setInnitialTab() {
-      this.currentTab.value = this.$route.query.reset ? 'register' : 'login';
+      const loginTab = this.tabs.find(({ value }) => value === 'login');
+      const registerTab = this.tabs.find(({ value }) => value === 'register');
+      this.currentTab = this.$route.query.reset ? registerTab : loginTab;
     },
   },
   created() {
@@ -98,6 +119,7 @@ export default {
 
 <style lang="scss">
 @import '../../assets/css/auth/auth';
+
 $form-width-lg: 528px;
 $form-width-md: 384px;
 $form-width-sm: 576px;
@@ -111,67 +133,22 @@ $slide-width-md: 640px;
   min-height: 100vh;
   background: var(--page-bg-color);
 
-  @media (max-width: $viewport-md) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  @media (max-width: $viewport-xs) {
-    align-items: normal;
-  }
-
   .auth-form-wrapper {
     position: relative;
     z-index: 2;
     display: flex;
     flex: 0 0 $form-width-lg;
     background: var(--page-bg-color);
-
-    @media (max-width: $viewport-lg) {
-      flex: 0 0 $form-width-md;
-    }
-
-    @media (max-width: $viewport-md) {
-      flex: 0 0 $form-width-sm;
-      border-radius: var(--border-radius);
-    }
-
-    @media (max-width: $viewport-xs) {
-      flex: none;
-      width: 100%;
-      margin: var(--spacing-sm) 0;
-    }
   }
 
   .auth-form-wrapper__content {
     width: 100%;
     padding: var(--spacing-3xl);
-
-    @media (max-width: $viewport-lg) {
-      padding: var(--spacing-lg);
-    }
-
-    @media (max-width: $viewport-xs) {
-      display: flex;
-      align-items: center;
-      flex-direction: column;
-      padding: var(--spacing-sm);
-    }
   }
 
   .logo {
     display: none;
     width: 60px;
-
-    @media (max-width: $viewport-md) {
-      display: block;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    @media (max-width: $viewport-xs) {
-      margin-bottom: var(--spacing-xs);
-    }
   }
 
   .auth-form-header__title {
@@ -182,11 +159,6 @@ $slide-width-md: 640px;
   .auth-form-header__subtitle {
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
-
-    @media (max-width: $viewport-xs) {
-      margin-bottom: var(--spacing-xs);
-      text-align: center;
-    }
   }
 
   .auth-tabs-wrap {
@@ -196,17 +168,9 @@ $slide-width-md: 640px;
     background: var(--main-color);
     border-radius: var(--border-radius);
 
-    @media (max-width: $viewport-xs) {
-      padding: var(--spacing-xs);
-    }
-
     .wt-tabs {
       margin-bottom: var(--spacing-sm);
       padding: var(--spacing-sm);
-
-      @media (max-width: $viewport-xs) {
-        padding: var(--spacing-xs);
-      }
     }
   }
 
@@ -214,15 +178,6 @@ $slide-width-md: 640px;
     flex-grow: 1;
     min-width: 0;
     color: var(--main-color);
-
-    @media (max-width: $viewport-md) {
-      flex-grow: initial;
-    }
-
-    @media (max-width: $viewport-xs) {
-      position: relative;
-      display: none;
-    }
 
     &__background {
       position: absolute;
@@ -233,7 +188,7 @@ $slide-width-md: 640px;
       min-width: 100%;
       height: 1080px;
       width: 1920px;
-      background: url("../../assets/img/auth/background.png") no-repeat;
+      background: url('../../assets/img/auth/background.png') no-repeat;
       background-size: cover;
     }
 
@@ -243,10 +198,6 @@ $slide-width-md: 640px;
       top: 48px;
       width: 60px;
       z-index: 1;
-
-      @media (max-width: $viewport-md) {
-        display: none;
-      }
     }
   }
 
@@ -258,10 +209,6 @@ $slide-width-md: 640px;
     display: flex;
     align-items: center;
     justify-content: center;
-
-    @media (max-width: $viewport-md) {
-      display: none;
-    }
 
     .flicking-pagination-bullet {
       cursor: pointer;
@@ -280,12 +227,8 @@ $slide-width-md: 640px;
     .flicking-pagination {
       position: relative;
       width: fit-content;
-      left: calc(50% - ($slide-width-lg/2));
+      left: calc(50% - ($slide-width-lg / 2));
       bottom: 0;
-
-      @media (max-width: $viewport-lg) {
-        left: calc(50% - ($slide-width-md/2));
-      }
     }
   }
 }
@@ -297,4 +240,92 @@ $slide-width-md: 640px;
     margin-bottom: var(--spacing-xs);
   }
 }
+
+@media (max-width: $viewport-lg) {
+  .auth {
+    .auth-form-wrapper {
+      flex: 0 0 $form-width-md;
+    }
+
+    .auth-form-wrapper__content {
+      padding: var(--spacing-lg);
+    }
+
+    .carousel-wrap .flicking-pagination {
+      left: calc(50% - ($slide-width-md / 2));
+    }
+  }
+}
+
+@media (max-width: $viewport-md) {
+  .auth {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .auth-form-wrapper {
+      flex: 0 0 $form-width-sm;
+      border-radius: var(--border-radius);
+    }
+
+    .logo {
+      display: block;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .auth-info {
+      flex-grow: initial;
+
+      &__logo {
+        display: none;
+      }
+    }
+
+    .carousel-wrap {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: $viewport-xs) {
+  .auth {
+    align-items: normal;
+
+    .auth-form-wrapper {
+      flex: none;
+      width: 100%;
+      margin: var(--spacing-sm) 0;
+    }
+
+    .auth-form-wrapper__content {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      padding: var(--spacing-sm);
+    }
+
+    .logo {
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .auth-form-header__subtitle {
+      margin-bottom: var(--spacing-xs);
+      text-align: center;
+    }
+
+    .auth-tabs-wrap {
+      padding: var(--spacing-xs);
+
+      .wt-tabs {
+        padding: var(--spacing-xs);
+      }
+    }
+
+    .auth-info {
+      position: relative;
+      display: none;
+    }
+  }
+}
+
 </style>
