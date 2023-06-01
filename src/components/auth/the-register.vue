@@ -52,20 +52,22 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
-  validations: {
-    confirmPassword: {
-      sameAs: sameAs('password'),
-    },
-    username: {
-      required,
-      email,
-    },
-    password: {
-      required,
-    },
-    certificate: {
-      required,
-    },
+  validations() {
+    return {
+      confirmPassword: {
+        sameAs: sameAs(this.password),
+      },
+      username: {
+        required,
+        email,
+      },
+      password: {
+        required,
+      },
+      certificate: {
+        required,
+      },
+    };
   },
 
   mounted() {
