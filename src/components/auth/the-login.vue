@@ -1,43 +1,43 @@
 <template>
   <form
-      class="auth-form"
-      @submit.prevent="submit"
+    class="auth-form"
+    @submit.prevent="submit"
   >
     <wt-input
-        v-model.trim="username"
-        :label="$t('auth.user')"
-        :v="v$.username"
+      v-model.trim="username"
+      :label="$t('auth.user')"
+      :v="v$.username"
     >
-<!--      <template slot="after-input">-->
-<!--        <wt-icon-btn-->
-<!--            icon="generate"-->
-<!--            :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"-->
-<!--            tooltip-position="left"-->
-<!--            :disabled="v$.username.$error"-->
-<!--            @click="loadAvailableProviders"-->
-<!--        ></wt-icon-btn>-->
-<!--      </template>-->
+      <template v-slot:after-input>
+        <wt-icon-btn
+          icon="generate"
+          :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"
+          tooltip-position="left"
+          :disabled="v$.username.$error"
+          @click="loadAvailableProviders"
+        ></wt-icon-btn>
+      </template>
     </wt-input>
     <wt-input
-        v-model.trim="password"
-        :label="$t('auth.password')"
-        :v="v$.password"
-        type="password"
-        has-show-password
+      v-model.trim="password"
+      :label="$t('auth.password')"
+      :v="v$.password"
+      type="password"
+      has-show-password
     ></wt-input>
     <footer class="auth-form__actions">
       <wt-button
-          class="auth-form__action--service-provider"
-          v-for="({ ticket, icon }, key) of serviceProviders"
-          :key="key"
-          color="secondary"
-          @click="redirectToServiceProvider({ ticket })"
+        class="auth-form__action--service-provider"
+        v-for="({ ticket, icon }, key) of serviceProviders"
+        :key="key"
+        color="secondary"
+        @click="redirectToServiceProvider({ ticket })"
       >
         <wt-icon :icon="icon"></wt-icon>
       </wt-button>
       <wt-button
-          :disabled="computeDisabled"
-          type="submit"
+        :disabled="computeDisabled"
+        type="submit"
       >{{ $t('auth.loginSubmit') }}
       </wt-button>
     </footer>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 import qs from 'querystring';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
@@ -59,7 +59,7 @@ export default {
   setup: () => ({
     v$: useVuelidate(),
   }),
-//  by vuelidate
+  //  by vuelidate
   validations: {
     username: {
       required,
@@ -144,7 +144,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../assets/css/auth/auth";
+@import '../../assets/css/auth/auth';
 
 .wt-button.auth-form__action--service-provider {
   // FIXME
