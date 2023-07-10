@@ -1,47 +1,83 @@
 <template>
-  <form
-    class="auth-form"
-    @submit.prevent="submit"
-  >
-    <wt-input
-      v-model.trim="username"
-      :label="$t('auth.user')"
-      :v="v$.username"
-    >
-      <template v-slot:after-input>
-        <wt-icon-btn
-          icon="generate"
-          :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"
-          tooltip-position="left"
-          :disabled="v$.username.$error"
-          @click="loadAvailableProviders"
-        ></wt-icon-btn>
-      </template>
-    </wt-input>
-    <wt-input
-      v-model.trim="password"
-      :label="$t('auth.password')"
-      :v="v$.password"
-      type="password"
-      has-show-password
-    ></wt-input>
-    <footer class="auth-form__actions">
-      <wt-button
-        class="auth-form__action--service-provider"
-        v-for="({ ticket, icon }, key) of serviceProviders"
-        :key="key"
-        color="secondary"
-        @click="redirectToServiceProvider({ ticket })"
+  <wt-stepper
+    :form-data="formData"
+    @prev-step-action="primaryAction"
+    @next-step-action="secondaryAction">
+    <template v-slot:header>
+      <h1 class="auth-header">{{$t('auth.loginSubmit')}}</h1>
+    </template>
+
+    <template v-slot:desc>
+      <p>{{description}}</p>
+    </template>
+
+    <template v-slot:main>
+      <form
+        class="auth-form"
+        @submit.prevent="submit"
       >
-        <wt-icon :icon="icon"></wt-icon>
-      </wt-button>
-      <wt-button
-        :disabled="computeDisabled"
-        type="submit"
-      >{{ $t('auth.loginSubmit') }}
-      </wt-button>
-    </footer>
-  </form>
+        <wt-input
+          v-model.trim="domain"
+          :disabled="formData.activeStep !== 1"
+          :label="$t('auth.domain')"
+          :v="v$.domain"
+        ></wt-input>
+        <div v-if="formData.activeStep !== 1">
+          <wt-input
+            v-model.trim="username"
+            :label="$t('auth.user')"
+            :v="v$.username"
+          >
+<!--            <template v-slot:after-input>-->
+<!--              <wt-icon-btn-->
+<!--                icon="generate"-->
+<!--                :tooltip="$t('auth.oauthProviders.checkProvidersTooltip')"-->
+<!--                tooltip-position="left"-->
+<!--                :disabled="v$.username.$error"-->
+<!--                @click="loadAvailableProviders"-->
+<!--              ></wt-icon-btn>-->
+<!--            </template>-->
+          </wt-input>
+          <wt-input
+            v-model.trim="password"
+            :label="$t('auth.password')"
+            :v="v$.password"
+            type="password"
+            has-show-password
+          ></wt-input>
+        </div>
+
+
+      </form>
+    </template>
+
+    <template v-slot:primary-action>
+      <p v-if="formData.activeStep === 1"
+         @click="primaryAction"
+      >{{$t('auth.createAccount')}}</p>
+
+    </template>
+
+    <template v-slot:footer v-if="formData.activeStep === 2">
+      <footer class="auth-form__actions">
+      <p>{{$t('auth.continue')}}</p>
+<!--            <wt-button-->
+<!--              class="auth-form__action&#45;&#45;service-provider"-->
+<!--              v-for="({ ticket, icon }, key) of serviceProviders"-->
+<!--              :key="key"-->
+<!--              color="secondary"-->
+<!--              @click="redirectToServiceProvider({ ticket })"-->
+<!--            >-->
+<!--              <wt-icon :icon="icon"></wt-icon>-->
+<!--            </wt-button>-->
+          </footer>
+
+
+
+    </template>
+
+  </wt-stepper>
+
 </template>
 
 <script>
@@ -50,12 +86,27 @@ import qs from 'querystring';
 import { useVuelidate } from '@vuelidate/core';
 import { email, required } from '@vuelidate/validators';
 import ServiceProvider from '../../enums/ServiceProvider.enum';
+import WtStepper from './wt-stepper.vue';
 
 export default {
   name: 'the-login',
   data: () => ({
     ServiceProvider,
+    formData: {
+      activeStep: 1,
+      steps: [
+        {
+          name: 'Step 1',
+        },
+        {
+          name: 'Step 2',
+        }
+      ],
+    },
   }),
+  components: {
+    WtStepper
+  },
   setup: () => ({
     v$: useVuelidate(),
   }),
@@ -66,6 +117,9 @@ export default {
       email,
     },
     password: {
+      required,
+    },
+    domain: {
       required,
     },
   },
@@ -106,8 +160,21 @@ export default {
         this.setProp({ prop: 'password', value });
       },
     },
+    domain: {
+      get() {
+        return this.$store.state.auth.domain;
+      },
+      set(value) {
+        this.setProp({ prop: 'domain', value });
+      },
+    },
     computeDisabled() {
       return this.checkValidations();
+    },
+    description() {
+      if(this.formData.activeStep === 1) {
+        return this.$t('auth.enterDomain');
+      } else return this.$t('auth.enterUserName');
     },
   },
 
@@ -121,7 +188,16 @@ export default {
     submit() {
       const invalid = this.checkValidations();
       if (!invalid) this.login();
+    },
 
+    primaryAction() {
+      if(this.formData.activeStep > 1) return this.formData.activeStep = this.formData.activeStep - 1;
+      if(this.formData.activeStep === 1) this.$emit('change', {value: 'register'});
+    },
+
+    secondaryAction() {
+      this.formData.activeStep = this.formData.activeStep + 1;
+      if(this.formData.activeStep === 2) this.loadAvailableProviders();
     },
 
     redirectToServiceProvider({ ticket }) {
@@ -140,6 +216,16 @@ export default {
       resetState: 'RESET_STATE',
     }),
   },
+  watch: {
+    formData: {
+      handler() {
+        if(this.formData.activeStep === this.formData.steps.length) {
+          this.formData.nextBtnText = 'auth.login';
+        } else this.formData.nextBtnText = '';
+      },
+      deep: true,
+    }
+  },
 };
 </script>
 
@@ -151,5 +237,15 @@ export default {
   padding: calc(var(--spacing-xs) - 1px); // вирівняти під стару кнопку
   line-height: 0;
   border: none;
+}
+
+.auth-header {
+  @extend %typo-heading-3;
+  text-align: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+p {
+  text-align: center;
 }
 </style>

@@ -7,18 +7,10 @@
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
         <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
-        <header class="auth-form-header">
-          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
-          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-        </header>
         <div class="auth-tabs-wrap">
-          <wt-tabs
-            :current="currentTab"
-            :tabs="tabs"
-            @change="currentTab = $event"
-          ></wt-tabs>
           <component
             :is="currentTab.value"
+            @change="currentTab = $event"
           />
         </div>
       </div>
@@ -99,10 +91,6 @@ export default {
   },
 
   computed: {
-    computeTitle() {
-      return this.currentTab.value === 'login' ?
-        this.$t('auth.login') : this.$t('auth.register');
-    },
   },
   methods: {
     setInnitialTab() {
@@ -147,8 +135,7 @@ $slide-width-md: 640px;
   }
 
   .logo {
-    display: none;
-    width: 60px;
+    width: 88px;
   }
 
   .auth-form-header__title {
