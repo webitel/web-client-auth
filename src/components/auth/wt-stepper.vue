@@ -31,9 +31,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
 
-////:color="idx > props.idxActiveStep && 'secondary'"
 const props = defineProps({
   formData: {
     type: Object,
@@ -44,30 +42,6 @@ const emit = defineEmits([
   'prevStepAction',
   'nextStepAction',
 ]);
-
-console.log(props.formData.nextBtnText)
-
-// const primaryBtnText = computed(() => {
-//
-//   // if(props.formData.activeStep.value === props.formData.steps.length && props.formData.prevBtnText) {
-//   //   return props.formData.prevBtnText;
-//   // }
-//   if(props.formData.activeStep === 1) {
-//     return props.formData.prevBtnText;
-//   }
-//   return 'webitelUI.errorPages.goBack';
-// })
-
-// const secondaryBtnText = computed(() => {
-//   if(props.formData.activeStep === 1) {
-//     return props.formData.nextBtnText;
-//   }
-//   return 'webitelUI.pagination.next';
-// })
-
-
-
-
 </script>
 
 <style>

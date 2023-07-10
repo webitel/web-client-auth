@@ -1,5 +1,6 @@
 export default {
     auth: {
+        system: 'Webitel',
         register: 'Register',
         login: 'Login',
         registerReset: 'Reset password',
@@ -12,6 +13,11 @@ export default {
         registerSubmit: 'Register',
         resetSubmit: 'Reset',
         loginSubmit: 'Log in',
+        enterDomain: 'Enter your Domain name',
+        enterUserName: 'Enter your User name and password',
+        domain: 'Domain',
+        createAccount: 'Create account',
+        continue: 'Or Continue with',
         oauthProviders: {
             checkProvidersTooltip: 'Check service providers for alternative authentication',
         },

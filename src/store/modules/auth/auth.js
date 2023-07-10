@@ -4,6 +4,7 @@ import ServiceProvider from "../../../enums/ServiceProvider.enum";
 const defaultState = () => ({
     username: '',
     password: '',
+    domain: '',
     certificate: '',
 });
 
@@ -23,6 +24,7 @@ const actions = {
         return AuthAPI.login({
             username: state.username,
             password: state.password,
+            domain: state.domain,
         });
     },
 
@@ -30,12 +32,14 @@ const actions = {
         return AuthAPI.register({
             username: state.username,
             password: state.password,
-            certificate: state.certificate
+            domain: state.domain,
+            certificate: state.certificate,
         });
     },
 
     LOAD_SERVICE_PROVIDERS: async (context) => {
-        const domain = context.state.username.split('@').pop();
+        ///const domain = context.state.username.split('@').pop();
+        const domain = context.state.domain;
         const response = await AuthAPI.loadServiceProviders({ domain });
         const { federation = {} } = response;
         context.commit('SET_SERVICE_PROVIDERS', federation);
