@@ -6,19 +6,11 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
-        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
-        <header class="auth-form-header">
-          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
-          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-        </header>
         <div class="auth-tabs-wrap">
-          <wt-tabs
-            :current="currentTab"
-            :tabs="tabs"
-            @change="currentTab = $event"
-          ></wt-tabs>
+          <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
           <component
             :is="currentTab.value"
+            @changeTab="currentTab = $event"
           />
         </div>
       </div>
@@ -83,7 +75,7 @@ export default {
       currentTab: { value: 'login' },
       tabs: [
         {
-          text: this.$t('auth.login'),
+          text: this.$t('vocabulary.login'),
           value: 'login',
         },
         {
@@ -98,12 +90,6 @@ export default {
     };
   },
 
-  computed: {
-    computeTitle() {
-      return this.currentTab.value === 'login' ?
-        this.$t('auth.login') : this.$t('auth.register');
-    },
-  },
   methods: {
     setInnitialTab() {
       const loginTab = this.tabs.find(({ value }) => value === 'login');
@@ -147,8 +133,8 @@ $slide-width-md: 640px;
   }
 
   .logo {
-    display: none;
-    width: 60px;
+    width: 88px;
+    margin-bottom: var(--spacing-lg);
   }
 
   .auth-form-header__title {
@@ -164,7 +150,7 @@ $slide-width-md: 640px;
   .auth-tabs-wrap {
     box-sizing: border-box;
     width: 100%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-lg);
     background: var(--main-color);
     border-radius: var(--border-radius);
 

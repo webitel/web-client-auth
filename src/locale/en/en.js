@@ -1,20 +1,20 @@
 export default {
     auth: {
         register: 'Register',
-        login: 'Login',
-        registerReset: 'Reset password',
-        detailsSubtitle: 'Enter your details below',
-        resetPasswordLink: 'Forgot password?',
-        user: 'Login',
+        titleRegistration: 'Create a Webitel Account',
+        enterDomain: 'Enter your Domain name',
+        enterUsername: 'Enter your User name and password',
+        enterNewUsername: 'Enter your User name and create a strong password',
+        enterLicense: 'Enter a License key',
+        createAccount: 'Create account',
+        domain: 'Domain',
+        providersTitle: 'Or Continue with',
         password: 'Password',
         confirmPassword: 'Repeat password',
         key: 'License key',
         registerSubmit: 'Register',
-        resetSubmit: 'Reset',
-        loginSubmit: 'Log in',
-        oauthProviders: {
-            checkProvidersTooltip: 'Check service providers for alternative authentication',
-        },
+        signIn: 'Sign in',
+        back: 'Back',
         carousel: {
             title1: 'Cloud vs. On-Site',
             text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
@@ -37,7 +37,6 @@ export default {
     },
 
     validation: {
-        email: 'Should look email-like',
         required: 'This field is required',
         sameAs: 'Incorrect password',
     },

@@ -4,16 +4,8 @@
   position: relative;
   background: var(--main-color);
   z-index: 2;
+}
 
-  &__actions {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: center;
-    justify-content: stretch;
-    width: 100%;
-  }
-
-  .wt-button {
-    flex: 1 1 auto;
-  }
+.auth-form--changes-tab{
+  color: var(--link-color);
 }

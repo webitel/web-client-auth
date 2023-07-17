@@ -5,6 +5,7 @@ const defaultState = () => ({
     username: '',
     password: '',
     certificate: '',
+    domain: '',
 });
 
 const state = {
@@ -23,6 +24,7 @@ const actions = {
         return AuthAPI.login({
             username: state.username,
             password: state.password,
+            domain: state.domain,
         });
     },
 
@@ -30,12 +32,13 @@ const actions = {
         return AuthAPI.register({
             username: state.username,
             password: state.password,
-            certificate: state.certificate
+            certificate: state.certificate,
+            domain: state.domain,
         });
     },
 
     LOAD_SERVICE_PROVIDERS: async (context) => {
-        const domain = context.state.username.split('@').pop();
+        const domain = context.state.domain;
         const response = await AuthAPI.loadServiceProviders({ domain });
         const { federation = {} } = response;
         context.commit('SET_SERVICE_PROVIDERS', federation);
@@ -55,7 +58,7 @@ const mutations = {
         state[prop] = value;
     },
     SET_SERVICE_PROVIDERS: (state, providers) => {
-        state.loginProviders = { ...state.loginProviders, ...providers };
+        state.loginProviders = { ...providers };
     },
     RESET_STATE: (state) => {
         Object.assign(state, defaultState());
