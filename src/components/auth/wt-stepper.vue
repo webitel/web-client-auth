@@ -5,13 +5,25 @@
         <h1 class="wt-stepper-title">{{ $t(props.formData.title) }}</h1>
       </slot>
 
-      <div class="wt-stepper-steps">
+      <div
+        class="wt-stepper-steps"
+      >
+        <div
+          class="wt-stepper-steps__wrapper"
+          v-for="({name, completed}, idx) in props.formData.steps"
+          :class="{ 'wt-stepper-steps__wrapper--first': idx === 0 }"
+        >
+          <div
+            v-if="idx !== 0"
+            class="wt-stepper-steps__divider"
+            :class="{ 'wt-stepper-steps__divider--completed': completed }"
+          ></div>
           <wt-chip
-            v-for="({name, completed}, idx) in props.formData.steps"
-            :color="!completed && 'secondary'"
             class="wt-stepper-steps__item"
+            :color="!completed && 'secondary'"
           >{{ name }}
           </wt-chip>
+        </div>
       </div>
     </div>
 
@@ -76,22 +88,51 @@ const description = computed(() => props.formData.steps[props.formData.activeSte
   }
 }
 
+//.wt-stepper-steps {
+//  display: flex;
+//  align-items: center;
+//
+//  &__wrapper {
+//    display: contents;
+//  }
+//
+//  &__item {
+//  }
+//
+//  &__divider {
+//    flex: 1 1 auto;
+//    height: 1px;
+//    background: var(--secondary-color);
+//
+//    &--completed {
+//      background-color: var(--chip-bg-color);
+//    }
+//  }
+//}
+
 .wt-stepper-steps {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
 
-  &__item{
-    width: 100%;
-    position: relative;
-    flex-basis: calc(100% / 3);
+  &__wrapper {
+    display: flex;
+    align-items: center;
 
-    &:not(:first-child):before {
-      content: '';
-      position: absolute;
-      left: -100%;
-      bottom: 50%;
-      height: 1px;
-      width: 100%;
+    // remove this class, i added it only for representation purposes to this case
+    &:not(&--first) {
+      flex-grow: 1;
+    }
+  }
+
+  &__item {
+  }
+
+  &__divider {
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--secondary-color);
+
+    &--completed {
       background-color: var(--chip-bg-color);
     }
   }

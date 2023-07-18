@@ -101,6 +101,16 @@ export default {
           desc: 'auth.enterUsername',
           completed: false,
         },
+        {
+          name: 'Step 2',
+          desc: 'auth.enterUsername',
+          completed: false,
+        },
+        {
+          name: 'Step 2',
+          desc: 'auth.enterUsername',
+          completed: false,
+        },
       ],
     },
   }),
