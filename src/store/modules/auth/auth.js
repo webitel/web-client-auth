@@ -1,5 +1,4 @@
 import AuthAPI from "../../../api/auth/auth";
-import ServiceProvider from "../../../enums/ServiceProvider.enum";
 
 const defaultState = () => ({
     username: '',
@@ -20,20 +19,20 @@ const actions = {
         context.commit('SET_PROPERTY', { prop, value });
     },
 
-    LOGIN: () => {
+    LOGIN: (context) => {
         return AuthAPI.login({
-            username: state.username,
-            password: state.password,
-            domain: state.domain,
+            username: context.state.username,
+            password: context.state.password,
+            domain: context.state.domain,
         });
     },
 
-    REGISTER: () => {
+    REGISTER: (context) => {
         return AuthAPI.register({
-            username: state.username,
-            password: state.password,
-            certificate: state.certificate,
-            domain: state.domain,
+            username: context.state.username,
+            password: context.state.password,
+            certificate: context.state.certificate,
+            domain: context.state.domain,
         });
     },
 
@@ -58,7 +57,7 @@ const mutations = {
         state[prop] = value;
     },
     SET_SERVICE_PROVIDERS: (state, providers) => {
-        state.loginProviders = { ...providers };
+        state.loginProviders = providers;
     },
     RESET_STATE: (state) => {
         Object.assign(state, defaultState());

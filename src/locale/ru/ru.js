@@ -15,6 +15,7 @@ export default {
         registerSubmit: 'Создать',
         signIn: 'Авторизоваться',
         back: 'Назад',
+        step: 'Шаг { count }',
     },
     validation: {
         required: 'Обязательное поле',

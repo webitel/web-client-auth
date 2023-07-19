@@ -1,10 +1,8 @@
 <template>
   <wt-stepper
-    :form-data="formData"
-    @prev-step-action="primaryAction"
-    @next-step-action="secondaryAction"
+    :steps="steps"
+    :active-step="activeStep"
   >
-    <template v-slot:title></template>
     <template v-slot:description></template>
     <template v-slot:main>
       <form
@@ -12,7 +10,7 @@
         @submit.prevent
         @input="disabledNextBtn"
       >
-        <div v-if="isFirstStepActive">
+        <div v-if="activeStep === 1">
           <wt-input
             v-model.trim="domain"
             :label="$t('auth.domain')"
@@ -20,7 +18,7 @@
           ></wt-input>
         </div>
 
-        <div v-else>
+        <div v-if="activeStep === 2">
           <wt-input
             v-model.trim="domain"
             :label="$t('auth.domain')"
@@ -42,19 +40,30 @@
             has-show-password
           ></wt-input>
         </div>
+
+        <div class="auth-form-actions">
+          <p v-if="activeStep === 1"
+             class="auth-form-actions--changes-tab"
+             @click="primaryAction">{{ $t('auth.createAccount') }}</p>
+
+          <wt-button
+            v-else
+            @click="primaryAction"
+            color="secondary"
+          >{{ $t('auth.back') }}
+          </wt-button>
+
+          <wt-button
+            @click="secondaryAction"
+            :disabled="isDisabledNextBtn"
+          >{{ nextBtnText || $t('webitelUI.pagination.next') }}
+          </wt-button>
+        </div>
       </form>
     </template>
 
     <template
-      v-if="isFirstStepActive"
-      v-slot:primary-action>
-        <p
-          class="auth-form--changes-tab"
-          @click="primaryAction">{{$t('auth.createAccount')}}</p>
-    </template>
-
-    <template
-      v-if="serviceProviders.length && !isFirstStepActive"
+      v-if="serviceProviders.length && activeStep !== 1"
       v-slot:footer>
       <footer class="auth-form-footer">
         <p class="auth-form-footer__title">{{ $t('auth.providersTitle') }}</p>
@@ -86,33 +95,9 @@ export default {
   name: 'the-login',
   data: () => ({
     ServiceProvider,
-    formData: {
-      activeStep: 1,
-      title: 'auth.signIn',
-      isDisabledNextBtn: true,
-      steps: [
-        {
-          name: 'Step 1',
-          desc: 'auth.enterDomain',
-          completed: true,
-        },
-        {
-          name: 'Step 2',
-          desc: 'auth.enterUsername',
-          completed: false,
-        },
-        {
-          name: 'Step 2',
-          desc: 'auth.enterUsername',
-          completed: false,
-        },
-        {
-          name: 'Step 2',
-          desc: 'auth.enterUsername',
-          completed: false,
-        },
-      ],
-    },
+    activeStep: 1,
+    isDisabledNextBtn: true,
+    nextBtnText: '',
   }),
   setup: () => ({
     v$: useVuelidate(),
@@ -137,6 +122,18 @@ export default {
     ...mapState('auth', {
       loginProviders: (state) => state.loginProviders,
     }),
+    steps() {
+      return [
+        {
+          name: this.$t('auth.step', { count: 1 }),
+          description: this.$t('auth.enterDomain'),
+        },
+        {
+          name: this.$t('auth.step', { count: 2 }),
+          description: this.$t('auth.enterUsername'),
+        },
+      ]
+    },
     serviceProviders() {
       const providerIcon = {
         [ServiceProvider.ADFS]: 'adfs',
@@ -173,9 +170,6 @@ export default {
         this.setProp({ prop: 'domain', value });
       },
     },
-    isFirstStepActive() {
-      return this.formData.activeStep === 1;
-    },
   },
 
   methods: {
@@ -191,36 +185,31 @@ export default {
     },
 
     disabledNextBtn() {
-      if(this.isFirstStepActive) {
-        this.formData.isDisabledNextBtn = this.v$.domain.$error;
+      if (this.activeStep === 1) {
+        this.isDisabledNextBtn = this.v$.domain.$error;
       } else {
-        this.formData.isDisabledNextBtn = this.checkValidations();
+        this.isDisabledNextBtn = this.checkValidations();
       }
     },
 
     primaryAction() {
-      if (this.isFirstStepActive) {
-        this.$emit('changeTab', { value: 'register' });
+      if (this.activeStep === 1) {
+        this.$emit('change-tab', { value: 'register' });
       } else {
-        this.formData.activeStep = this.formData.activeStep - 1;
-        this.formData.steps.map((item,idx) => {
-          if(this.formData.activeStep - 1 < idx) {
-            item.completed = false;
-          }
-        });
-        if(this.formData.nextBtnText) this.formData.nextBtnText = '';
+        this.activeStep = this.activeStep - 1;
+        if (this.nextBtnText) this.nextBtnText = '';
       }
       this.disabledNextBtn();
     },
 
     secondaryAction() {
-      if (this.formData.steps.length > this.formData.activeStep) {
-        this.formData.activeStep = this.formData.activeStep + 1;
-        this.formData.steps[this.formData.activeStep - 1].completed = true;
-        if (!this.isFirstStepActive) {
+      if (this.steps.length > this.activeStep) {
+        this.activeStep = this.activeStep + 1;
+
+        if (this.activeStep !== 1) {
           this.loadAvailableProviders();
           this.setProp({ prop: 'password', value: ''});
-          this.formData.nextBtnText = 'vocabulary.login';
+          this.nextBtnText = this.$t('vocabulary.login');
           this.disabledNextBtn();
         }
       } else this.submit();

@@ -8,9 +8,10 @@
       <div class="auth-form-wrapper__content">
         <div class="auth-tabs-wrap">
           <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+          <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
           <component
             :is="currentTab.value"
-            @changeTab="currentTab = $event"
+            @change-tab="currentTab = $event"
           />
         </div>
       </div>
@@ -89,6 +90,12 @@ export default {
       ],
     };
   },
+  computed: {
+    tabTitle() {
+      if(this.currentTab.value === 'login') return this.$t('auth.signIn');
+      if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
+    }
+  },
 
   methods: {
     setInnitialTab() {
@@ -134,7 +141,6 @@ $slide-width-md: 640px;
 
   .logo {
     width: 88px;
-    margin-bottom: var(--spacing-lg);
   }
 
   .auth-form-header__title {
@@ -154,9 +160,10 @@ $slide-width-md: 640px;
     background: var(--main-color);
     border-radius: var(--border-radius);
 
-    .wt-tabs {
-      margin-bottom: var(--spacing-sm);
-      padding: var(--spacing-sm);
+    .auth-tabs-title {
+      @extend %typo-heading-3;
+      margin: var(--spacing-lg) auto;
+      text-align: center;
     }
   }
 

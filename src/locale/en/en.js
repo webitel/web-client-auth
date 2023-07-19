@@ -15,6 +15,7 @@ export default {
         registerSubmit: 'Register',
         signIn: 'Sign in',
         back: 'Back',
+        step: 'Step { count }',
         carousel: {
             title1: 'Cloud vs. On-Site',
             text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',

@@ -15,6 +15,7 @@ export default {
         registerSubmit: 'Створити',
         signIn: 'Авторизуватися',
         back: 'Назад',
+        step: 'Крок { count }',
     },
     validation: {
         required: 'Обов\'язкове поле',
