@@ -50,8 +50,8 @@
 </template>
 
 <script>
-import Login from './the-login';
-import Register from './the-register';
+import Login from './login/the-login.vue';
+import Register from './register/the-register.vue';
 import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
 import ChatsSlide from '@/components/auth/slides/chats-slide';
 import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';

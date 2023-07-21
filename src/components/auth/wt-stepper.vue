@@ -6,7 +6,7 @@
       >
         <div
           class="wt-stepper-steps__wrapper"
-          v-for="({name, completed}, idx) in props.steps"
+          v-for="({name, completed}, idx) in stepWithCompleted"
         >
           <div
             v-if="idx !== 0"
@@ -28,12 +28,10 @@
 
     <slot name="main"></slot>
 
-    <slot name="footer"></slot>
-
   </div>
 </template>
 <script setup>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   steps: {
@@ -47,17 +45,15 @@ const props = defineProps({
 
 const description = computed(() => props.steps[props.activeStep - 1].description);
 
-function updateCompletedValue() {
-  props.steps.map((item, idx) => {
+const stepWithCompleted = computed(() => {
+  const steps = [...props.steps];
+  steps.map((item, idx) => {
     if(props.activeStep > idx) {
       item.completed = true
     } else item.completed = false;
-  })
-}
-
-updateCompletedValue();
-
-watch(() => props.activeStep, () => updateCompletedValue());
+  });
+  return steps;
+})
 </script>
 
 <style lang="scss">
@@ -92,6 +88,6 @@ watch(() => props.activeStep, () => updateCompletedValue());
 }
 
 .wt-stepper-description {
-  padding-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
 }
 </style>
