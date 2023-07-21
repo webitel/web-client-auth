@@ -4,56 +4,48 @@
       :value="certificate"
       :label="$t('auth.key')"
       :v="v$.certificate"
-      @input="setProp({ prop: 'certificate', value: $event });"
+      @input="setProp({ prop: 'certificate', value: $event })"
     ></wt-textarea>
 
     <div class="auth-form-actions">
       <wt-button
-        @click="$emit('back-prev-step')"
+        @click="$emit('back')"
         color="secondary"
       >{{ $t('auth.back') }}
       </wt-button>
 
       <wt-button
-        @click="$emit('go-next-step')"
-        :disabled="checkValidations()"
+        :disabled="v$.$invalid"
+        @click="$emit('next')"
       >{{ $t('auth.registerSubmit') }}
       </wt-button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapActions, mapState } from 'vuex';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-export default {
-  name: 'the-register-third-step',
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
+const store = useStore();
+
+const certificate = computed(() => store.state.auth.certificate);
+
+const v$ = useVuelidate(
+  computed(() => ({
     certificate: {
       required,
     },
-  },
-  computed: {
-    ...mapState('auth', {
-      certificate: (state) => state.certificate,
-    }),
-  },
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-    }),
-    checkValidations() {
-      return this.v$.$pending || this.v$.$error;
-    },
-  },
-  mounted() {
-    this.v$.$touch();
-  }
-}
+  })),
+  { certificate },
+  { $autoDirty: true },
+);
 
+async function setProp(payload) {
+  return store.dispatch('auth/SET_PROPERTY', payload);
+};
+
+onMounted(() => { v$.value.$touch() });
 </script>

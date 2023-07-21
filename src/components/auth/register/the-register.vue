@@ -11,22 +11,22 @@
       >
         <first-step
           v-if="activeStep === 1"
-          @change-tab="backPrevStep"
-          @go-next-step="goNextStep"
+          @login="backPrevStep"
+          @next="goNextStep"
         ></first-step>
 
         <second-step
           v-if="activeStep === 2"
           :confirm-password="confirmPassword"
-          @back-prev-step="backPrevStep"
-          @go-next-step="goNextStep"
+          @back="backPrevStep"
+          @next="goNextStep"
           @update:confirm-password="updateConfirmPassword"
         ></second-step>
 
         <third-step
           v-if="activeStep === 3"
-          @back-prev-step="backPrevStep"
-          @go-next-step="goNextStep"
+          @back="backPrevStep"
+          @next="goNextStep"
         ></third-step>
 
       </form>

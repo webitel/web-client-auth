@@ -7,55 +7,45 @@
     ></wt-input>
 
     <div class="auth-form-actions">
-      <p
+      <a
         class="auth-form-actions--link"
-        @click="$emit('change-tab')">{{ $t('auth.signIn') }}</p>
+        @click="$emit('login')">{{ $t('auth.signIn') }}</a>
 
       <wt-button
-        @click="$emit('go-next-step')"
-        :disabled="checkValidations()"
+        :disabled="v$.$invalid"
+        @click="$emit('next')"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { mapActions } from 'vuex';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-export default {
-  name: 'the-register-first-step',
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations: {
+const store = useStore();
+
+const domain = computed({
+  get: () => store.state.auth.domain,
+  set: (value) => setProp({ prop: 'domain', value })
+});
+
+const v$ = useVuelidate(
+  computed(() => ({
     domain: {
       required,
     },
-  },
-  computed: {
-    domain: {
-      get() {
-        return this.$store.state.auth.domain;
-      },
-      set(value) {
-        this.setProp({ prop: 'domain', value });
-      },
-    },
-  },
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-    }),
-    checkValidations() {
-      return this.v$.$pending || this.v$.$error;
-    },
-  },
-  mounted() {
-    this.v$.$touch();
-  }
+  })),
+  { domain },
+  { $autoDirty: true },
+);
+
+async function setProp(payload) {
+  return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
+onMounted(() => { v$.value.$touch() });
 </script>

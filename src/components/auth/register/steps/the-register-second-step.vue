@@ -23,77 +23,64 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="$emit('back-prev-step')"
+        @click="$emit('back')"
         color="secondary"
       >{{ $t('auth.back') }}
       </wt-button>
 
       <wt-button
-        @click="$emit('go-next-step')"
-        :disabled="checkValidations()"
+        :disabled="v$.$invalid"
+        @click="$emit('next')"
         >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
-import { mapActions } from 'vuex';
+import { computed, onMounted, toRefs } from 'vue';
+import { useStore } from 'vuex';
 
-export default {
-  name: 'the-register-second-step',
-  props: {
-    confirmPassword: {
-      type: String,
-    }
+const props = defineProps({
+  confirmPassword: {
+    type: String,
   },
-  setup: () => ({
-    v$: useVuelidate(),
-  }),
-  validations() {
-    return {
-      username: {
-        required,
-      },
-      password: {
-        required,
-      },
-      confirmPassword: {
-        sameAs: sameAs(this.password),
-      },
-    }
-  },
-  computed: {
+});
+
+const store = useStore();
+
+const username = computed({
+  get: () => store.state.auth.username,
+  set: (value) => setProp({ prop: 'username', value })
+});
+const password = computed({
+  get: () => store.state.auth.password,
+  set: (value) => setProp({ prop: 'password', value })
+});
+
+const { confirmPassword } = toRefs(props);
+
+const v$ = useVuelidate(
+  computed(() => ({
     username: {
-      get() {
-        return this.$store.state.auth.username;
-      },
-      set(value) {
-        this.setProp({ prop: 'username', value });
-      },
+      required,
     },
     password: {
-      get() {
-        return this.$store.state.auth.password;
-      },
-      set(value) {
-        this.setProp({ prop: 'password', value });
-      },
+      required,
     },
-  },
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-    }),
-    checkValidations() {
-      return this.v$.$pending || this.v$.$error;
-    },
-  },
-  mounted() {
-    this.v$.$touch();
-  }
-}
+    confirmPassword: {
+      sameAs: sameAs(password)
+    }
+  })),
+  { username, password, confirmPassword },
+  { $autoDirty: true },
+);
 
+async function setProp(payload) {
+  return store.dispatch('auth/SET_PROPERTY', payload);
+};
+
+onMounted(() => { v$.value.$touch() });
 </script>
