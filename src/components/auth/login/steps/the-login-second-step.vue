@@ -24,7 +24,7 @@
       <wt-button
         @click="emits('back')"
         color="secondary"
-      >{{ $t('auth.back') }}
+      >{{ $t('reusable.back') }}
       </wt-button>
 
       <wt-button

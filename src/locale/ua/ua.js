@@ -14,8 +14,6 @@ export default {
         key: 'Ключ',
         registerSubmit: 'Створити',
         signIn: 'Авторизуватися',
-        back: 'Назад',
-        step: 'Крок { count }',
     },
     validation: {
         required: 'Обов\'язкове поле',

@@ -37,7 +37,6 @@
 
 <script>
 import { mapActions } from 'vuex';
-import WtStepper from '../wt-stepper.vue';
 import FirstStep from '../register/steps/the-register-first-step.vue';
 import SecondStep from '../register/steps/the-register-second-step.vue';
 import ThirdStep from '../register/steps/the-register-third-step.vue';
@@ -52,7 +51,6 @@ export default {
     };
   },
   components: {
-    WtStepper,
     FirstStep,
     SecondStep,
     ThirdStep,
@@ -62,15 +60,15 @@ export default {
     steps() {
       return [
         {
-          name: this.$t('auth.step', { count: 1 }),
+          name: this.$t('reusable.step', { count: 1 }),
           description: this.$t('auth.enterDomain'),
         },
         {
-          name: this.$t('auth.step', { count: 2 }),
+          name: this.$t('reusable.step', { count: 2 }),
           description: this.$t('auth.enterNewUsername'),
         },
         {
-          name: this.$t('auth.step', { count: 3 }),
+          name: this.$t('reusable.step', { count: 3 }),
           description: this.$t('auth.enterLicense'),
         },
       ];
