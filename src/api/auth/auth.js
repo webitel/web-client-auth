@@ -20,6 +20,7 @@ export const register = async (credentials) => {
     await login({
       username: credentials.username,
       password: credentials.password,
+      domain: credentials.domain,
     });
   } catch (err) {
     throw err;

@@ -4,16 +4,15 @@
   position: relative;
   background: var(--main-color);
   z-index: 2;
+}
 
-  &__actions {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: center;
-    justify-content: stretch;
-    width: 100%;
-  }
+.auth-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-sm);
+}
 
-  .wt-button {
-    flex: 1 1 auto;
-  }
+.auth-form-actions--link {
+  color: var(--link-color);
 }

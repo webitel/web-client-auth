@@ -6,19 +6,12 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
-        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
-        <header class="auth-form-header">
-          <h2 class="auth-form-header__title">{{ computeTitle }}</h2>
-          <p class="auth-form-header__subtitle">{{ $t('auth.detailsSubtitle') }}</p>
-        </header>
         <div class="auth-tabs-wrap">
-          <wt-tabs
-            :current="currentTab"
-            :tabs="tabs"
-            @change="currentTab = $event"
-          ></wt-tabs>
+          <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+          <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
           <component
             :is="currentTab.value"
+            @change-tab="currentTab = $event"
           />
         </div>
       </div>
@@ -57,8 +50,8 @@
 </template>
 
 <script>
-import Login from './the-login';
-import Register from './the-register';
+import Login from './login/the-login.vue';
+import Register from './register/the-register.vue';
 import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
 import ChatsSlide from '@/components/auth/slides/chats-slide';
 import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
@@ -83,7 +76,7 @@ export default {
       currentTab: { value: 'login' },
       tabs: [
         {
-          text: this.$t('auth.login'),
+          text: this.$t('vocabulary.login'),
           value: 'login',
         },
         {
@@ -97,13 +90,13 @@ export default {
       ],
     };
   },
-
   computed: {
-    computeTitle() {
-      return this.currentTab.value === 'login' ?
-        this.$t('auth.login') : this.$t('auth.register');
-    },
+    tabTitle() {
+      if(this.currentTab.value === 'login') return this.$t('auth.signIn');
+      if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
+    }
   },
+
   methods: {
     setInnitialTab() {
       const loginTab = this.tabs.find(({ value }) => value === 'login');
@@ -147,8 +140,7 @@ $slide-width-md: 640px;
   }
 
   .logo {
-    display: none;
-    width: 60px;
+    width: 88px;
   }
 
   .auth-form-header__title {
@@ -164,13 +156,14 @@ $slide-width-md: 640px;
   .auth-tabs-wrap {
     box-sizing: border-box;
     width: 100%;
-    padding: var(--spacing-sm);
+    padding: var(--spacing-lg);
     background: var(--main-color);
     border-radius: var(--border-radius);
 
-    .wt-tabs {
-      margin-bottom: var(--spacing-sm);
-      padding: var(--spacing-sm);
+    .auth-tabs-title {
+      @extend %typo-heading-3;
+      margin: var(--spacing-lg) auto;
+      text-align: center;
     }
   }
 
