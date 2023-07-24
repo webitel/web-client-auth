@@ -46,17 +46,14 @@ const props = defineProps({
 const description = computed(() => props.steps[props.activeStep - 1].description);
 
 const stepWithCompleted = computed(() => {
-  const steps = [...props.steps];
-  steps.map((item, idx) => {
-    if(props.activeStep > idx) {
-      item.completed = true
-    } else item.completed = false;
-  });
-  return steps;
+  return props.steps.map((item, idx) => ({
+    ...item,
+    completed: props.activeStep > idx
+  }));
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .wt-stepper {
   text-align: center;
 }

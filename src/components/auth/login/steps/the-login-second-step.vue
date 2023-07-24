@@ -22,21 +22,19 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="$emit('back')"
+        @click="emits('back')"
         color="secondary"
       >{{ $t('auth.back') }}
       </wt-button>
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="$emit('next')"
+        @click="emits('next')"
       >{{ $t('vocabulary.login') }}
       </wt-button>
     </div>
 
-    <providers
-      v-if="isOpenProviders"
-    ></providers>
+    <providers></providers>
   </div>
 </template>
 
@@ -46,7 +44,8 @@ import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import Providers from '../providers/the-login-providers.vue';
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
+
+const emits = defineEmits(['back', 'next']);
 
 const store = useStore();
 
@@ -59,8 +58,6 @@ const password = computed({
   get: () => store.state.auth.password,
   set: (value) => setProp({ prop: 'password', value })
 });
-const loginProviders = computed(() => store.state.auth.loginProviders);
-const isOpenProviders = computed(() => !isEmpty(loginProviders.value));
 
 const v$ = useVuelidate(
   computed(() => ({
@@ -80,12 +77,5 @@ async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);
 };
 
-async function loadAvailableProviders() {
-  return store.dispatch('auth/LOAD_SERVICE_PROVIDERS');
-};
-
-onMounted(() => {
-  v$.value.$touch();
-  loadAvailableProviders();
-});
+onMounted(() => { v$.value.$touch() });
 </script>

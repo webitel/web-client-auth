@@ -1,5 +1,5 @@
 <template>
-  <footer class="auth-form-footer">
+  <footer v-if="isOpenProviders" class="auth-form-footer">
     <div class="auth-form-footer__inner">
       <wt-divider></wt-divider>
       <p class="auth-form-footer__title">{{ $t('auth.providersTitle') }}</p>
@@ -21,14 +21,17 @@
 </template>
 
 <script setup>
+import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import qs from 'querystring';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import ServiceProvider from '../../../../enums/ServiceProvider.enum';
 
 const store = useStore();
 
 const loginProviders = computed(() => store.state.auth.loginProviders);
+const isOpenProviders = computed(() => !isEmpty(loginProviders.value));
+
 const serviceProviders = computed(() => {
   const providerIcon = {
     [ServiceProvider.ADFS]: 'adfs',
@@ -50,6 +53,14 @@ function redirectToServiceProvider({ ticket }) {
   const url = `${baseUrl}${ticket}?${qs.stringify(query)}`;
   window.parent.location.replace(url);
 };
+
+async function loadAvailableProviders() {
+  return store.dispatch('auth/LOAD_SERVICE_PROVIDERS');
+};
+
+onMounted(() => {
+  loadAvailableProviders();
+});
 </script>
 
 <style lang="scss" scoped>

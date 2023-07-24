@@ -9,14 +9,14 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="$emit('back')"
+        @click="emits('back')"
         color="secondary"
       >{{ $t('auth.back') }}
       </wt-button>
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="$emit('next')"
+        @click="emits('next')"
       >{{ $t('auth.registerSubmit') }}
       </wt-button>
     </div>
@@ -28,6 +28,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
+const emits = defineEmits(['back', 'next']);
 
 const store = useStore();
 

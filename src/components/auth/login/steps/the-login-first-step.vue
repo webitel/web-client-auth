@@ -9,11 +9,11 @@
     <div class="auth-form-actions">
       <a
         class="auth-form-actions--link"
-        @click="$emit('register')"
+        @click="emits('register')"
       >{{ $t('auth.createAccount') }}</a>
 
       <wt-button
-        @click="$emit('next')"
+        @click="emits('next')"
         :disabled="v$.$invalid"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
@@ -26,6 +26,8 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
+const emits = defineEmits(['register', 'next']);
 
 const store = useStore();
 

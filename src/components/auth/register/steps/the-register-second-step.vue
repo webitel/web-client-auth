@@ -23,14 +23,14 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="$emit('back')"
+        @click="emits('back')"
         color="secondary"
       >{{ $t('auth.back') }}
       </wt-button>
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="$emit('next')"
+        @click="emits('next')"
         >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
     </div>
@@ -48,6 +48,8 @@ const props = defineProps({
     type: String,
   },
 });
+
+const emits = defineEmits(['back', 'next']);
 
 const store = useStore();
 
