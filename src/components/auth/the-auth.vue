@@ -74,7 +74,7 @@ export default {
       currentTab: { value: 'login' },
       tabs: [
         {
-          text: this.$t('vocabulary.login'),
+          text: this.$t('auth.login'),
           value: 'login',
         },
         {
