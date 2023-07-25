@@ -17,3 +17,9 @@
   color: var(--link-color);
   cursor: pointer;
 }
+
+.auth-form-inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}

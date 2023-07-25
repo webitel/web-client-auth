@@ -3,8 +3,8 @@ export default {
         register: 'Register',
         titleRegistration: 'Create a Webitel Account',
         enterDomain: 'Enter your Domain name',
-        enterUsername: 'Enter your User name and password',
-        enterNewUsername: 'Enter your User name and create a strong password',
+        enterUsername: 'Enter your login and password',
+        enterNewUsername: 'Create a login and a strong password',
         enterLicense: 'Enter a License key',
         createAccount: 'Create account',
         domain: 'Domain',
@@ -14,6 +14,7 @@ export default {
         key: 'License key',
         registerSubmit: 'Register',
         signIn: 'Sign in',
+        login: 'Log in',
         carousel: {
             title1: 'Cloud vs. On-Site',
             text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',

@@ -6,14 +6,12 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
-        <div class="auth-tabs-wrap">
-          <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
-          <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
-          <component
-            :is="currentTab.value"
-            @change-tab="currentTab = $event"
-          />
-        </div>
+        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+        <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
+        <component
+          :is="currentTab.value"
+          @change-tab="currentTab = $event"
+        />
       </div>
     </section>
     <section class="auth-info">
@@ -76,7 +74,7 @@ export default {
       currentTab: { value: 'login' },
       tabs: [
         {
-          text: this.$t('vocabulary.login'),
+          text: this.$t('auth.login'),
           value: 'login',
         },
         {
@@ -136,7 +134,16 @@ $slide-width-md: 640px;
 
   .auth-form-wrapper__content {
     width: 100%;
-    padding: var(--spacing-3xl);
+    padding: var(--spacing-md);
+    box-sizing: border-box;
+    background: var(--main-color);
+    border-radius: var(--border-radius);
+
+    .auth-tabs-title {
+      @extend %typo-heading-3;
+      margin: var(--spacing-lg) auto;
+      text-align: center;
+    }
   }
 
   .logo {
@@ -151,20 +158,6 @@ $slide-width-md: 640px;
   .auth-form-header__subtitle {
     @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
-  }
-
-  .auth-tabs-wrap {
-    box-sizing: border-box;
-    width: 100%;
-    padding: var(--spacing-lg);
-    background: var(--main-color);
-    border-radius: var(--border-radius);
-
-    .auth-tabs-title {
-      @extend %typo-heading-3;
-      margin: var(--spacing-lg) auto;
-      text-align: center;
-    }
   }
 
   .auth-info {
@@ -304,14 +297,6 @@ $slide-width-md: 640px;
     .auth-form-header__subtitle {
       margin-bottom: var(--spacing-xs);
       text-align: center;
-    }
-
-    .auth-tabs-wrap {
-      padding: var(--spacing-xs);
-
-      .wt-tabs {
-        padding: var(--spacing-xs);
-      }
     }
 
     .auth-info {

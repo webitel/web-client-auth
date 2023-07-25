@@ -1,24 +1,27 @@
 <template>
   <div>
-    <wt-input
-      :value="domain"
-      :label="$t('auth.domain')"
-      disabled
-    ></wt-input>
+    <div class="auth-form-inner">
+      <wt-input
+        :value="domain"
+        :label="$t('auth.domain')"
+        class="auth-form-inner--domain"
+        disabled
+      ></wt-input>
 
-    <wt-input
-      v-model.trim="username"
-      :label="$t('vocabulary.login')"
-      :v="v$.username"
-    ></wt-input>
+      <wt-input
+        v-model.trim="username"
+        :label="$t('vocabulary.login')"
+        :v="v$.username"
+      ></wt-input>
 
-    <wt-input
-      v-model.trim="password"
-      :label="$t('auth.password')"
-      :v="v$.password"
-      type="password"
-      has-show-password
-    ></wt-input>
+      <wt-input
+        v-model.trim="password"
+        :label="$t('auth.password')"
+        :v="v$.password"
+        type="password"
+        has-show-password
+      ></wt-input>
+    </div>
 
     <div class="auth-form-actions">
       <wt-button
@@ -30,7 +33,7 @@
       <wt-button
         :disabled="v$.$invalid"
         @click="emits('next')"
-      >{{ $t('vocabulary.login') }}
+      >{{ $t('auth.login') }}
       </wt-button>
     </div>
 
@@ -79,3 +82,9 @@ async function setProp(payload) {
 
 onMounted(() => { v$.value.$touch() });
 </script>
+
+<style lang="scss" scoped>
+.auth-form-inner--domain {
+  margin-bottom: var(--spacing-sm);
+}
+</style>
