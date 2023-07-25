@@ -35,9 +35,4 @@ export default {
             text6: 'New permissions management module - new opportunities for control. Users can make changes only to sections, as well as to actions.',
         }
     },
-
-    validation: {
-        required: 'This field is required',
-        sameAs: 'Incorrect password',
-    },
 };

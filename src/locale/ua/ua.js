@@ -16,8 +16,4 @@ export default {
         signIn: 'Увійти',
         login: 'Увійти',
     },
-    validation: {
-        required: 'Обов\'язкове поле',
-        sameAs: 'Невірний пароль',
-    },
 };
