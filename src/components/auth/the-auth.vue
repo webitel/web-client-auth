@@ -76,7 +76,7 @@ export default {
       currentTab: { value: 'login' },
       tabs: [
         {
-          text: this.$t('vocabulary.login'),
+          text: this.$tc('auth.signIn', 2),
           value: 'login',
         },
         {
@@ -92,7 +92,7 @@ export default {
   },
   computed: {
     tabTitle() {
-      if(this.currentTab.value === 'login') return this.$t('auth.signIn');
+      if(this.currentTab.value === 'login') return this.$tc('auth.signIn', 1);
       if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
     }
   },

@@ -33,7 +33,7 @@
       <wt-button
         :disabled="v$.$invalid"
         @click="emits('next')"
-      >{{ $t('vocabulary.login') }}
+      >{{ $tc('auth.signIn', 2) }}
       </wt-button>
     </div>
 

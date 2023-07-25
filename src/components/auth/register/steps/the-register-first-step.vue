@@ -9,7 +9,7 @@
     <div class="auth-form-actions">
       <a
         class="auth-form-actions--link"
-        @click="emits('login')">{{ $t('auth.signIn') }}</a>
+        @click="emits('login')">{{ $tc('auth.signIn', 1) }}</a>
 
       <wt-button
         :disabled="v$.$invalid"
