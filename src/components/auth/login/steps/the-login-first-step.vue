@@ -26,7 +26,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import isValidDomain from 'is-valid-domain';
+import domainValidator from '@webitel/ui-sdk/src/scripts/validators/domainValidator';
 
 const emits = defineEmits(['register', 'next']);
 
@@ -36,8 +36,6 @@ const domain = computed({
   get: () => store.state.auth.domain,
   set: (value) => setProp({ prop: 'domain', value })
 });
-
-const domainValidator = (value) => isValidDomain(value);
 
 const v$ = useVuelidate(
   computed(() => ({

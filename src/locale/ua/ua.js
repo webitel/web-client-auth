@@ -15,9 +15,4 @@ export default {
         registerSubmit: 'Створити',
         signIn: 'Авторизуватися',
     },
-    validation: {
-        required: 'Обов\'язкове поле',
-        sameAs: 'Невірний пароль',
-        domainValidator: 'Невірний домен',
-    },
 };
