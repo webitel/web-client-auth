@@ -1,25 +1,27 @@
 <template>
   <div>
-    <wt-input
-      v-model.trim="username"
-      :label="$t('vocabulary.login')"
-      :v="v$.username"
-    ></wt-input>
+    <div class="auth-form-inner">
+      <wt-input
+        v-model.trim="username"
+        :label="$t('vocabulary.login')"
+        :v="v$.username"
+      ></wt-input>
 
-    <wt-input
-      v-model.trim="password"
-      :label="$t('auth.password')"
-      :v="v$.password"
-      type="password"
-    ></wt-input>
+      <wt-input
+        v-model.trim="password"
+        :label="$t('auth.password')"
+        :v="v$.password"
+        type="password"
+      ></wt-input>
 
-    <wt-input
-      :value="confirmPassword"
-      :label="$t('auth.confirmPassword')"
-      :v="v$.confirmPassword"
-      type="password"
-      @input="$emit('update:confirm-password', $event)"
-    ></wt-input>
+      <wt-input
+        :value="confirmPassword"
+        :label="$t('auth.confirmPassword')"
+        :v="v$.confirmPassword"
+        type="password"
+        @input="$emit('update:confirm-password', $event)"
+      ></wt-input>
+    </div>
 
     <div class="auth-form-actions">
       <wt-button
