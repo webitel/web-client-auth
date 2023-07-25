@@ -12,7 +12,7 @@
         @click="emits('login')">{{ $t('auth.signIn') }}</a>
 
       <wt-button
-        :disabled="v$.$invalid"
+        :disabled="v$.$invalid || isInvalidDomain"
         @click="emits('next')"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
@@ -23,6 +23,7 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import isValidDomain from 'is-valid-domain';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
@@ -34,6 +35,8 @@ const domain = computed({
   get: () => store.state.auth.domain,
   set: (value) => setProp({ prop: 'domain', value })
 });
+
+const isInvalidDomain = computed(() => !isValidDomain(domain.value));
 
 const v$ = useVuelidate(
   computed(() => ({
