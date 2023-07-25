@@ -10,9 +10,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: var(--spacing-sm);
 }
 
 .auth-form-actions--link {
   color: var(--link-color);
+}
+
+.auth-form--input {
+  .wt-input-info--invalid {
+    margin-bottom: var(--spacing-sm);
+  }
 }

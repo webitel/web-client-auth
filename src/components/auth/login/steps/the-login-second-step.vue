@@ -3,6 +3,7 @@
     <wt-input
       :value="domain"
       :label="$t('auth.domain')"
+      class="auth-form--domain"
       disabled
     ></wt-input>
 
@@ -10,12 +11,14 @@
       v-model.trim="username"
       :label="$t('vocabulary.login')"
       :v="v$.username"
+      class="auth-form--input"
     ></wt-input>
 
     <wt-input
       v-model.trim="password"
       :label="$t('auth.password')"
       :v="v$.password"
+      class="auth-form--input"
       type="password"
       has-show-password
     ></wt-input>
@@ -79,3 +82,9 @@ async function setProp(payload) {
 
 onMounted(() => { v$.value.$touch() });
 </script>
+
+<style>
+.auth-form--domain {
+  margin-bottom: var(--spacing-sm);
+}
+</style>

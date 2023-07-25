@@ -4,6 +4,7 @@
       :value="certificate"
       :label="$t('auth.key')"
       :v="v$.certificate"
+      class="auth-form--input"
       @input="setProp({ prop: 'certificate', value: $event })"
     ></wt-textarea>
 
