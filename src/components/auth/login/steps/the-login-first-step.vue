@@ -4,7 +4,6 @@
       v-model.trim="domain"
       :label="$t('auth.domain')"
       :v="v$.domain"
-      class="auth-form--input"
     ></wt-input>
 
     <div class="auth-form-actions">
