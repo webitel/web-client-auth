@@ -33,7 +33,7 @@
       <wt-button
         :disabled="v$.$invalid"
         @click="emits('next')"
-      >{{ $tc('auth.signIn', 2) }}
+      >{{ $t('auth.login') }}
       </wt-button>
     </div>
 

@@ -14,6 +14,7 @@ export default {
         key: 'Ключ',
         registerSubmit: 'Створити',
         signIn: 'Увійти',
+        login: 'Увійти',
     },
     validation: {
         required: 'Обов\'язкове поле',

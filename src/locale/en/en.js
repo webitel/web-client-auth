@@ -13,7 +13,8 @@ export default {
         confirmPassword: 'Repeat password',
         key: 'License key',
         registerSubmit: 'Register',
-        signIn: 'Sign in | Log in',
+        signIn: 'Sign in',
+        login: 'Log in',
         carousel: {
             title1: 'Cloud vs. On-Site',
             text1: 'Security policy does not allow to store data and use cloud services? With Webitel, you can build a contact center on your site!',
