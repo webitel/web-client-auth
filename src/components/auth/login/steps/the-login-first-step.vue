@@ -14,7 +14,7 @@
 
       <wt-button
         @click="emits('next')"
-        :disabled="v$.$invalid || isInvalidDomain"
+        :disabled="v$.$invalid"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
     </div>
@@ -37,12 +37,13 @@ const domain = computed({
   set: (value) => setProp({ prop: 'domain', value })
 });
 
-const isInvalidDomain = computed(() => !isValidDomain(domain.value));
+const domainValidator = (value) => isValidDomain(value);
 
 const v$ = useVuelidate(
   computed(() => ({
     domain: {
       required,
+      domainValidator,
     },
   })),
   { domain },

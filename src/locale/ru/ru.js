@@ -18,5 +18,6 @@ export default {
     validation: {
         required: 'Обязательное поле',
         sameAs: 'Неправильный пароль',
+        domainValidator: 'Неправильный домен',
     },
 };

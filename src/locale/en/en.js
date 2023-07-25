@@ -38,5 +38,6 @@ export default {
     validation: {
         required: 'This field is required',
         sameAs: 'Incorrect password',
+        domainValidator: 'Incorrect domain',
     },
 };

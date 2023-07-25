@@ -36,12 +36,13 @@ const domain = computed({
   set: (value) => setProp({ prop: 'domain', value })
 });
 
-const isInvalidDomain = computed(() => !isValidDomain(domain.value));
+const domainValidator = (value) => isValidDomain(value);
 
 const v$ = useVuelidate(
   computed(() => ({
     domain: {
       required,
+      domainValidator,
     },
   })),
   { domain },
