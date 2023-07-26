@@ -4,7 +4,7 @@ export default {
         titleRegistration: 'Створити Webitel Акаунт',
         enterDomain: 'Введіть домен',
         enterUsername: 'Введіть логін та пароль',
-        enterNewUsername: 'Створіть логін та надійний й пароль',
+        enterNewUsername: 'Створіть логін та надійний пароль',
         enterLicense: 'Введіть ліцензійний ключ',
         createAccount: 'Створити акаунт',
         domain: 'Домен',
