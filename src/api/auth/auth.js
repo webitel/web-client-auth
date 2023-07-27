@@ -6,6 +6,7 @@ export const login = async (credentials) => {
   try {
     const response = await instance.post(url, credentials);
     localStorage.setItem('access-token', response.accessToken);
+    localStorage.setItem('domain', credentials.domain);
     postToken();
   } catch (err) {
     throw err;
