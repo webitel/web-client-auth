@@ -234,7 +234,7 @@ $slide-width-md: 640px;
     }
 
     .auth-form-wrapper__content {
-      padding: var(--spacing-lg);
+      padding: var(--spacing-md);
     }
 
     .carousel-wrap .flicking-pagination {
@@ -280,14 +280,13 @@ $slide-width-md: 640px;
     .auth-form-wrapper {
       flex: none;
       width: 100%;
-      margin: var(--spacing-sm) 0;
     }
 
     .auth-form-wrapper__content {
       display: flex;
       align-items: center;
       flex-direction: column;
-      padding: var(--spacing-sm);
+      padding: var(--spacing-md);
     }
 
     .logo {
