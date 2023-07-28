@@ -79,8 +79,8 @@ export default {
         try {
           await this.login();
           localStorage.setItem('domain', this.domain);
-        } catch (er) {
-          console.log(er)
+        } catch (err) {
+          throw err;
         }
       }
     },
