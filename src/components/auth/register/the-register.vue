@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import FirstStep from '../register/steps/the-register-first-step.vue';
 import SecondStep from '../register/steps/the-register-second-step.vue';
 import ThirdStep from '../register/steps/the-register-third-step.vue';
@@ -57,6 +57,9 @@ export default {
   },
 
   computed: {
+    ...mapState('auth', {
+      domain: (state) => state.domain,
+    }),
     steps() {
       return [
         {
@@ -100,7 +103,7 @@ export default {
       }
     },
 
-    goNextStep() {
+    async goNextStep() {
       if (this.steps.length > this.activeStep) {
         this.activeStep = this.activeStep + 1;
 
@@ -108,7 +111,14 @@ export default {
           this.clearPassword();
         }
 
-      } else this.register();
+      } else {
+        try {
+          await this.register();
+          localStorage.setItem('domain', this.domain);
+        } catch (er) {
+          console.log(er);
+        }
+      }
     },
 
     ...mapActions('auth', {

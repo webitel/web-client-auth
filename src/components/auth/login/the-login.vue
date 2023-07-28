@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 
@@ -42,6 +42,9 @@ export default {
   },
 
   computed: {
+    ...mapState('auth', {
+      domain: (state) => state.domain,
+    }),
     steps() {
       return [
         {
@@ -65,14 +68,21 @@ export default {
       }
     },
 
-    goNextStep() {
+    async goNextStep() {
       if (this.steps.length > this.activeStep) {
         this.activeStep = this.activeStep + 1;
 
         if (this.activeStep === 2) {
-          this.setProp({ prop: 'password', value: '' });
+          await this.setProp({ prop: 'password', value: '' });
         }
-      } else this.login();
+      } else {
+        try {
+          await this.login();
+          localStorage.setItem('domain', this.domain);
+        } catch (er) {
+          console.log(er)
+        }
+      }
     },
 
     ...mapActions('auth', {
