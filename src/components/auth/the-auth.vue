@@ -252,6 +252,7 @@ $slide-width-md: 640px;
     .auth-form-wrapper {
       flex: 0 0 $form-width-sm;
       border-radius: var(--border-radius);
+      margin: var(--spacing-sm) auto;
     }
 
     .logo {
@@ -280,6 +281,7 @@ $slide-width-md: 640px;
     .auth-form-wrapper {
       flex: none;
       width: 100%;
+      margin: 0;
     }
 
     .auth-form-wrapper__content {
