@@ -12,7 +12,7 @@
         @click="emits('login')">{{ $t('auth.signIn') }}</a>
 
       <wt-button
-        :disabled="v$.$invalid || isInvalidDomain"
+        :disabled="v$.$invalid"
         @click="emits('next')"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
@@ -51,5 +51,15 @@ async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
-onMounted(() => { v$.value.$touch() });
+function setDomain() {
+  const lastDomain = localStorage.getItem('domain');
+  if(!domain.value) {
+    setProp({ prop: 'domain', value: lastDomain })
+  }
+}
+
+onMounted(() => {
+  setDomain();
+  v$.value.$touch();
+});
 </script>

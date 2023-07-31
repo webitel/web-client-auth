@@ -52,5 +52,15 @@ async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);
 };
 
-onMounted(() => { v$.value.$touch() });
+function setDomain() {
+  const lastDomain = localStorage.getItem('domain');
+  if(!domain.value) {
+    setProp({ prop: 'domain', value: lastDomain })
+  }
+}
+
+onMounted(() => {
+  setDomain();
+  v$.value.$touch();
+});
 </script>
