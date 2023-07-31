@@ -75,7 +75,6 @@ const loadServiceProviders = async ({ domain }) => {
 
 const clearToken = () => {
   localStorage.removeItem('access-token');
-  localStorage.removeItem('domain');
   instance.defaults.headers['X-Webitel-Access'] = '';
 };
 
