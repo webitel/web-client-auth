@@ -121,10 +121,11 @@ $slide-width-md: 640px;
   position: relative;
   display: flex;
   overflow: hidden;
-  min-height: 100vh;
+  height: 100%;
   background: var(--page-bg-color);
 
   .auth-form-wrapper {
+    max-height: 100%;
     position: relative;
     z-index: 2;
     display: flex;
@@ -138,6 +139,7 @@ $slide-width-md: 640px;
     box-sizing: border-box;
     background: var(--main-color);
     border-radius: var(--border-radius);
+    overflow: auto;
 
     .auth-tabs-title {
       @extend %typo-heading-3;
