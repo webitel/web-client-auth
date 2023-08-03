@@ -41,7 +41,6 @@
           </template>
         </flicking>
       </div>
-      <img alt="logo" class="auth-info__logo" src="../../assets/img/logo-light.svg">
       <div class="auth-info__background"></div>
     </section>
   </main>
@@ -179,14 +178,6 @@ $slide-width-md: 640px;
       background: url('../../assets/img/auth/background.png') no-repeat;
       background-size: cover;
     }
-
-    &__logo {
-      position: absolute;
-      right: 96px;
-      top: 48px;
-      width: 60px;
-      z-index: 1;
-    }
   }
 
   .carousel-wrap {
@@ -264,10 +255,6 @@ $slide-width-md: 640px;
 
     .auth-info {
       flex-grow: initial;
-
-      &__logo {
-        display: none;
-      }
     }
 
     .carousel-wrap {
