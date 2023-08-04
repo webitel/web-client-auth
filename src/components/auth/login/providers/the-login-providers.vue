@@ -37,11 +37,12 @@ const serviceProviders = computed(() => {
     [ServiceProvider.ADFS]: 'adfs',
     [ServiceProvider.GOOGLE]: 'google',
     [ServiceProvider.FACEBOOK]: 'messenger-facebook',
+    [ServiceProvider.AZURE]: 'azure',
   };
   return Object.keys(loginProviders.value).map((provider) => ({
     name: provider,
     icon: providerIcon[provider],
-    ticket: loginProviders[provider],
+    ticket: loginProviders.value[provider],
   }));
 });
 
