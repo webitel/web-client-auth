@@ -76,6 +76,7 @@ onMounted(() => {
 
     .auth-form-footer__button {
       display: flex;
+      flex: 1 auto;
       justify-content: center;
       align-items: center;
     }
