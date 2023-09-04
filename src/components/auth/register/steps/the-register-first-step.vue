@@ -25,7 +25,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import domainValidator from '@webitel/ui-sdk/src/scripts/validators/domainValidator';
+import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
 
 const emits = defineEmits(['login', 'next']);
 
