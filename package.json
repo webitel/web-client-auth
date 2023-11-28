@@ -13,7 +13,7 @@
     "@egjs/vue3-flicking": "^4.10.6",
     "@vuelidate/core": "^2.0.0",
     "@vuelidate/validators": "^2.0.0",
-    "@webitel/ui-sdk": "^23.12.43",
+    "@webitel/ui-sdk": "^23.12.46",
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "deep-copy": "^1.4.2",
@@ -34,6 +34,7 @@
     "eslint": "^8.16.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-vue": "^8.7.1",
+    "node-polyfill-webpack-plugin": "^2.0.1",
     "sass": "^1.52.1",
     "sass-loader": "^13.0.0",
     "svg-sprite-loader": "^6.0.11"
