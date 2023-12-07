@@ -1,2 +1,6 @@
 @import "~@webitel/ui-sdk/src/css/main.scss";
 @import './objects/objects';
+
+body {
+  color: var(--text-main-color);
+}

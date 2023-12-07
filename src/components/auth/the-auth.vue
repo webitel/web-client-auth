@@ -6,7 +6,10 @@
     <wt-notifications-bar></wt-notifications-bar>
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
-        <img alt="logo" class="logo" src="../../assets/img/logo-dark.svg">
+        <header class="auth-form-wrapper__header">
+          <img alt="logo" class="logo" :src="logo">
+          <wt-dark-mode-switcher />
+        </header>
         <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
         <component
           :is="currentTab.value"
@@ -47,6 +50,8 @@
 </template>
 
 <script>
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
+import { mapState } from 'vuex';
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
 import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
@@ -56,6 +61,8 @@ import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
 import Flicking from '@egjs/vue3-flicking';
 import '@egjs/vue3-flicking/dist/flicking.css';
 import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
+import LogoDark from '../../assets/img/logo-dark.svg';
+import LogoLight from '../../assets/img/logo-light.svg';
 
 export default {
   name: 'auth',
@@ -67,6 +74,7 @@ export default {
     Login,
     Register,
     Flicking,
+    WtDarkModeSwitcher,
   },
   data() {
     return {
@@ -88,6 +96,12 @@ export default {
     };
   },
   computed: {
+    ...mapState('appearance', {
+      theme: (state) => state.theme,
+    }),
+    logo() {
+      return this.theme === 'dark' ? LogoDark : LogoLight;
+    },
     tabTitle() {
       if(this.currentTab.value === 'login') return this.$t('auth.signIn');
       if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
@@ -121,7 +135,7 @@ $slide-width-md: 640px;
   display: flex;
   overflow: hidden;
   height: 100%;
-  background: var(--page-bg-color);
+  background: var(--wt-page-wrapper-background-color);
 
   .auth-form-wrapper {
     max-height: 100%;
@@ -129,16 +143,23 @@ $slide-width-md: 640px;
     z-index: 2;
     display: flex;
     flex: 0 0 $form-width-lg;
-    background: var(--page-bg-color);
+    background: var(--wt-page-wrapper-background-color);
   }
 
   .auth-form-wrapper__content {
     width: 100%;
     padding: var(--spacing-md);
     box-sizing: border-box;
-    background: var(--main-color);
+    background: var(--content-wrapper-color);
     border-radius: var(--border-radius);
     overflow: auto;
+
+    .auth-form-wrapper__header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .auth-tabs-title {
       @extend %typo-heading-3;
@@ -164,7 +185,7 @@ $slide-width-md: 640px;
   .auth-info {
     flex-grow: 1;
     min-width: 0;
-    color: var(--main-color);
+    color: var(--white);
 
     &__background {
       position: absolute;
