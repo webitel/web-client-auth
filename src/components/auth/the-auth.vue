@@ -7,7 +7,9 @@
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
         <header class="auth-form-wrapper__header">
-          <img alt="logo" class="logo" :src="logo">
+          <wt-logo
+            :dark-mode="theme === 'dark'"
+          />
           <wt-dark-mode-switcher />
         </header>
         <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
@@ -61,8 +63,6 @@ import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
 import Flicking from '@egjs/vue3-flicking';
 import '@egjs/vue3-flicking/dist/flicking.css';
 import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
-import LogoDark from '../../assets/img/logo-dark.svg';
-import LogoLight from '../../assets/img/logo-light.svg';
 
 export default {
   name: 'auth',
@@ -99,9 +99,6 @@ export default {
     ...mapState('appearance', {
       theme: (state) => state.theme,
     }),
-    logo() {
-      return this.theme === 'dark' ? LogoDark : LogoLight;
-    },
     tabTitle() {
       if(this.currentTab.value === 'login') return this.$t('auth.signIn');
       if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
