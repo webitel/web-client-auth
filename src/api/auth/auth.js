@@ -84,11 +84,22 @@ const postToken = () => {
   parent.postMessage(messageData, '*'); // targetOrigin default: '/'
 };
 
+const checkDomainExistence = async (domain) => {
+  const baseUrl = '/login';
+  const url = `${baseUrl}?domain=${domain}`;
+  try {
+    await instance.get(url);
+  } catch (err) {
+    throw err;
+  }
+}
+
 const AuthAPI = {
   login,
   register,
   checkCurrentSession,
   loadServiceProviders,
+  checkDomainExistence,
 };
 
 export default AuthAPI;

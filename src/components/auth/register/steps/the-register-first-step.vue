@@ -13,7 +13,8 @@
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="emits('next')"
+        :loading="isLoadingDomain"
+        @click="checkDomain"
       >{{ $t('webitelUI.pagination.next') }}
       </wt-button>
     </div>
@@ -23,9 +24,10 @@
 <script setup>
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
+import AuthAPI from '../../../../api/auth/auth';
 
 const emits = defineEmits(['login', 'next']);
 
@@ -55,6 +57,18 @@ function setDomain() {
   const lastDomain = localStorage.getItem('domain');
   if(!domain.value) {
     setProp({ prop: 'domain', value: lastDomain })
+  }
+}
+
+const isLoadingDomain = ref(false);
+
+async function checkDomain() {
+  isLoadingDomain.value = true;
+  try {
+    await AuthAPI.checkDomainExistence(domain.value);
+    emits('next');
+  } finally {
+    isLoadingDomain.value = false;
   }
 }
 
