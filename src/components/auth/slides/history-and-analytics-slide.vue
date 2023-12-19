@@ -72,7 +72,7 @@ $img-width-md: 640px;
   }
 
   &__line {
-    border-top: 3px solid var(--accent-color);
+    border-top: 3px solid var(--primary-color);
     margin: var(--spacing-md) 0;
   }
 
@@ -105,7 +105,7 @@ $img-width-md: 640px;
     }
 
     &__line {
-      border-top: 2px solid var(--accent-color);
+      border-top: 2px solid var(--primary-color);
       margin: var(--spacing-sm) 0;
     }
 
