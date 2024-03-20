@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import auth from '../components/auth/the-auth';
+import auth from '../components/auth/the-auth.vue';
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
     return { left: 0, top: 0 };
   },

@@ -56,10 +56,10 @@ import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/component
 import { mapState } from 'vuex';
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
-import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
-import ChatsSlide from '@/components/auth/slides/chats-slide';
-import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
-import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
+import ContactCenterSlide from './slides/contact-center-slide.vue';
+import ChatsSlide from './slides/chats-slide.vue';
+import HistoryAndAnalyticsSlide from './slides/history-and-analytics-slide.vue';
+import SupervisorSlide from './slides/supervisor-slide.vue';
 import Flicking from '@egjs/vue3-flicking';
 import '@egjs/vue3-flicking/dist/flicking.css';
 import { Pagination, AutoPlay } from '@egjs/flicking-plugins';

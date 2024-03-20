@@ -7,7 +7,7 @@
 
 import { mapActions } from "vuex";
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import qs from 'querystring';
+import qs from 'qs';
 import Flicking from '@egjs/vue3-flicking';
 
 export default {

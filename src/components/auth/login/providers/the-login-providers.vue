@@ -22,7 +22,7 @@
 
 <script setup>
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import qs from 'querystring';
+import qs from 'qs';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import ServiceProvider from '../../../../enums/ServiceProvider.enum';
@@ -47,7 +47,7 @@ const serviceProviders = computed(() => {
 });
 
 function redirectToServiceProvider({ ticket }) {
-  const baseUrl = `${process.env.VUE_APP_API_URL}/login`;
+  const baseUrl = `${import.meta.env.VUE_APP_API_URL}/login`;
   const query = {
     redirect_uri: window.parent.location.href,
   };
