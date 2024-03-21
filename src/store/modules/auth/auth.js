@@ -76,7 +76,7 @@ const actions = {
   ON_AUTH_SUCCESS: async (context, { accessToken }) => {
     await context.dispatch('CACHE_USER_DATA');
 
-    const redirect = router.currentRoute.query?.redirectTo || import.meta.env.VITE_START_PAGE_URL;
+    const redirect = decodeURIComponent(router.currentRoute.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
     const url = `${redirect}?accessToken=${accessToken}`;
     window.location.href = url;
   },
