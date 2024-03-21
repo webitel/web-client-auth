@@ -47,7 +47,7 @@ const serviceProviders = computed(() => {
 });
 
 function redirectToServiceProvider({ ticket }) {
-  const baseUrl = `${import.meta.env.VUE_APP_API_URL}/login`;
+  const baseUrl = `${import.meta.env.VITE_API_URL}/login`;
   const query = {
     redirect_uri: window.parent.location.href,
   };

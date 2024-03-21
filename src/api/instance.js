@@ -16,7 +16,7 @@ export const config = {
 // global API configuration
 // 'X-Webitel-Access' ~ 'X-Access-Token'
 const instance = axios.create({
-  baseURL: import.meta.env.VUE_APP_API_URL,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'X-Webitel-Access': localStorage.getItem('access-token') || '',
     // 'X-Webitel-Access': 'USER_TOKEN',
