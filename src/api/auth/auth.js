@@ -6,7 +6,7 @@ export const login = async (credentials) => {
   try {
     const response = await instance.post(url, credentials);
     localStorage.setItem('access-token', response.accessToken);
-    postToken();
+    return postToken();
   } catch (err) {
     throw err;
   }
@@ -32,7 +32,7 @@ const checkSessionByToken = async () => {
 
   try {
     await instance.get(url);
-    postToken();
+    return postToken();
   } catch (err) {
     clearToken();
     throw err;
@@ -60,7 +60,8 @@ const checkCurrentSession = async () => {
   try {
     config.silent = true;
     await checkSessionByCookies();
-    await checkSessionByToken();
+    const accessToken = await checkSessionByToken();
+    return accessToken;
   } catch {} finally {
     config.silent = false;
   }
@@ -80,8 +81,7 @@ const clearToken = () => {
 
 const postToken = () => {
   const accessToken = localStorage.getItem('access-token');
-  const messageData = { accessToken };
-  parent.postMessage(messageData, '*'); // targetOrigin default: '/'
+  return accessToken;
 };
 
 const checkDomainExistence = async (domain) => {

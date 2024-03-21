@@ -8,12 +8,9 @@ module.exports = {
     "eslint:recommended",
     '@vue/airbnb',
   ],
-  parserOptions: {
-    parser: '@babel/eslint-parser',
-  },
   rules: {
     'no-console': 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-debugger': 'off',
     'no-useless-catch': 'off',
     'no-shadow': 'off',
     'no-empty': 'off',
@@ -26,9 +23,6 @@ module.exports = {
         '**/__tests__/*.{j,t}s?(x)',
         '**/tests/unit/**/*.spec.{j,t}s?(x)',
       ],
-      env: {
-        jest: true,
-      },
     },
   ],
 };

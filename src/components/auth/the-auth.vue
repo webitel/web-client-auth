@@ -12,10 +12,11 @@
           />
           <wt-dark-mode-switcher />
         </header>
-        <h1 class="auth-tabs-title">{{ tabTitle }}</h1>
+        <h1 class="auth-tabs-title">{{ currentTab.title }}</h1>
         <component
           :is="currentTab.value"
           @change-tab="currentTab = $event"
+          @submit="submitAuth(currentTab.value)"
         />
       </div>
     </section>
@@ -28,38 +29,38 @@
           <contact-center-slide
             key="1"
             class="card-panel"
-          ></contact-center-slide>
+          />
           <supervisor-slide
             key="2"
             class="card-panel"
-          ></supervisor-slide>
+          />
           <chats-slide
             key="3"
             class="card-panel"
-          ></chats-slide>
+          />
           <history-and-analytics-slide
             key="4"
             class="card-panel"
-          ></history-and-analytics-slide>
+          />
           <template v-slot:viewport>
             <div class="flicking-pagination"></div>
           </template>
         </flicking>
       </div>
-      <div class="auth-info__background"></div>
+      <div class="auth-info__background" />
     </section>
   </main>
 </template>
 
 <script>
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
-import { mapState } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
-import ContactCenterSlide from '@/components/auth/slides/contact-center-slide';
-import ChatsSlide from '@/components/auth/slides/chats-slide';
-import HistoryAndAnalyticsSlide from '@/components/auth/slides/history-and-analytics-slide';
-import SupervisorSlide from '@/components/auth/slides/supervisor-slide';
+import ContactCenterSlide from './slides/contact-center-slide.vue';
+import ChatsSlide from './slides/chats-slide.vue';
+import HistoryAndAnalyticsSlide from './slides/history-and-analytics-slide.vue';
+import SupervisorSlide from './slides/supervisor-slide.vue';
 import Flicking from '@egjs/vue3-flicking';
 import '@egjs/vue3-flicking/dist/flicking.css';
 import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
@@ -76,36 +77,37 @@ export default {
     Flicking,
     WtDarkModeSwitcher,
   },
-  data() {
-    return {
-      currentTab: { value: 'login' },
-      tabs: [
-        {
-          text: this.$t('auth.login'),
-          value: 'login',
-        },
-        {
-          text: this.$t('auth.register'),
-          value: 'register',
-        },
-      ],
-      plugins: [
-        new Pagination({ type: 'bullet' }),
-        new AutoPlay({ duration: 9000, stopOnHover: false }),
-      ],
-    };
-  },
+  data: () => ({
+    currentTab: { value: 'login' },
+    plugins: [
+      new Pagination({ type: 'bullet' }),
+      new AutoPlay({ duration: 9000, stopOnHover: false }),
+    ],
+  }),
   computed: {
     ...mapState('appearance', {
       theme: (state) => state.theme,
     }),
-    tabTitle() {
-      if(this.currentTab.value === 'login') return this.$t('auth.signIn');
-      if(this.currentTab.value === 'register') return this.$t('auth.titleRegistration');
-    }
+    tabs() {
+      return [
+        {
+          title: this.$t('auth.signIn'),
+          text: this.$t('auth.login'),
+          value: 'login',
+        },
+        {
+          title: this.$t('auth.titleRegistration'),
+          text: this.$t('auth.register'),
+          value: 'register',
+        },
+      ];
+    },
   },
 
   methods: {
+    ...mapActions('auth', {
+      submitAuth: 'SUBMIT_AUTH',
+    }),
     setInnitialTab() {
       const loginTab = this.tabs.find(({ value }) => value === 'login');
       const registerTab = this.tabs.find(({ value }) => value === 'register');
