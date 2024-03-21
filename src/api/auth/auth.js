@@ -60,14 +60,18 @@ const checkCurrentSession = async () => {
   try {
     config.silent = true;
 
-    if (localStorage.getItem('access-token') === 'undefined') {
+    const token = localStorage.getItem('access-token');
+    if (!token || token !== 'undefined') {
       clearToken();
+      throw new Error('No valid access-token in localStorage');
     }
 
     await checkSessionByCookies();
     const accessToken = await checkSessionByToken();
     return accessToken;
-  } catch {} finally {
+  } catch (err) {
+    throw err;
+  } finally {
     config.silent = false;
   }
 };

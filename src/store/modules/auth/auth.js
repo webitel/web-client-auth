@@ -76,7 +76,7 @@ const actions = {
   ON_AUTH_SUCCESS: async (context, { accessToken }) => {
     await context.dispatch('CACHE_USER_DATA');
 
-    const redirect = decodeURIComponent(router.currentRoute.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
+    const redirect = decodeURIComponent(router.currentRoute.value.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
 
     if (redirect === 'undefined' || accessToken === 'undefined') {
       throw new Error(`No redirect (${redirect}) or access token (${accessToken}) provided`);
