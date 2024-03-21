@@ -77,6 +77,11 @@ const actions = {
     await context.dispatch('CACHE_USER_DATA');
 
     const redirect = decodeURIComponent(router.currentRoute.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
+
+    if (redirect === 'undefined' || accessToken === 'undefined') {
+      throw new Error(`No redirect (${redirect}) or access token (${accessToken}) provided`);
+    }
+
     const url = `${redirect}?accessToken=${accessToken}`;
     window.location.href = url;
   },
