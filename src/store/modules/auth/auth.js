@@ -3,16 +3,16 @@ import router from '../../../router/router';
 import AuthAPI from '../../../api/auth/auth';
 
 const defaultState = () => ({
-  username: localStorage.getItem('username') || '',
-  password: localStorage.getItem('password') || '',
+  username: localStorage.getItem('auth/username') || '',
+  password: localStorage.getItem('auth/password') || '',
   certificate: '',
   confirmPassword: '',
-  domain: localStorage.getItem('domain') || '',
+  domain: localStorage.getItem('auth/domain') || '',
 });
 
 const state = {
   ...defaultState(),
-  rememberCredentials: localStorage.getItem('rememberCredentials') === 'true',
+  rememberCredentials: localStorage.getItem('auth/rememberCredentials') === 'true',
   loginProviders: {},
 };
 
@@ -76,22 +76,24 @@ const actions = {
   ON_AUTH_SUCCESS: async (context, { accessToken }) => {
     await context.dispatch('CACHE_USER_DATA');
 
-    const redirect = decodeURIComponent(router.currentRoute.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
+    const redirect = decodeURIComponent(router.currentRoute.value.query?.redirectTo) || import.meta.env.VITE_START_PAGE_URL;
 
     if (redirect === 'undefined' || accessToken === 'undefined') {
       throw new Error(`No redirect (${redirect}) or access token (${accessToken}) provided`);
     }
 
-    const url = `${redirect}?accessToken=${accessToken}`;
+    const url = redirect.includes('?')
+      ? `${redirect}&accessToken=${accessToken}`
+      : `${redirect}?accessToken=${accessToken}`;
     window.location.href = url;
   },
 
   CACHE_USER_DATA: (context) => {
-    if (context.state.domain) localStorage.setItem('domain', context.state.domain);
+    if (context.state.domain) localStorage.setItem('auth/domain', context.state.domain);
     if (context.state.rememberCredentials) {
-      if (context.state.username) localStorage.setItem('username', context.state.username);
-      if (context.state.password) localStorage.setItem('password', context.state.password);
-      localStorage.setItem('rememberCredentials', 'true');
+      if (context.state.username) localStorage.setItem('auth/username', context.state.username);
+      if (context.state.password) localStorage.setItem('auth/password', context.state.password);
+      localStorage.setItem('auth/rememberCredentials', 'true');
     }
   },
 
