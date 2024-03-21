@@ -5,12 +5,13 @@
   >
     <template v-slot:description></template>
     <template v-slot:main>
-      <form
-        class="auth-form"
-        @submit.prevent
-      >
+<!--     dont know why, but <form> with @submit.prevent still sends request on child input @keyup.enter
+        so that, i wrapped it with div
+ -->
+      <div class="auth-form">
         <first-step
           v-if="activeStep === 1"
+          :is-submitting="isFirstStepSubmitting"
           @register="backPrevStep"
           @next="goNextStep"
         ></first-step>
@@ -20,7 +21,7 @@
           @back="backPrevStep"
           @next="goNextStep"
         ></second-step>
-      </form>
+      </div>
 
     </template>
   </wt-stepper>
@@ -28,6 +29,7 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+import AuthAPI from '../../../api/auth/auth.js';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 
@@ -35,6 +37,7 @@ export default {
   name: 'the-login',
   data: () => ({
     activeStep: 1,
+    isFirstStepSubmitting: false,
   }),
   components: {
     FirstStep,
@@ -42,9 +45,6 @@ export default {
   },
 
   computed: {
-    ...mapState('auth', {
-      domain: (state) => state.domain,
-    }),
     steps() {
       return [
         {
@@ -60,6 +60,13 @@ export default {
   },
 
   methods: {
+    ...mapActions('auth', {
+      login: 'LOGIN',
+      setProp: 'SET_PROPERTY',
+      resetState: 'RESET_STATE',
+      checkDomain: 'CHECK_DOMAIN',
+    }),
+
     backPrevStep() {
       if (this.activeStep === 1) {
         this.$emit('change-tab', { value: 'register' });
@@ -70,29 +77,42 @@ export default {
 
     async goNextStep() {
       if (this.steps.length > this.activeStep) {
-        this.activeStep = this.activeStep + 1;
+
+        if (this.activeStep === 1) {
+          try {
+            this.isFirstStepSubmitting = true;
+            await this.checkDomain();
+          } finally {
+            this.isFirstStepSubmitting = false;
+          }
+        }
 
         if (this.activeStep === 2) {
           await this.setProp({ prop: 'password', value: '' });
         }
+
+        this.activeStep = this.activeStep + 1;
       } else {
-        try {
-          await this.login();
-          localStorage.setItem('domain', this.domain);
-        } catch (err) {
-          throw err;
-        }
+        this.$emit('submit');
       }
     },
 
-    ...mapActions('auth', {
-      login: 'LOGIN',
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-    }),
+    handleGlobalKeypress(event) {
+      if (event.key === 'Enter') {
+        if (event.ctrlKey) {
+          this.$emit('submit');
+        }
+        this.goNextStep();
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener('keypress', this.handleGlobalKeypress);
   },
 
   unmounted() {
+    window.removeEventListener('keypress', this.handleGlobalKeypress);
     this.resetState();
   },
 };

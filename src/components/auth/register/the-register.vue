@@ -11,16 +11,15 @@
       >
         <first-step
           v-if="activeStep === 1"
+          :is-submitting="isFirstStepSubmitting"
           @login="backPrevStep"
           @next="goNextStep"
         ></first-step>
 
         <second-step
           v-if="activeStep === 2"
-          :confirm-password="confirmPassword"
           @back="backPrevStep"
           @next="goNextStep"
-          @update:confirm-password="updateConfirmPassword"
         ></second-step>
 
         <third-step
@@ -36,30 +35,24 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
 import FirstStep from '../register/steps/the-register-first-step.vue';
 import SecondStep from '../register/steps/the-register-second-step.vue';
 import ThirdStep from '../register/steps/the-register-third-step.vue';
 
 export default {
   name: 'the-register',
-
-  data() {
-    return {
-      confirmPassword: '',
-      activeStep: 1,
-    };
-  },
   components: {
     FirstStep,
     SecondStep,
     ThirdStep,
   },
+  data: () => ({
+    activeStep: 1,
+    isFirstStepSubmitting: false,
+  }),
 
   computed: {
-    ...mapState('auth', {
-      domain: (state) => state.domain,
-    }),
     steps() {
       return [
         {
@@ -76,19 +69,19 @@ export default {
         },
       ];
     },
-    password() {
-      return this.$store.state.auth.password;
-    },
   },
 
   methods: {
-    clearPassword() {
-      if (this.password) this.setProp({ prop: 'password', value: '' });
-      if (this.confirmPassword) this.confirmPassword = '';
-    },
+    ...mapActions('auth', {
+      register: 'REGISTER',
+      setProp: 'SET_PROPERTY',
+      resetState: 'RESET_STATE',
+      checkDomain: 'CHECK_DOMAIN',
+    }),
 
-    updateConfirmPassword(value) {
-      this.confirmPassword = value;
+    clearPassword() {
+      this.setProp({ prop: 'password', value: '' });
+      this.setProp({ prop: 'confirmPassword', value: '' });
     },
 
     backPrevStep() {
@@ -105,30 +98,36 @@ export default {
 
     async goNextStep() {
       if (this.steps.length > this.activeStep) {
+        if (this.activeStep === 1) {
+          try {
+            this.isFirstStepSubmitting = true;
+            await this.checkDomain();
+          } finally {
+            this.isFirstStepSubmitting = false;
+          }
+        }
+
+        if (this.activeStep === 2) {}
+
         this.activeStep = this.activeStep + 1;
-
-        if (this.activeStep === 2) {
-          this.clearPassword();
-        }
-
       } else {
-        try {
-          await this.register();
-          localStorage.setItem('domain', this.domain);
-        } catch (err) {
-          throw err;
-        }
+        this.$emit('submit');
       }
     },
 
-    ...mapActions('auth', {
-      register: 'REGISTER',
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-    }),
+    handleGlobalKeypress(event) {
+      if (event.key === 'Enter') {
+        this.goNextStep();
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener('keypress', this.handleGlobalKeypress);
   },
 
   unmounted() {
+    window.removeEventListener('keypress', this.handleGlobalKeypress);
     this.resetState();
   },
 };

@@ -5,18 +5,19 @@
       :label="$t('auth.key')"
       :v="v$.certificate"
       @input="setProp({ prop: 'certificate', value: $event })"
-    ></wt-textarea>
+      @keyup.enter="emit('next')"
+    />
 
     <div class="auth-form-actions">
       <wt-button
-        @click="emits('back')"
+        @click="emit('back')"
         color="secondary"
       >{{ $t('reusable.back') }}
       </wt-button>
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="emits('next')"
+        @click="emit('next')"
       >{{ $t('auth.registerSubmit') }}
       </wt-button>
     </div>
@@ -29,7 +30,7 @@ import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 
-const emits = defineEmits(['back', 'next']);
+const emit = defineEmits(['back', 'next']);
 
 const store = useStore();
 
