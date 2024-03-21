@@ -1,20 +1,22 @@
 <template>
   <footer v-if="isOpenProviders" class="auth-form-footer">
     <div class="auth-form-footer__inner">
-      <wt-divider></wt-divider>
+      <wt-divider />
       <p class="auth-form-footer__title">{{ $t('auth.providersTitle') }}</p>
-      <wt-divider></wt-divider>
+      <wt-divider />
     </div>
 
     <div class="auth-form-footer__wrapper">
       <wt-button
         class="auth-form-footer__button"
-        v-for="({ ticket, icon }, key) of serviceProviders"
-        :key="key"
+        v-for="({ ticket, icon }) of serviceProviders"
+        :key="ticket"
         color="secondary"
-        @click="redirectToServiceProvider({ ticket })"
+        @click="openProvider({ ticket })"
       >
-        <wt-icon :icon="icon"></wt-icon>
+        <wt-icon
+          :icon="icon"
+        />
       </wt-button>
     </div>
   </footer>
@@ -22,8 +24,7 @@
 
 <script setup>
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import qs from 'qs';
-import { computed, onMounted } from 'vue';
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 import ServiceProvider from '../../../../enums/ServiceProvider.enum';
 
@@ -46,22 +47,15 @@ const serviceProviders = computed(() => {
   }));
 });
 
-function redirectToServiceProvider({ ticket }) {
-  const baseUrl = `${import.meta.env.VITE_API_URL}/login`;
-  const query = {
-    redirect_uri: window.parent.location.href,
-  };
-  const url = `${baseUrl}${ticket}?${qs.stringify(query)}`;
-  window.parent.location.replace(url);
-};
+function openProvider({ ticket }) {
+  return store.dispatch('auth/EXECUTE_PROVIDER', { ticket });
+}
 
-async function loadAvailableProviders() {
+function loadAvailableProviders() {
   return store.dispatch('auth/LOAD_SERVICE_PROVIDERS');
-};
+}
 
-onMounted(() => {
-  loadAvailableProviders();
-});
+loadAvailableProviders();
 </script>
 
 <style lang="scss" scoped>

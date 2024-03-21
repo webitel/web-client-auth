@@ -6,13 +6,14 @@
         :label="$t('auth.domain')"
         class="auth-form-inner--domain"
         disabled
-      ></wt-input>
+      />
 
       <wt-input
         v-model.trim="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
-      ></wt-input>
+        @keyup.enter="emit('next')"
+      />
 
       <wt-input
         v-model.trim="password"
@@ -20,24 +21,32 @@
         :v="v$.password"
         type="password"
         has-show-password
-      ></wt-input>
+        @keyup.enter="emit('next')"
+      />
+
+      <wt-checkbox
+        :selected="rememberCredentials"
+        :value="true"
+        :label="$t('auth.remember')"
+        @change="setProp({ prop: 'rememberCredentials', value: $event })"
+      />
     </div>
 
     <div class="auth-form-actions">
       <wt-button
-        @click="emits('back')"
+        @click="emit('back')"
         color="secondary"
       >{{ $t('reusable.back') }}
       </wt-button>
 
       <wt-button
         :disabled="v$.$invalid"
-        @click="emits('next')"
+        @click="emit('next')"
       >{{ $t('auth.login') }}
       </wt-button>
     </div>
 
-    <providers></providers>
+    <login-providers />
   </div>
 </template>
 
@@ -46,12 +55,12 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import Providers from '../providers/the-login-providers.vue';
+import LoginProviders from '../providers/the-login-providers.vue';
 
-const emits = defineEmits(['back', 'next']);
+const emit = defineEmits(['back', 'next']);
 
 const store = useStore();
-
+1
 const domain = computed(() => store.state.auth.domain);
 const username = computed({
   get: () => store.state.auth.username,
@@ -60,6 +69,10 @@ const username = computed({
 const password = computed({
   get: () => store.state.auth.password,
   set: (value) => setProp({ prop: 'password', value })
+});
+const rememberCredentials = computed({
+  get: () => store.state.auth.rememberCredentials,
+  set: (value) => setProp({ prop: 'rememberCredentials', value })
 });
 
 const v$ = useVuelidate(
@@ -70,17 +83,16 @@ const v$ = useVuelidate(
     password: {
       required,
     },
-
   })),
   { username, password },
   { $autoDirty: true },
 );
 
+onMounted(() => { v$.value.$touch() });
+
 async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);
-};
-
-onMounted(() => { v$.value.$touch() });
+}
 </script>
 
 <style lang="scss" scoped>
