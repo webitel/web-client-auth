@@ -5,4 +5,4 @@ import i18n from '../../src/locale/i18n';
 
 config.global.plugins = [WebitelUi, i18n];
 
-vi.doMock('axios', axiosMock);
+vi.doMock('axios', axiosMock());
