@@ -28,8 +28,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex';
-import AuthAPI from '../../../api/auth/auth.js';
+import { mapActions } from 'vuex';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 
@@ -61,7 +60,6 @@ export default {
 
   methods: {
     ...mapActions('auth', {
-      login: 'LOGIN',
       setProp: 'SET_PROPERTY',
       resetState: 'RESET_STATE',
       checkDomain: 'CHECK_DOMAIN',
