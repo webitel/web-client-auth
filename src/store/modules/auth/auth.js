@@ -1,4 +1,4 @@
-import qs from 'qs';
+import querystring from 'querystring';
 import router from '../../../router/router';
 import AuthAPI from '../../../api/auth/auth';
 
@@ -64,7 +64,7 @@ const actions = {
     const query = {
       redirect_uri: window.location.href,
     };
-    const url = `${baseUrl}${ticket}?${qs.stringify(query)}`;
+    const url = `${baseUrl}${ticket}?${querystring.stringify(query)}`;
     window.location.href = url;
   },
 
