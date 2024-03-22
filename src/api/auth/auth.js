@@ -47,7 +47,7 @@ const checkSessionByCookies = async () => {
   if (!accessToken) {
     try {
       const response = await instance.get(url, { withCredentials: true });
-      localStorage.setItem('access-token', response.access_token);
+      localStorage.setItem('access-token', response.accessToken);
       instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') ||
         '';
     } catch (err) {
@@ -61,7 +61,7 @@ const checkCurrentSession = async () => {
     config.silent = true;
 
     const token = localStorage.getItem('access-token');
-    if (!token || token !== 'undefined') {
+    if (!token || token === 'undefined') {
       clearToken();
       throw new Error('No valid access-token in localStorage');
     }

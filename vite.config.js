@@ -24,8 +24,12 @@ export default ({ mode }) => {
     },
     plugins: [
       vue(),
-      nodePolyfills(),
-      createSvgSpritePlugin(),
+      nodePolyfills({
+        include: ['querystring'],
+      }),
+      createSvgSpritePlugin({
+        include: '**/sprite/**.svg',
+      }),
     ],
   });
 }

@@ -6,7 +6,7 @@
 <script>
 import { mapActions } from "vuex";
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import qs from 'qs';
+import querystring from 'querystring';
 import Flicking from '@egjs/vue3-flicking';
 
 export default {
@@ -22,7 +22,7 @@ export default {
       if (lang) this.$i18n.locale = lang;
     },
     handlePathQuery() {
-      const query = objSnakeToCamel(qs.parse(window.parent.location.search.slice(1))); // query, without "?" sign
+      const query = objSnakeToCamel(querystring.parse(window.parent.location.search.slice(1))); // query, without "?" sign
       if (query.error || query.errorDescription) this.handleErrorsInQuery(query);
     },
     handleErrorsInQuery({ error, errorDescription }) {
