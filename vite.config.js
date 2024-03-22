@@ -31,5 +31,14 @@ export default ({ mode }) => {
         include: '**/sprite/**.svg',
       }),
     ],
+    test: {
+      globals: true,
+      coverage: {
+        enabled: false,
+        reporter: 'json',
+      },
+      environment: 'happy-dom',
+      setupFiles: ['./tests/config/config.js'],
+    },
   });
 }
