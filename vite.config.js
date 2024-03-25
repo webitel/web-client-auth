@@ -24,15 +24,7 @@ export default ({ mode }) => {
       },
     },
     plugins: [
-      vue({
-        template: {
-          compilerOptions: {
-            compatConfig: {
-              MODE: 2,
-            },
-          },
-        },
-      }),
+      vue(),
       nodePolyfills({
         include: ['querystring'],
       }),
