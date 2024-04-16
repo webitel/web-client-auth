@@ -97,6 +97,10 @@ const actions = {
       if (context.state.username) localStorage.setItem('auth/username', context.state.username);
       if (context.state.password) localStorage.setItem('auth/password', context.state.password);
       localStorage.setItem('auth/rememberCredentials', 'true');
+    } else {
+      localStorage.removeItem('auth/username');
+      localStorage.removeItem('auth/password');
+      localStorage.removeItem('auth/rememberCredentials');
     }
   },
 
