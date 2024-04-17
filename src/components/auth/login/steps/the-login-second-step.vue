@@ -12,7 +12,6 @@
         v-model.trim="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
-        @keyup.enter="emit('next')"
       />
 
       <wt-input
@@ -21,7 +20,6 @@
         :v="v$.password"
         type="password"
         has-show-password
-        @keyup.enter="emit('next')"
       />
 
       <wt-checkbox
@@ -56,6 +54,7 @@ import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import LoginProviders from '../providers/the-login-providers.vue';
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const emit = defineEmits(['back', 'next']);
 
@@ -89,6 +88,8 @@ const v$ = useVuelidate(
 );
 
 onMounted(() => { v$.value.$touch() });
+
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);

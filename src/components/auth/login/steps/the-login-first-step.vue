@@ -3,7 +3,6 @@
     v-model.trim="domain"
     :label="$t('auth.domain')"
     :v="v$.domain"
-    @keyup.enter="emit('next')"
   />
 
   <div class="auth-form-actions">
@@ -27,6 +26,7 @@ import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const props = defineProps({
   isSubmitting: {
@@ -55,11 +55,13 @@ const v$ = useVuelidate(
   { $autoDirty: true },
 );
 
-async function setProp(payload) {
-  return store.dispatch('auth/SET_PROPERTY', payload);
-}
-
 onMounted(() => {
   v$.value.$touch();
 });
+
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
+
+async function setProp(payload) {
+  return store.dispatch('auth/SET_PROPERTY', payload);
+}
 </script>

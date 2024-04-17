@@ -5,7 +5,6 @@
         v-model.trim="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
-        @keyup.enter="emit('next')"
       />
 
       <wt-input
@@ -53,6 +52,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const emit = defineEmits(['back', 'next']);
 
@@ -90,6 +90,8 @@ const v$ = useVuelidate(
   { username, password, confirmPassword },
   { $autoDirty: true },
 );
+
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);

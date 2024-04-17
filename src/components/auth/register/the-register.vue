@@ -114,20 +114,9 @@ export default {
         this.$emit('submit');
       }
     },
-
-    handleGlobalKeypress(event) {
-      if (event.key === 'Enter') {
-        this.goNextStep();
-      }
-    },
-  },
-
-  mounted() {
-    window.addEventListener('keypress', this.handleGlobalKeypress);
   },
 
   unmounted() {
-    window.removeEventListener('keypress', this.handleGlobalKeypress);
     this.resetState();
   },
 };

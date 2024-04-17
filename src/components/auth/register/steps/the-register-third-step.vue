@@ -5,7 +5,6 @@
       :label="$t('auth.key')"
       :v="v$.certificate"
       @input="setProp({ prop: 'certificate', value: $event })"
-      @keyup.enter="emit('next')"
     />
 
     <div class="auth-form-actions">
@@ -29,6 +28,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const emit = defineEmits(['back', 'next']);
 
@@ -46,9 +46,11 @@ const v$ = useVuelidate(
   { $autoDirty: true },
 );
 
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
+
 async function setProp(payload) {
   return store.dispatch('auth/SET_PROPERTY', payload);
-};
+}
 
 onMounted(() => { v$.value.$touch() });
 </script>
