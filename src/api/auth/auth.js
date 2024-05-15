@@ -1,11 +1,11 @@
 import instance, { config } from '../instance';
 
-export const login = async (credentials, isToken = true) => {
+export const login = async (credentials) => {
   const url = '/login';
 
   try {
     const response = await instance.post(url, credentials);
-    if(isToken) {
+    if(response.accessToken) {
       localStorage.setItem('access-token', response.accessToken);
       return postToken();
     } return response;

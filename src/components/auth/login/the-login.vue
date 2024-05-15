@@ -43,7 +43,6 @@ export default {
   data: () => ({
     activeStep: 1,
     isFirstStepSubmitting: false,
-    steps: [],
   }),
   components: {
     FirstStep,
@@ -55,18 +54,9 @@ export default {
     ...mapState('auth', {
       enabledTfa: (state) => state.enabledTfa,
     }),
-  },
 
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-      checkDomain: 'CHECK_DOMAIN',
-      get2faSessionId: 'GET_2FA_SESSION_ID',
-    }),
-
-    setSteps() {
-      this.steps = [
+    steps() {
+      const arr = [
         {
           name: this.$t('reusable.step', { count: 1 }),
           description: this.$t('auth.enterDomain'),
@@ -75,8 +65,28 @@ export default {
           name: this.$t('reusable.step', { count: 2 }),
           description: this.$t('auth.enterUsername'),
         },
-      ]
+      ];
+
+      if (this.enabledTfa) arr.push({
+        name: this.$t('reusable.step', { count: 3 }),
+        description: this.$t('auth.enterAuthenticationCode'),
+      });
+
+      return arr;
     },
+  },
+
+  methods: {
+    ...mapActions('auth', {
+      setProp: 'SET_PROPERTY',
+      resetState: 'RESET_STATE',
+      checkDomain: 'CHECK_DOMAIN',
+
+      // [https://webitel.atlassian.net/browse/WTEL-3405]
+      // post request /login returns different values for two-factor authentication and standard login
+
+      get2faSessionId: 'LOGIN',
+    }),
 
     backPrevStep() {
       if (this.activeStep === 1) {
@@ -118,23 +128,8 @@ export default {
     },
   },
 
-  created() {
-    this.setSteps();
-  },
-
   unmounted() {
     this.resetState();
-  },
-
-  watch: {
-    enabledTfa: {
-      handler(value) {
-        if (value) this.steps.push({
-            name: this.$t('reusable.step', { count: 3 }),
-            description: this.$t('auth.enterAuthenticationCode'),
-          })
-      },
-    },
   },
 
 };

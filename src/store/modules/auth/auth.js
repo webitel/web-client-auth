@@ -14,9 +14,9 @@ const state = {
   ...defaultState(),
   rememberCredentials: localStorage.getItem('auth/rememberCredentials') === 'true',
   loginProviders: {},
-  enabledTfa: '',
+  enabledTfa: false,
   totp: '',
-  id: '',
+  sessionId: '', // it's necessary for two-factor authentication
 };
 
 const getters = {};
@@ -26,7 +26,7 @@ const actions = {
     let accessToken;
 
     if(action === 'login') {
-      if(context.state.id) {
+      if(context.state.sessionId) {
         accessToken = await context.dispatch('LOGIN_2FA');
       }
       accessToken = await context.dispatch('LOGIN');
@@ -37,29 +37,23 @@ const actions = {
     return context.dispatch('ON_AUTH_SUCCESS', { accessToken });
   },
 
-  LOGIN: (context) => {
-    return AuthAPI.login({
+  LOGIN: async (context) => {
+    const response = await AuthAPI.login({
       username: context.state.username,
       password: context.state.password,
       domain: context.state.domain,
     });
-  },
 
-  GET_2FA_SESSION_ID: async (context) => {
-    const { id } = await AuthAPI.login({
-      username: context.state.username,
-      password: context.state.password,
-      domain: context.state.domain,
-    }, false);
-
-    if(id) {
-      await context.dispatch('SET_PROPERTY', { prop: 'id', value: id });
+    if(response?.id) {
+      await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: response.id });
     }
+
+    return response;
   },
 
   LOGIN_2FA: (context) => {
     return AuthAPI.login2fa({
-      id: context.state.id,
+      id: context.state.sessionId,
       totp: context.state.totp,
     })
   },
