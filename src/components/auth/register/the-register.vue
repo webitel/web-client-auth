@@ -76,7 +76,6 @@ export default {
       register: 'REGISTER',
       setProp: 'SET_PROPERTY',
       resetState: 'RESET_STATE',
-      checkDomain: 'CHECK_DOMAIN',
     }),
 
     clearPassword() {
@@ -101,7 +100,6 @@ export default {
         if (this.activeStep === 1) {
           try {
             this.isFirstStepSubmitting = true;
-            await this.checkDomain();
           } finally {
             this.isFirstStepSubmitting = false;
           }
