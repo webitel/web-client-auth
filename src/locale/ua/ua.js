@@ -16,5 +16,7 @@ export default {
     signIn: 'Увійти',
     login: 'Увійти',
     remember: 'Запам\'ятати',
+    code: 'Код',
+    enterAuthenticationCode: 'Введіть ваш код двофакторної автентифікації',
   },
 };

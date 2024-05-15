@@ -21,6 +21,12 @@
           @back="backPrevStep"
           @next="goNextStep"
         ></second-step>
+
+        <third-step
+          v-if="activeStep === 3"
+          @back="backPrevStep"
+          @next="goNextStep"
+        ></third-step>
       </div>
 
     </template>
@@ -28,24 +34,39 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
-
+import ThirdStep from './steps/the-login-third-step.vue';
 export default {
   name: 'the-login',
   data: () => ({
     activeStep: 1,
     isFirstStepSubmitting: false,
+    steps: [],
   }),
   components: {
     FirstStep,
     SecondStep,
+    ThirdStep,
   },
 
   computed: {
-    steps() {
-      return [
+    ...mapState('auth', {
+      enabledTfa: (state) => state.enabledTfa,
+    }),
+  },
+
+  methods: {
+    ...mapActions('auth', {
+      setProp: 'SET_PROPERTY',
+      resetState: 'RESET_STATE',
+      checkDomain: 'CHECK_DOMAIN',
+      get2faSessionId: 'GET_2FA_SESSION_ID',
+    }),
+
+    setSteps() {
+      this.steps = [
         {
           name: this.$t('reusable.step', { count: 1 }),
           description: this.$t('auth.enterDomain'),
@@ -54,22 +75,22 @@ export default {
           name: this.$t('reusable.step', { count: 2 }),
           description: this.$t('auth.enterUsername'),
         },
-      ];
+      ]
     },
-  },
-
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-      checkDomain: 'CHECK_DOMAIN',
-    }),
 
     backPrevStep() {
       if (this.activeStep === 1) {
         this.$emit('change-tab', { value: 'register' });
       } else {
         this.activeStep = this.activeStep - 1;
+      }
+
+      if (this.activeStep === 2) {
+        this.setProp({ prop: 'password', value: '' });
+      }
+
+      if (this.activeStep === 3) {
+        this.setProp({ prop: 'totp', value: '' });
       }
     },
 
@@ -85,20 +106,37 @@ export default {
           }
         }
 
-        if (this.activeStep === 2) {
-          await this.setProp({ prop: 'password', value: '' });
+        this.activeStep = this.activeStep + 1;
+
+        if (this.activeStep === 3) {
+          await this.get2faSessionId();
         }
 
-        this.activeStep = this.activeStep + 1;
       } else {
         this.$emit('submit');
       }
     },
   },
 
+  created() {
+    this.setSteps();
+  },
+
   unmounted() {
     this.resetState();
   },
+
+  watch: {
+    enabledTfa: {
+      handler(value) {
+        if (value) this.steps.push({
+            name: this.$t('reusable.step', { count: 3 }),
+            description: this.$t('auth.enterAuthenticationCode'),
+          })
+      },
+    },
+  },
+
 };
 </script>
 

@@ -1,8 +1,21 @@
 import instance, { config } from '../instance';
 
-export const login = async (credentials) => {
+export const login = async (credentials, isToken = true) => {
   const url = '/login';
 
+  try {
+    const response = await instance.post(url, credentials);
+    if(isToken) {
+      localStorage.setItem('access-token', response.accessToken);
+      return postToken();
+    } return response;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const login2fa = async (credentials) => {
+  const url = '/login/2fa';
   try {
     const response = await instance.post(url, credentials);
     localStorage.setItem('access-token', response.accessToken);
@@ -105,6 +118,7 @@ const checkDomainExistence = async (domain) => {
 
 const AuthAPI = {
   login,
+  login2fa,
   register,
   checkCurrentSession,
   loadServiceProviders,
