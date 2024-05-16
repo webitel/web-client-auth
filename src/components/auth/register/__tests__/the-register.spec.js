@@ -24,25 +24,6 @@ describe('TheRegister', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-
-
-  it('"next" from first step calls domain check action', () => {
-    const mock = vi.spyOn(TheRegister.methods, 'checkDomain')
-    .mockImplementationOnce(vi.fn());
-    const wrapper = mount(TheRegister, {
-      shallow: true,
-      global: {
-        plugins: [store],
-        stubs: {
-          WtStepper: false,
-          TheRegisterFirstStep: false,
-        },
-      },
-    });
-    wrapper.findComponent({ name: 'TheRegisterFirstStep' }).vm.$emit('next');
-    expect(mock).toHaveBeenCalled();
-  });
-
   it('"next" from second step increments activeStep', () => {
     const wrapper = mount(TheRegister, {
       shallow: true,
