@@ -38,24 +38,11 @@ const actions = {
   },
 
   LOGIN: async (context) => {
-    const response = await AuthAPI.login({
+    return await AuthAPI.login({
       username: context.state.username,
       password: context.state.password,
       domain: context.state.domain,
     });
-
-    if(response?.id) {
-      await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: response.id });
-    }
-
-    return response;
-  },
-
-  LOGIN_2FA: (context) => {
-    return AuthAPI.login2fa({
-      id: context.state.sessionId,
-      totp: context.state.totp,
-    })
   },
 
   REGISTER: (context) => {
@@ -65,6 +52,25 @@ const actions = {
       certificate: context.state.certificate,
       domain: context.state.domain,
     });
+  },
+
+  LOGIN_2FA: (context) => {
+    return AuthAPI.login2fa({
+      id: context.state.sessionId,
+      totp: context.state.totp,
+    })
+  },
+
+  GET_2FA_SESSION_ID: async (context) => {
+    const { id } = await AuthAPI.login({
+      username: context.state.username,
+      password: context.state.password,
+      domain: context.state.domain,
+    });
+
+    if(id) {
+      await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
+    }
   },
 
   LOAD_SERVICE_PROVIDERS: async (context) => {

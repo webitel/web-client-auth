@@ -56,7 +56,7 @@ export default {
     }),
 
     steps() {
-      const arr = [
+      const steps = [
         {
           name: this.$t('reusable.step', { count: 1 }),
           description: this.$t('auth.enterDomain'),
@@ -67,12 +67,12 @@ export default {
         },
       ];
 
-      if (this.enabledTfa) arr.push({
+      if (this.enabledTfa) steps.push({
         name: this.$t('reusable.step', { count: 3 }),
         description: this.$t('auth.enterAuthenticationCode'),
       });
 
-      return arr;
+      return steps;
     },
   },
 
@@ -81,11 +81,7 @@ export default {
       setProp: 'SET_PROPERTY',
       resetState: 'RESET_STATE',
       checkDomain: 'CHECK_DOMAIN',
-
-      // [https://webitel.atlassian.net/browse/WTEL-3405]
-      // post request /login returns different values for two-factor authentication and standard login
-
-      get2faSessionId: 'LOGIN',
+      get2faSessionId: 'GET_2FA_SESSION_ID',
     }),
 
     backPrevStep() {

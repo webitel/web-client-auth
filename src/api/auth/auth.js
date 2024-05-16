@@ -5,6 +5,12 @@ export const login = async (credentials) => {
 
   try {
     const response = await instance.post(url, credentials);
+
+    // [https://webitel.atlassian.net/browse/WTEL-3405]
+    // If two-factor authentication is enabled,
+    // API returns the two-factor authentication session ID instead of a token
+    // and saving to localStorage is not needed
+
     if(response.accessToken) {
       localStorage.setItem('access-token', response.accessToken);
       return postToken();
