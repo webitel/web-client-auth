@@ -21,6 +21,12 @@
           @back="backPrevStep"
           @next="goNextStep"
         ></second-step>
+
+        <third-step
+          v-if="activeStep === 3"
+          @back="backPrevStep"
+          @next="goNextStep"
+        ></third-step>
       </div>
 
     </template>
@@ -28,10 +34,10 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
-
+import ThirdStep from './steps/the-login-third-step.vue';
 export default {
   name: 'the-login',
   data: () => ({
@@ -41,11 +47,16 @@ export default {
   components: {
     FirstStep,
     SecondStep,
+    ThirdStep,
   },
 
   computed: {
+    ...mapState('auth', {
+      enabledTfa: (state) => state.enabledTfa,
+    }),
+
     steps() {
-      return [
+      const steps = [
         {
           name: this.$t('reusable.step', { count: 1 }),
           description: this.$t('auth.enterDomain'),
@@ -55,6 +66,13 @@ export default {
           description: this.$t('auth.enterUsername'),
         },
       ];
+
+      if (this.enabledTfa) steps.push({
+        name: this.$t('reusable.step', { count: 3 }),
+        description: this.$t('auth.enterAuthenticationCode'),
+      });
+
+      return steps;
     },
   },
 
@@ -63,6 +81,7 @@ export default {
       setProp: 'SET_PROPERTY',
       resetState: 'RESET_STATE',
       checkDomain: 'CHECK_DOMAIN',
+      get2faSessionId: 'GET_2FA_SESSION_ID',
     }),
 
     backPrevStep() {
@@ -70,6 +89,14 @@ export default {
         this.$emit('change-tab', { value: 'register' });
       } else {
         this.activeStep = this.activeStep - 1;
+      }
+
+      if (this.activeStep === 2) {
+        this.setProp({ prop: 'password', value: '' });
+      }
+
+      if (this.activeStep === 3) {
+        this.setProp({ prop: 'totp', value: '' });
       }
     },
 
@@ -85,11 +112,12 @@ export default {
           }
         }
 
-        if (this.activeStep === 2) {
-          await this.setProp({ prop: 'password', value: '' });
+        this.activeStep = this.activeStep + 1;
+
+        if (this.activeStep === 3) {
+          await this.get2faSessionId();
         }
 
-        this.activeStep = this.activeStep + 1;
       } else {
         this.$emit('submit');
       }
@@ -99,6 +127,7 @@ export default {
   unmounted() {
     this.resetState();
   },
+
 };
 </script>
 

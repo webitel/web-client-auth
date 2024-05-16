@@ -14,6 +14,9 @@ const state = {
   ...defaultState(),
   rememberCredentials: localStorage.getItem('auth/rememberCredentials') === 'true',
   loginProviders: {},
+  enabledTfa: false,
+  totp: '',
+  sessionId: '', // it's necessary for two-factor authentication
 };
 
 const getters = {};
@@ -21,22 +24,21 @@ const getters = {};
 const actions = {
   SUBMIT_AUTH: async (context, action) => {
     let accessToken;
-    switch (action) {
-      case 'login':
-        accessToken = await context.dispatch('LOGIN');
-        break;
-      case 'register':
-        accessToken = await context.dispatch('REGISTER');
-        break;
-      default:
-        throw new Error(`Invalid action: ${action}`);
-    }
+
+    if(action === 'login') {
+      if(context.state.sessionId) {
+        accessToken = await context.dispatch('LOGIN_2FA');
+      }
+      accessToken = await context.dispatch('LOGIN');
+    } else if(action === 'register') {
+      accessToken = await context.dispatch('REGISTER');
+    } else throw new Error(`Invalid action: ${action}`);
 
     return context.dispatch('ON_AUTH_SUCCESS', { accessToken });
   },
 
-  LOGIN: (context) => {
-    return AuthAPI.login({
+  LOGIN: async (context) => {
+    return await AuthAPI.login({
       username: context.state.username,
       password: context.state.password,
       domain: context.state.domain,
@@ -52,11 +54,31 @@ const actions = {
     });
   },
 
+  LOGIN_2FA: (context) => {
+    return AuthAPI.login2fa({
+      id: context.state.sessionId,
+      totp: context.state.totp,
+    })
+  },
+
+  GET_2FA_SESSION_ID: async (context) => {
+    const { id } = await AuthAPI.login({
+      username: context.state.username,
+      password: context.state.password,
+      domain: context.state.domain,
+    });
+
+    if(id) {
+      await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
+    }
+  },
+
   LOAD_SERVICE_PROVIDERS: async (context) => {
     const domain = context.state.domain;
     const response = await AuthAPI.loadServiceProviders({ domain });
-    const { federation = {} } = response;
+    const { federation = {}, enabledTfa } = response;
     context.commit('SET_SERVICE_PROVIDERS', federation);
+    await context.dispatch('SET_PROPERTY', { prop: 'enabledTfa', value: enabledTfa });
   },
 
   EXECUTE_PROVIDER: (context, { ticket }) => {
