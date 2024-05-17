@@ -25,14 +25,16 @@ const actions = {
   SUBMIT_AUTH: async (context, action) => {
     let accessToken;
 
-    if(action === 'login') {
-      if(context.state.sessionId) {
-        accessToken = await context.dispatch('LOGIN_2FA');
-      }
-      accessToken = await context.dispatch('LOGIN');
-    } else if(action === 'register') {
-      accessToken = await context.dispatch('REGISTER');
-    } else throw new Error(`Invalid action: ${action}`);
+    switch (action) {
+      case 'login':
+        accessToken = await context.dispatch(context.state.sessionId ? 'LOGIN_2FA' : 'LOGIN');
+        break;
+      case 'register':
+        accessToken = await context.dispatch('REGISTER');
+        break;
+      default:
+        throw new Error(`Invalid action: ${action}`);
+    }
 
     return context.dispatch('ON_AUTH_SUCCESS', { accessToken });
   },
