@@ -112,11 +112,15 @@ export default {
           }
         }
 
-        this.activeStep = this.activeStep + 1;
-
-        if (this.activeStep === 3) {
-          await this.get2faSessionId();
+        if (this.activeStep === 2 && this.enabledTfa) {
+          try{
+            await this.get2faSessionId();
+          } catch (err) {
+            return;
+          }
         }
+
+        this.activeStep = this.activeStep + 1;
 
       } else {
         this.$emit('submit');
