@@ -78,20 +78,11 @@ export default {
       resetState: 'RESET_STATE',
     }),
 
-    clearPassword() {
-      this.setProp({ prop: 'password', value: '' });
-      this.setProp({ prop: 'confirmPassword', value: '' });
-    },
-
     backPrevStep() {
       if (this.activeStep === 1) {
         this.$emit('change-tab', { value: 'login' });
       } else {
         this.activeStep = this.activeStep - 1;
-      }
-
-      if (this.activeStep === 2) {
-        this.clearPassword();
       }
     },
 

@@ -91,10 +91,6 @@ export default {
         this.activeStep = this.activeStep - 1;
       }
 
-      if (this.activeStep === 2) {
-        this.setProp({ prop: 'password', value: '' });
-      }
-
       if (this.activeStep === 3) {
         this.setProp({ prop: 'totp', value: '' });
       }
