@@ -2,12 +2,15 @@
   <div>
     <div class="auth-form-inner">
       <wt-input
+        name="username"
         v-model.trim="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
+        type="username"
       />
 
       <wt-input
+        name="password"
         v-model.trim="password"
         :label="$t('auth.password')"
         :v="v$.password"
@@ -21,13 +24,6 @@
         :v="v$.confirmPassword"
         type="password"
         @keyup.enter="emit('next')"
-      />
-
-      <wt-checkbox
-        :selected="rememberCredentials"
-        :value="true"
-        :label="$t('auth.remember')"
-        @change="setProp({ prop: 'rememberCredentials', value: $event })"
       />
     </div>
 
@@ -69,10 +65,6 @@ const password = computed({
 const confirmPassword = computed({
   get: () => store.state.auth.confirmPassword,
   set: (value) => setProp({ prop: 'confirmPassword', value })
-});
-const rememberCredentials = computed({
-  get: () => store.state.auth.rememberCredentials,
-  set: (value) => setProp({ prop: 'rememberCredentials', value })
 });
 
 const v$ = useVuelidate(

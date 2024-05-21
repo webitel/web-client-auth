@@ -103,30 +103,11 @@ describe('auth store', () => {
   it('CACHE_USER_DATA caches domain by default', async () => {
     const domain = 'domain';
     context.state.domain = domain;
-    context.state.rememberCredentials = false;
 
     const mock = vi.spyOn(localStorage, 'setItem').mockImplementationOnce(vi.fn());
 
     await auth.actions.CACHE_USER_DATA(context);
     expect(mock).toHaveBeenCalledWith('auth/domain', domain);
-  });
-
-  it('CACHE_USER_DATA caches username + password + remCreds, if remCreds is true', async () => {
-    const username = 'vi1';
-    const password = 'vi2';
-
-    context.state = {
-      username,
-      password,
-      rememberCredentials: true,
-    };
-
-    const mock = vi.spyOn(localStorage, 'setItem').mockImplementationOnce(vi.fn());
-
-    await auth.actions.CACHE_USER_DATA(context);
-    expect(mock).toHaveBeenCalledWith('auth/username', username);
-    expect(mock).toHaveBeenCalledWith('auth/password', password);
-    expect(mock).toHaveBeenCalledWith('auth/rememberCredentials', 'true');
   });
 
   it('CHECK_DOMAIN action calls AuthAPI.checkDomainExistence with domain from state', async () => {

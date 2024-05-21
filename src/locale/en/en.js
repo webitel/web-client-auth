@@ -15,7 +15,6 @@ export default {
     registerSubmit: 'Register',
     signIn: 'Sign in',
     login: 'Log in',
-    remember: 'Remember',
     code: 'Code',
     enterAuthenticationCode: 'Enter your two-factor authentication code',
     carousel: {

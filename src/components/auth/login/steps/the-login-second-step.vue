@@ -2,38 +2,35 @@
   <div>
     <div class="auth-form-inner">
       <wt-input
-        :value="domain"
         :label="$t('auth.domain')"
+        :value="domain"
         class="auth-form-inner--domain"
         disabled
       />
 
       <wt-input
+        name="username"
         v-model.trim="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
+        autocomplete
       />
 
       <wt-input
+        name="password"
         v-model.trim="password"
         :label="$t('auth.password')"
         :v="v$.password"
-        type="password"
+        autocomplete
         has-show-password
-      />
-
-      <wt-checkbox
-        :selected="rememberCredentials"
-        :value="true"
-        :label="$t('auth.remember')"
-        @change="setProp({ prop: 'rememberCredentials', value: $event })"
+        type="password"
       />
     </div>
 
     <div class="auth-form-actions">
       <wt-button
-        @click="emit('back')"
         color="secondary"
+        @click="emit('back')"
       >{{ $t('reusable.back') }}
       </wt-button>
 
@@ -53,25 +50,21 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
-import LoginProviders from '../providers/the-login-providers.vue';
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
+import LoginProviders from '../providers/the-login-providers.vue';
 
 const emit = defineEmits(['back', 'next']);
 
 const store = useStore();
-1
+1;
 const domain = computed(() => store.state.auth.domain);
 const username = computed({
   get: () => store.state.auth.username,
-  set: (value) => setProp({ prop: 'username', value })
+  set: (value) => setProp({ prop: 'username', value }),
 });
 const password = computed({
   get: () => store.state.auth.password,
-  set: (value) => setProp({ prop: 'password', value })
-});
-const rememberCredentials = computed({
-  get: () => store.state.auth.rememberCredentials,
-  set: (value) => setProp({ prop: 'rememberCredentials', value })
+  set: (value) => setProp({ prop: 'password', value }),
 });
 
 const v$ = useVuelidate(
@@ -87,7 +80,7 @@ const v$ = useVuelidate(
   { $autoDirty: true },
 );
 
-onMounted(() => { v$.value.$touch() });
+onMounted(() => { v$.value.$touch(); });
 
 useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
