@@ -1,9 +1,11 @@
 <template>
   <div>
     <wt-input
+      name="domain"
       v-model.trim="domain"
       :label="$t('auth.domain')"
       :v="v$.domain"
+      autocomplete
     />
 
     <div class="auth-form-actions">

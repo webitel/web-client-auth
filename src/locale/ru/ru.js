@@ -15,7 +15,6 @@ export default {
     registerSubmit: 'Создать',
     signIn: 'Войти',
     login: 'Войти',
-    remember: 'Запомнить',
     code: 'Код',
     enterAuthenticationCode: 'Введите ваш код двухфакторной аутентификации',
   },

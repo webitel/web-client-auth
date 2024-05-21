@@ -12,7 +12,6 @@ const defaultState = () => ({
 
 const state = {
   ...defaultState(),
-  rememberCredentials: localStorage.getItem('auth/rememberCredentials') === 'true',
   loginProviders: {},
   enabledTfa: false,
   totp: '',
@@ -117,15 +116,6 @@ const actions = {
 
   CACHE_USER_DATA: (context) => {
     if (context.state.domain) localStorage.setItem('auth/domain', context.state.domain);
-    if (context.state.rememberCredentials) {
-      if (context.state.username) localStorage.setItem('auth/username', context.state.username);
-      if (context.state.password) localStorage.setItem('auth/password', context.state.password);
-      localStorage.setItem('auth/rememberCredentials', 'true');
-    } else {
-      localStorage.removeItem('auth/username');
-      localStorage.removeItem('auth/password');
-      localStorage.removeItem('auth/rememberCredentials');
-    }
   },
 
   CHECK_DOMAIN: (context, domain = context.state.domain) => {
