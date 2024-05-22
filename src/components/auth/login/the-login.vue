@@ -5,9 +5,9 @@
   >
     <template v-slot:description></template>
     <template v-slot:main>
-<!--     dont know why, but <form> with @submit.prevent still sends request on child input @keyup.enter
-        so that, i wrapped it with div
- -->
+      <!--     dont know why, but <form> with @submit.prevent still sends request on child input @keyup.enter
+              so that, i wrapped it with div
+       -->
       <div class="auth-form">
         <first-step
           v-if="activeStep === 1"
@@ -38,6 +38,7 @@ import { mapActions, mapState } from 'vuex';
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 import ThirdStep from './steps/the-login-third-step.vue';
+
 export default {
   name: 'the-login',
   props: {
@@ -59,6 +60,7 @@ export default {
   computed: {
     ...mapState('auth', {
       enabledTfa: (state) => state.enabledTfa,
+      domain: (state) => state.domain,
     }),
 
     steps() {
@@ -88,6 +90,7 @@ export default {
       resetState: 'RESET_STATE',
       checkDomain: 'CHECK_DOMAIN',
       get2faSessionId: 'GET_2FA_SESSION_ID',
+      onAuthSuccess: 'ON_AUTH_SUCCESS',
     }),
 
     backPrevStep() {
@@ -115,7 +118,7 @@ export default {
         }
 
         if (this.activeStep === 2 && this.enabledTfa) {
-          try{
+          try {
             await this.get2faSessionId();
           } catch (err) {
             return;
@@ -129,6 +132,10 @@ export default {
       }
     },
   },
+  async mounted() {
+    const response = await this.checkDomain();
+    if (response.access_token) this.onAuthSuccess({ accessToken: response.access_token });
+  },
 
   unmounted() {
     this.resetState();
@@ -137,11 +144,10 @@ export default {
   watch: {
     isBackPrevStep: {
       handler(value) {
-        if(value && this.activeStep === 3) this.backPrevStep();
-      }
-    }
-  }
-
+        if (value && this.activeStep === 3) this.backPrevStep();
+      },
+    },
+  },
 };
 </script>
 
