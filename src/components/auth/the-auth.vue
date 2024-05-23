@@ -18,6 +18,7 @@
           :is-back-prev-step="isBackPrevStepInLogin"
           @change-tab="currentTab = $event"
           @submit="authorization(currentTab.value)"
+          @change-is-back-prev-step="changeIsBackPrevStepInLogin"
         />
       </div>
     </section>
@@ -119,8 +120,11 @@ export default {
       try {
         await this.submitAuth(tab)
       } catch (err) {
-        if(tab === 'login' && err.code === 400) this.isBackPrevStepInLogin = true;
+        if(tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
       }
+    },
+    changeIsBackPrevStepInLogin() {
+      this.isBackPrevStepInLogin = false;
     }
   },
   created() {

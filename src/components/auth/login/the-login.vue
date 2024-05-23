@@ -137,7 +137,9 @@ export default {
   watch: {
     isBackPrevStep: {
       handler(value) {
-        if(value && this.activeStep === 3) this.backPrevStep();
+        if(value && this.activeStep === 3)
+          this.backPrevStep();
+          this.$emit('change-is-back-prev-step');
       }
     }
   }
