@@ -82,7 +82,7 @@ const checkCurrentSession = async () => {
     const token = localStorage.getItem('access-token');
     if (!token || token === 'undefined') {
       clearToken();
-      throw new Error('No valid access-token in localStorage');
+      console.info('No valid access-token in localStorage present at checkCurrentSession');
     }
 
     await checkSessionByCookies();
