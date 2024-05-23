@@ -50,12 +50,6 @@ const serviceProviders = computed(() => {
 function openProvider({ ticket }) {
   return store.dispatch('auth/EXECUTE_PROVIDER', { ticket });
 }
-
-function loadAvailableProviders() {
-  return store.dispatch('auth/LOAD_SERVICE_PROVIDERS');
-}
-
-loadAvailableProviders();
 </script>
 
 <style lang="scss" scoped>
