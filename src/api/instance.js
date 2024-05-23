@@ -71,8 +71,8 @@ instance.interceptors.response.use(
         type: 'error',
         text: error.detail || error.response.data.detail,
       });
-    }
-    return Promise.reject(error.response.data);
+     }
+   return Promise.reject(error);
   },
 );
 

@@ -15,8 +15,10 @@
         <h1 class="auth-tabs-title">{{ currentTab.title }}</h1>
         <component
           :is="currentTab.value"
+          :is-back-prev-step="isBackPrevStepInLogin"
           @change-tab="currentTab = $event"
-          @submit="submitAuth(currentTab.value)"
+          @submit="authorization(currentTab.value)"
+          @change-is-back-prev-step="changeIsBackPrevStepInLogin"
         />
       </div>
     </section>
@@ -83,6 +85,7 @@ export default {
       new Pagination({ type: 'bullet' }),
       new AutoPlay({ duration: 9000, stopOnHover: false }),
     ],
+    isBackPrevStepInLogin: false,
   }),
   computed: {
     ...mapState('appearance', {
@@ -113,6 +116,16 @@ export default {
       const registerTab = this.tabs.find(({ value }) => value === 'register');
       this.currentTab = this.$route.query.reset ? registerTab : loginTab;
     },
+    async authorization(tab) {
+      try {
+        await this.submitAuth(tab)
+      } catch (err) {
+        if(tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
+      }
+    },
+    changeIsBackPrevStepInLogin() {
+      this.isBackPrevStepInLogin = false;
+    }
   },
   created() {
     this.setInnitialTab();

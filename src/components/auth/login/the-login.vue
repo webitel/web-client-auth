@@ -40,6 +40,12 @@ import SecondStep from '../login/steps/the-login-second-step.vue';
 import ThirdStep from './steps/the-login-third-step.vue';
 export default {
   name: 'the-login',
+  props: {
+    isBackPrevStep: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data: () => ({
     activeStep: 1,
     isFirstStepSubmitting: false,
@@ -91,7 +97,7 @@ export default {
         this.activeStep = this.activeStep - 1;
       }
 
-      if (this.activeStep === 3) {
+      if (this.activeStep === 2 && this.enabledTfa) {
         this.setProp({ prop: 'totp', value: '' });
       }
     },
@@ -127,6 +133,16 @@ export default {
   unmounted() {
     this.resetState();
   },
+
+  watch: {
+    isBackPrevStep: {
+      handler(value) {
+        if(value && this.activeStep === 3)
+          this.backPrevStep();
+          this.$emit('change-is-back-prev-step');
+      }
+    }
+  }
 
 };
 </script>
