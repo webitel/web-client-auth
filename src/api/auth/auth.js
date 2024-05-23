@@ -95,13 +95,6 @@ const checkCurrentSession = async () => {
   }
 };
 
-const loadServiceProviders = async ({ domain }) => {
-  const baseUrl = '/login';
-  const url = `${baseUrl}?domain=${domain}`;
-  const response = await instance.get(url);
-  return response;
-};
-
 const clearToken = () => {
   localStorage.removeItem('access-token');
   instance.defaults.headers['X-Webitel-Access'] = '';
@@ -116,7 +109,7 @@ const checkDomainExistence = async (domain) => {
   const baseUrl = '/login';
   const url = `${baseUrl}?domain=${domain}`;
   try {
-    await instance.get(url);
+    return await instance.get(url);
   } catch (err) {
     throw err;
   }
@@ -127,7 +120,6 @@ const AuthAPI = {
   login2fa,
   register,
   checkCurrentSession,
-  loadServiceProviders,
   checkDomainExistence,
 };
 

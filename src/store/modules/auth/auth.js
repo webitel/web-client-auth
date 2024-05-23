@@ -74,14 +74,6 @@ const actions = {
     }
   },
 
-  LOAD_SERVICE_PROVIDERS: async (context) => {
-    const domain = context.state.domain;
-    const response = await AuthAPI.loadServiceProviders({ domain });
-    const { federation = {}, enabledTfa } = response;
-    context.commit('SET_SERVICE_PROVIDERS', federation);
-    await context.dispatch('SET_PROPERTY', { prop: 'enabledTfa', value: enabledTfa });
-  },
-
   EXECUTE_PROVIDER: (context, { ticket }) => {
     const baseUrl = `${import.meta.env.VITE_API_URL}/login`;
     const query = {
@@ -118,8 +110,12 @@ const actions = {
     if (context.state.domain) localStorage.setItem('auth/domain', context.state.domain);
   },
 
-  CHECK_DOMAIN: (context, domain = context.state.domain) => {
-    return AuthAPI.checkDomainExistence(domain);
+  CHECK_DOMAIN: async (context, domain = context.state.domain) => {
+    const response = await AuthAPI.checkDomainExistence(domain);
+    await context.dispatch('CACHE_USER_DATA');
+    const { federation = {}, enabledTfa } = response;
+    context.commit('SET_SERVICE_PROVIDERS', federation);
+    await context.dispatch('SET_PROPERTY', { prop: 'enabledTfa', value: enabledTfa });
   },
 
   SET_PROPERTY: (context, { prop, value }) => {
