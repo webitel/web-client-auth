@@ -56,21 +56,6 @@ describe('auth store', () => {
     expect(mock).toHaveBeenCalledWith(state);
   });
 
-  it('LOAD_SERVICE_PROVIDERS action calls AuthAPI.loadServiceProviders with domain from state', async () => {
-    const state = {
-      domain: 'domain',
-    };
-
-    const federation = {};
-
-    context.state = state;
-
-    const mock = vi.spyOn(authAPI, 'loadServiceProviders').mockImplementationOnce(() => ({ federation }));
-    await auth.actions.LOAD_SERVICE_PROVIDERS(context);
-    expect(mock).toHaveBeenCalledWith({ domain: state.domain });
-    expect(context.commit).toHaveBeenCalledWith('SET_SERVICE_PROVIDERS', federation);
-  });
-
   it('CHECK_CURRENT_SESSION action calls AuthAPI.checkCurrentSession', async () => {
     const accessToken = 'vi';
     const mock = vi.spyOn(authAPI, 'checkCurrentSession')
@@ -111,11 +96,16 @@ describe('auth store', () => {
   });
 
   it('CHECK_DOMAIN action calls AuthAPI.checkDomainExistence with domain from state', async () => {
-    const domain = 'domain';
-    context.state.domain = domain;
+    const state = {
+      domain: 'domain',
+      federation: {},
+    };
 
-    const mock = vi.spyOn(authAPI, 'checkDomainExistence').mockImplementationOnce(vi.fn());
+    context.state = state;
+
+    const mock = vi.spyOn(authAPI, 'checkDomainExistence').mockImplementationOnce(() => ({ federation: state.federation }));
     await auth.actions.CHECK_DOMAIN(context);
-    expect(mock).toHaveBeenCalledWith(domain);
+    expect(mock).toHaveBeenCalledWith(state.domain);
+    expect(context.commit).toHaveBeenCalledWith('SET_SERVICE_PROVIDERS', state.federation);
   });
 });

@@ -29,16 +29,6 @@ describe('TheLoginProviders', () => {
     expect(wrapper.exists()).toBe(true);
   });
 
-  it('loads service providers initially', () => {
-    const mock = vi.spyOn(store, 'dispatch').mockImplementationOnce(vi.fn());
-    const wrapper = shallowMount(TheLoginProviders, {
-      global: {
-        plugins: [store],
-      },
-    });
-    expect(mock).toHaveBeenCalledWith('auth/LOAD_SERVICE_PROVIDERS');
-  });
-
   it('should render service providers', () => {
     const loginProviders = {
       [ServiceProvider.ADFS]: {},
