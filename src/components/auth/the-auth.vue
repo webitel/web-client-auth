@@ -208,7 +208,7 @@ $slide-width-md: 640px;
       min-width: 100%;
       height: 1080px;
       width: 1920px;
-      background: url('../../assets/img/auth/background.png') no-repeat;
+      background: url('../../assets/img/auth/background.svg') no-repeat;
       background-size: cover;
     }
   }
