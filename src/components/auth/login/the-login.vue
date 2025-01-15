@@ -148,5 +148,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../../assets/css/auth/auth';
+@use '../../../assets/css/auth/auth';
 </style>

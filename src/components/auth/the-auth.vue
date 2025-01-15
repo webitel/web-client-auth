@@ -134,7 +134,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../assets/css/auth/auth';
+@use '../../assets/css/auth/auth' as *;
 
 $form-width-lg: 528px;
 $form-width-md: 384px;

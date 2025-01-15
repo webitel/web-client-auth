@@ -38,6 +38,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/ui-sdk/src/css/main.scss' as *;
+
 $text-width-lg: 387px;
 $text-width-md: 291px;
 $img-width-lg: 1024px;

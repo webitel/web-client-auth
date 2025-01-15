@@ -1,4 +1,5 @@
-@import '../main';
+@forward '@webitel/ui-sdk/src/css/main.scss';
+@use '@webitel/ui-sdk/src/css/main.scss' as *;
 
 .auth-form {
   position: relative;

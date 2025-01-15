@@ -3,6 +3,7 @@ import App from './the-app.vue';
 import router from './router/router';
 import store from './store/store';
 import i18n from './locale/i18n';
+import './assets/css/main.scss'
 
 import WebitelUi from './plugins/webitel-ui';
 import BreakpointPlugin from './plugins/breakpoint';
