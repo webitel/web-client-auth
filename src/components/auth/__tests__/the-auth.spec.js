@@ -1,4 +1,4 @@
-import { mount,shallowMount } from '@vue/test-utils';
+import { mount, shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 
 import router from '../../../router/router.js';
