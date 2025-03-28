@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "test:unit": "vitest",
-    "lint:fix": "prettier --write --check ./src && eslint --fix ./src",
+    "lint:fix": "eslint --fix ./src && prettier --write --check ./src",
     "lint:fix-staged": "npx lint-staged",
     "utils:i": "npm i"
   },
