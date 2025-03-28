@@ -15,11 +15,11 @@
 .object-content {
   display: flex;
   flex-direction: column;
+  border-radius: var(--border-radius);
+  background: var(--content-wrapper-color);
+  padding: 38px 58px;
   width: 100%;
   min-height: 65vh;
-  padding: 38px 58px;
-  background: var(--content-wrapper-color);
-  border-radius: var(--border-radius);
 }
 
 // GRID TEMPLATE FOR MODULE INPUTS
@@ -28,8 +28,6 @@
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 28px;
   grid-row-gap: 8px;
-
-
 }
 
 .grid-w100 {
@@ -49,8 +47,8 @@
 }
 
 .value-pair {
-  align-items: center;
   grid-template-columns: 1fr 1fr 24px;
+  align-items: center;
   margin-bottom: 28px;
 }
 
@@ -69,8 +67,8 @@
 
   &.object-with-tabs {
     padding-top: 28px;
-    padding-left: 0;
     padding-right: 0;
+    padding-left: 0;
 
     .tabs-inner-component {
       padding: 0 58px 38px 58px;

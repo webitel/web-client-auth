@@ -9,8 +9,8 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="emit('back')"
         color="secondary"
+        @click="emit('back')"
       >{{ $t('reusable.back') }}
       </wt-button>
 
@@ -28,6 +28,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const emit = defineEmits(['back', 'next']);

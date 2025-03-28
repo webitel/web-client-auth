@@ -1,5 +1,6 @@
-import { shallowMount, mount } from '@vue/test-utils';
+import { mount,shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import router from '../../../router/router.js';
 import TheAuth from '../the-auth.vue';
 
@@ -32,7 +33,9 @@ describe('TheAuth', () => {
   });
 
   it('calls "submit auth" action on submit event', () => {
-    const mock = vi.spyOn(TheAuth.methods, 'submitAuth').mockImplementationOnce(vi.fn());
+    const mock = vi
+      .spyOn(TheAuth.methods, 'submitAuth')
+      .mockImplementationOnce(vi.fn());
 
     const wrapper = mount(TheAuth, {
       global: {
@@ -43,7 +46,7 @@ describe('TheAuth', () => {
       },
     });
 
-    wrapper.findComponent({ name: 'TheLogin'}).vm.$emit('submit');
+    wrapper.findComponent({ name: 'TheLogin' }).vm.$emit('submit');
 
     expect(mock).toHaveBeenCalled();
   });

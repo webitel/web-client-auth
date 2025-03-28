@@ -1,5 +1,6 @@
-import { shallowMount, mount } from '@vue/test-utils';
+import { mount,shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import TheRegisterSecondStep from '../the-register-second-step.vue';
 
 const v$ = {
@@ -42,9 +43,12 @@ describe('TheRegisterSecondStep', () => {
       },
       data: () => ({ v$ }),
     });
-    wrapper.findAllComponents({ name: 'WtButton' }).find((btn) => {
-      return btn.html().toLocaleLowerCase().includes('next');
-    }).vm.$emit('click');
+    wrapper
+      .findAllComponents({ name: 'WtButton' })
+      .find((btn) => {
+        return btn.html().toLocaleLowerCase().includes('next');
+      })
+      .vm.$emit('click');
     expect(wrapper.emitted('next')).toBeTruthy();
   });
 
@@ -59,9 +63,12 @@ describe('TheRegisterSecondStep', () => {
       },
       data: () => ({ v$ }),
     });
-    wrapper.findAllComponents({ name: 'WtButton' }).find((btn) => {
-      return btn.html().toLocaleLowerCase().includes('back');
-    }).vm.$emit('click');
+    wrapper
+      .findAllComponents({ name: 'WtButton' })
+      .find((btn) => {
+        return btn.html().toLocaleLowerCase().includes('back');
+      })
+      .vm.$emit('click');
     expect(wrapper.emitted('back')).toBeTruthy();
   });
 });

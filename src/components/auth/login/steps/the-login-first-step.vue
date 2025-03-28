@@ -1,7 +1,7 @@
 <template>
   <wt-input
-    name="domain"
     v-model.trim="domain"
+    name="domain"
     :label="$t('auth.domain')"
     :v="v$.domain"
     autocomplete
@@ -28,6 +28,7 @@ import { required } from '@vuelidate/validators';
 import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const props = defineProps({

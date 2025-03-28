@@ -8,9 +8,9 @@
 
     <div class="auth-form-footer__wrapper">
       <wt-button
-        class="auth-form-footer__button"
         v-for="({ ticket, icon }) of serviceProviders"
         :key="ticket"
+        class="auth-form-footer__button"
         color="secondary"
         @click="openProvider({ ticket })"
       >
@@ -26,6 +26,7 @@
 import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
+
 import ServiceProvider from '../../../../enums/ServiceProvider.enum';
 
 const store = useStore();

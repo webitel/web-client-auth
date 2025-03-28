@@ -44,7 +44,7 @@
             key="4"
             class="card-panel"
           />
-          <template v-slot:viewport>
+          <template #viewport>
             <div class="flicking-pagination"></div>
           </template>
         </flicking>
@@ -55,20 +55,22 @@
 </template>
 
 <script>
+import '@egjs/vue3-flicking/dist/flicking.css';
+
+import { AutoPlay,Pagination } from '@egjs/flicking-plugins';
+import Flicking from '@egjs/vue3-flicking';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { mapActions, mapState } from 'vuex';
+
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
-import ContactCenterSlide from './slides/contact-center-slide.vue';
 import ChatsSlide from './slides/chats-slide.vue';
+import ContactCenterSlide from './slides/contact-center-slide.vue';
 import HistoryAndAnalyticsSlide from './slides/history-and-analytics-slide.vue';
 import SupervisorSlide from './slides/supervisor-slide.vue';
-import Flicking from '@egjs/vue3-flicking';
-import '@egjs/vue3-flicking/dist/flicking.css';
-import { Pagination, AutoPlay } from '@egjs/flicking-plugins';
 
 export default {
-  name: 'auth',
+  name: 'Auth',
   components: {
     HistoryAndAnalyticsSlide,
     ChatsSlide,

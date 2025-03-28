@@ -29,7 +29,7 @@
 <script>
 
 export default {
-  name: 'history-and-analytics-slide',
+  name: 'HistoryAndAnalyticsSlide',
   data: () => ({
   }),
   methods: {

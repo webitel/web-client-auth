@@ -1,12 +1,13 @@
-import TheLoginSecondStep from '../the-login-second-step.vue';
-import { shallowMount, mount } from '@vue/test-utils';
+import { mount,shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
+import TheLoginSecondStep from '../the-login-second-step.vue';
 
 const v$ = {
   value: {
     $touch: vi.fn(),
   },
-}
+};
 
 describe('TheLoginSecondStep', () => {
   let store;
@@ -42,9 +43,12 @@ describe('TheLoginSecondStep', () => {
       },
       data: () => ({ v$ }),
     });
-    wrapper.findAllComponents({ name: 'WtButton' }).find((btn) => {
-      return btn.html().toLocaleLowerCase().includes('log in');
-    }).vm.$emit('click');
+    wrapper
+      .findAllComponents({ name: 'WtButton' })
+      .find((btn) => {
+        return btn.html().toLocaleLowerCase().includes('log in');
+      })
+      .vm.$emit('click');
     expect(wrapper.emitted('next')).toBeTruthy();
   });
 
@@ -59,9 +63,12 @@ describe('TheLoginSecondStep', () => {
       },
       data: () => ({ v$ }),
     });
-    wrapper.findAllComponents({ name: 'WtButton' }).find((btn) => {
-      return btn.html().toLocaleLowerCase().includes('back');
-    }).vm.$emit('click');
+    wrapper
+      .findAllComponents({ name: 'WtButton' })
+      .find((btn) => {
+        return btn.html().toLocaleLowerCase().includes('back');
+      })
+      .vm.$emit('click');
     expect(wrapper.emitted('back')).toBeTruthy();
   });
 });

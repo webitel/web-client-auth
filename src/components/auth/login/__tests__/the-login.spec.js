@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import TheLogin from '../the-login.vue';
 
 describe('TheLogin', () => {
@@ -25,8 +26,9 @@ describe('TheLogin', () => {
   });
 
   it('"next" from first step calls domain check action', () => {
-    const mock = vi.spyOn(TheLogin.methods, 'checkDomain')
-    .mockImplementationOnce(vi.fn());
+    const mock = vi
+      .spyOn(TheLogin.methods, 'checkDomain')
+      .mockImplementationOnce(vi.fn());
     const wrapper = mount(TheLogin, {
       shallow: true,
       global: {

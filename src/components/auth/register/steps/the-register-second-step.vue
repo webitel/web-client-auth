@@ -2,16 +2,16 @@
   <div>
     <div class="auth-form-inner">
       <wt-input
-        name="username"
         v-model.trim="username"
+        name="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
         type="username"
       />
 
       <wt-input
-        name="password"
         v-model.trim="password"
+        name="password"
         :label="$t('auth.password')"
         :v="v$.password"
         type="password"
@@ -29,8 +29,8 @@
 
     <div class="auth-form-actions">
       <wt-button
-        @click="emit('back')"
         color="secondary"
+        @click="emit('back')"
       >{{ $t('reusable.back') }}
       </wt-button>
 
@@ -48,6 +48,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const emit = defineEmits(['back', 'next']);

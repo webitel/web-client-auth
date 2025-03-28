@@ -1,5 +1,6 @@
 import { mount, shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
+
 import TheLoginFirstStep from '../the-login-first-step.vue';
 
 const v$ = {
@@ -42,9 +43,12 @@ describe('TheLoginFirstStep', () => {
       },
       data: () => ({ v$ }),
     });
-    wrapper.findAllComponents({ name: 'WtButton' }).find((btn) => {
-      return btn.html().toLocaleLowerCase().includes('next');
-    }).vm.$emit('click');
+    wrapper
+      .findAllComponents({ name: 'WtButton' })
+      .find((btn) => {
+        return btn.html().toLocaleLowerCase().includes('next');
+      })
+      .vm.$emit('click');
     expect(wrapper.emitted('next')).toBeTruthy();
   });
 

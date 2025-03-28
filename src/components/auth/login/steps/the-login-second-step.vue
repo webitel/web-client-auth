@@ -9,16 +9,16 @@
       />
 
       <wt-input
-        name="username"
         v-model.trim="username"
+        name="username"
         :label="$t('vocabulary.login')"
         :v="v$.username"
         autocomplete
       />
 
       <wt-input
-        name="password"
         v-model.trim="password"
+        name="password"
         :label="$t('auth.password')"
         :v="v$.password"
         autocomplete
@@ -50,6 +50,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
+
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 import LoginProviders from '../providers/the-login-providers.vue';
 

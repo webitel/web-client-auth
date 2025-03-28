@@ -30,7 +30,7 @@
 <script>
 
 export default {
-  name: 'contact-center-slide',
+  name: 'ContactCenterSlide',
   data: () => ({
   }),
   methods: {

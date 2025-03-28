@@ -11,10 +11,11 @@ export const login = async (credentials) => {
     // API returns the two-factor authentication session ID instead of a token
     // and saving to localStorage is not needed
 
-    if(response.accessToken) {
+    if (response.accessToken) {
       localStorage.setItem('access-token', response.accessToken);
       return postToken();
-    } return response;
+    }
+    return response;
   } catch (err) {
     throw err;
   }
@@ -67,8 +68,8 @@ const checkSessionByCookies = async () => {
     try {
       const response = await instance.get(url, { withCredentials: true });
       localStorage.setItem('access-token', response.accessToken);
-      instance.defaults.headers['X-Webitel-Access'] = localStorage.getItem('access-token') ||
-        '';
+      instance.defaults.headers['X-Webitel-Access'] =
+        localStorage.getItem('access-token') || '';
     } catch (err) {
       console.error(err);
     }
@@ -82,7 +83,9 @@ const checkCurrentSession = async () => {
     const token = localStorage.getItem('access-token');
     if (!token || token === 'undefined') {
       clearToken();
-      console.info('No valid access-token in localStorage present at checkCurrentSession');
+      console.info(
+        'No valid access-token in localStorage present at checkCurrentSession',
+      );
     }
 
     await checkSessionByCookies();
@@ -113,7 +116,7 @@ const checkDomainExistence = async (domain) => {
   } catch (err) {
     throw err;
   }
-}
+};
 
 const AuthAPI = {
   login,

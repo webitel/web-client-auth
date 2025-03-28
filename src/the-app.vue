@@ -4,13 +4,13 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import Flicking from '@egjs/vue3-flicking';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import querystring from 'querystring';
-import Flicking from '@egjs/vue3-flicking';
+import { mapActions } from "vuex";
 
 export default {
-  name: 'the-app',
+  name: 'TheApp',
   components: { Flicking },
   inject: ['$eventBus'],
   methods: {

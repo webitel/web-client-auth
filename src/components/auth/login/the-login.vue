@@ -3,8 +3,8 @@
     :steps="steps"
     :active-step="activeStep"
   >
-    <template v-slot:description></template>
-    <template v-slot:main>
+    <template #description></template>
+    <template #main>
 <!--     dont know why, but <form> with @submit.prevent still sends request on child input @keyup.enter
         so that, i wrapped it with div
  -->
@@ -35,11 +35,17 @@
 
 <script>
 import { mapActions, mapState } from 'vuex';
+
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 import ThirdStep from './steps/the-login-third-step.vue';
 export default {
-  name: 'the-login',
+  name: 'TheLogin',
+  components: {
+    FirstStep,
+    SecondStep,
+    ThirdStep,
+  },
   props: {
     isBackPrevStep: {
       type: Boolean,
@@ -50,11 +56,6 @@ export default {
     activeStep: 1,
     isFirstStepSubmitting: false,
   }),
-  components: {
-    FirstStep,
-    SecondStep,
-    ThirdStep,
-  },
 
   computed: {
     ...mapState('auth', {
@@ -130,10 +131,6 @@ export default {
     },
   },
 
-  unmounted() {
-    this.resetState();
-  },
-
   watch: {
     isBackPrevStep: {
       handler(value) {
@@ -142,6 +139,10 @@ export default {
           this.$emit('change-is-back-prev-step');
       }
     }
+  },
+
+  unmounted() {
+    this.resetState();
   }
 
 };

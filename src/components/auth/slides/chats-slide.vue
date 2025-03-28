@@ -26,7 +26,7 @@
 <script>
 
 export default {
-  name: 'chats-slide',
+  name: 'ChatsSlide',
   data: () => ({
   }),
   methods: {

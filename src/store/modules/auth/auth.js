@@ -1,6 +1,7 @@
 import querystring from 'querystring';
-import router from '../../../router/router';
+
 import AuthAPI from '../../../api/auth/auth';
+import router from '../../../router/router';
 
 const defaultState = () => ({
   username: localStorage.getItem('auth/username') || '',
@@ -26,7 +27,9 @@ const actions = {
 
     switch (action) {
       case 'login':
-        accessToken = await context.dispatch(context.state.sessionId ? 'LOGIN_2FA' : 'LOGIN');
+        accessToken = await context.dispatch(
+          context.state.sessionId ? 'LOGIN_2FA' : 'LOGIN',
+        );
         break;
       case 'register':
         accessToken = await context.dispatch('REGISTER');
@@ -59,7 +62,7 @@ const actions = {
     return AuthAPI.login2fa({
       id: context.state.sessionId,
       totp: context.state.totp,
-    })
+    });
   },
 
   GET_2FA_SESSION_ID: async (context) => {
@@ -69,7 +72,7 @@ const actions = {
       domain: context.state.domain,
     });
 
-    if(id) {
+    if (id) {
       await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
     }
   },
@@ -97,7 +100,9 @@ const actions = {
       : import.meta.env.VITE_START_PAGE_URL;
 
     if (redirect === 'undefined' || accessToken === 'undefined') {
-      throw new Error(`No redirect (${redirect}) or access token (${accessToken}) provided`);
+      throw new Error(
+        `No redirect (${redirect}) or access token (${accessToken}) provided`,
+      );
     }
 
     const url = redirect.includes('?')
@@ -107,14 +112,18 @@ const actions = {
   },
 
   CACHE_USER_DATA: (context) => {
-    if (context.state.domain) localStorage.setItem('auth/domain', context.state.domain);
+    if (context.state.domain)
+      localStorage.setItem('auth/domain', context.state.domain);
   },
 
   CHECK_DOMAIN: async (context, domain = context.state.domain) => {
     const response = await AuthAPI.checkDomainExistence(domain);
     const { federation = {}, enabledTfa } = response;
     context.commit('SET_SERVICE_PROVIDERS', federation);
-    await context.dispatch('SET_PROPERTY', { prop: 'enabledTfa', value: enabledTfa });
+    await context.dispatch('SET_PROPERTY', {
+      prop: 'enabledTfa',
+      value: enabledTfa,
+    });
   },
 
   SET_PROPERTY: (context, { prop, value }) => {

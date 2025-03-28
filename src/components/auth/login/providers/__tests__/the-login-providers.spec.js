@@ -1,6 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import { info } from 'sass';
 import { createStore } from 'vuex';
+
 import ServiceProvider from '../../../../../enums/ServiceProvider.enum.js';
 import TheLoginProviders from '../the-login-providers.vue';
 
@@ -69,6 +70,8 @@ describe('TheLoginProviders', () => {
     const btn = wrapper.findComponent({ name: 'WtButton' });
     const mock = vi.spyOn(store, 'dispatch').mockImplementationOnce(vi.fn());
     btn.vm.$emit('click');
-    expect(mock).toHaveBeenCalledWith('auth/EXECUTE_PROVIDER', { ticket: 'vi' });
+    expect(mock).toHaveBeenCalledWith('auth/EXECUTE_PROVIDER', {
+      ticket: 'vi',
+    });
   });
 });

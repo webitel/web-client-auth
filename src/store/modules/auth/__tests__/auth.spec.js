@@ -1,7 +1,8 @@
 import contextMock from '@webitel/ui-sdk/src/tests/mocks/contextMock.js';
-import auth from '../auth.js';
+
 import authAPI from '../../../../api/auth/auth.js';
 import router from '../../../../router/router.js';
+import auth from '../auth.js';
 
 describe('auth store', () => {
   let context;
@@ -24,7 +25,9 @@ describe('auth store', () => {
     const accessToken = 'token';
     context.dispatch.mockImplementationOnce(() => accessToken);
     await auth.actions.SUBMIT_AUTH(context, 'login');
-    expect(context.dispatch).toHaveBeenCalledWith('ON_AUTH_SUCCESS', { accessToken });
+    expect(context.dispatch).toHaveBeenCalledWith('ON_AUTH_SUCCESS', {
+      accessToken,
+    });
   });
 
   it('LOGIN action calls AuthAPI.login with username, password and domain from state', async () => {
@@ -58,11 +61,14 @@ describe('auth store', () => {
 
   it('CHECK_CURRENT_SESSION action calls AuthAPI.checkCurrentSession', async () => {
     const accessToken = 'vi';
-    const mock = vi.spyOn(authAPI, 'checkCurrentSession')
-    .mockImplementationOnce(() => accessToken);
+    const mock = vi
+      .spyOn(authAPI, 'checkCurrentSession')
+      .mockImplementationOnce(() => accessToken);
     await auth.actions.CHECK_CURRENT_SESSION(context);
     expect(mock).toHaveBeenCalled();
-    expect(context.dispatch).toHaveBeenCalledWith('ON_AUTH_SUCCESS', { accessToken });
+    expect(context.dispatch).toHaveBeenCalledWith('ON_AUTH_SUCCESS', {
+      accessToken,
+    });
   });
 
   it('ON_AUTH_SUCCESS action dispatches CACHE_USER_DATA', async () => {
@@ -89,7 +95,9 @@ describe('auth store', () => {
     const domain = 'domain';
     context.state.domain = domain;
 
-    const mock = vi.spyOn(localStorage, 'setItem').mockImplementationOnce(vi.fn());
+    const mock = vi
+      .spyOn(localStorage, 'setItem')
+      .mockImplementationOnce(vi.fn());
 
     await auth.actions.CACHE_USER_DATA(context);
     expect(mock).toHaveBeenCalledWith('auth/domain', domain);
@@ -103,9 +111,14 @@ describe('auth store', () => {
 
     context.state = state;
 
-    const mock = vi.spyOn(authAPI, 'checkDomainExistence').mockImplementationOnce(() => ({ federation: state.federation }));
+    const mock = vi
+      .spyOn(authAPI, 'checkDomainExistence')
+      .mockImplementationOnce(() => ({ federation: state.federation }));
     await auth.actions.CHECK_DOMAIN(context);
     expect(mock).toHaveBeenCalledWith(state.domain);
-    expect(context.commit).toHaveBeenCalledWith('SET_SERVICE_PROVIDERS', state.federation);
+    expect(context.commit).toHaveBeenCalledWith(
+      'SET_SERVICE_PROVIDERS',
+      state.federation,
+    );
   });
 });

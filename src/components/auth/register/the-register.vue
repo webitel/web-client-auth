@@ -3,8 +3,8 @@
     :steps="steps"
     :active-step="activeStep"
   >
-    <template v-slot:description></template>
-    <template v-slot:main>
+    <template #description></template>
+    <template #main>
       <form
         class="auth-form"
         @submit.prevent
@@ -36,12 +36,13 @@
 
 <script>
 import { mapActions } from 'vuex';
+
 import FirstStep from '../register/steps/the-register-first-step.vue';
 import SecondStep from '../register/steps/the-register-second-step.vue';
 import ThirdStep from '../register/steps/the-register-third-step.vue';
 
 export default {
-  name: 'the-register',
+  name: 'TheRegister',
   components: {
     FirstStep,
     SecondStep,

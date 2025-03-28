@@ -2,8 +2,8 @@
 
 .auth-form {
   position: relative;
-  background: var(--content-wrapper-color);
   z-index: 2;
+  background: var(--content-wrapper-color);
 }
 
 .auth-form-actions {
@@ -14,8 +14,8 @@
 }
 
 .auth-form-actions--link {
-  color: var(--info-color);
   cursor: pointer;
+  color: var(--info-color);
 }
 
 .auth-form-inner {

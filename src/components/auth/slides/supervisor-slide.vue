@@ -27,7 +27,7 @@
 <script>
 
 export default {
-  name: 'supervisor-slide',
+  name: 'SupervisorSlide',
   data: () => ({
   }),
   methods: {

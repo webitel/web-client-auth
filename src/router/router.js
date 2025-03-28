@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import auth from '../components/auth/the-auth.vue';
 
 const router = createRouter({
