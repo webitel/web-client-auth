@@ -118,7 +118,7 @@ const actions = {
     }
   },
 
-  CACHE_USER_DATA: async (context) => {
+  CACHE_USER_DATA: (context) => {
     if (context.state.domain)
       localStorage.setItem('auth/domain', context.state.domain);
   },
