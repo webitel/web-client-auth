@@ -88,27 +88,34 @@ const actions = {
 
   CHECK_CURRENT_SESSION: async (context) => {
     const accessToken = await AuthAPI.checkCurrentSession();
+
     return context.dispatch('ON_AUTH_SUCCESS', { accessToken });
   },
 
   ON_AUTH_SUCCESS: async (context, { accessToken }) => {
-    await context.dispatch('CACHE_USER_DATA');
+    let url;
+    try {
+      await context.dispatch('CACHE_USER_DATA');
 
-    const redirectTo = router.currentRoute.value.query?.redirectTo;
-    const redirect = redirectTo
-      ? decodeURIComponent(redirectTo)
-      : import.meta.env.VITE_START_PAGE_URL;
+      const redirectTo = router.currentRoute.value.query?.redirectTo;
 
-    if (redirect === 'undefined' || accessToken === 'undefined') {
-      throw new Error(
-        `No redirect (${redirect}) or access token (${accessToken}) provided`,
-      );
+      const redirect = redirectTo
+        ? decodeURIComponent(redirectTo)
+        : import.meta.env.VITE_START_PAGE_URL;
+
+      if (typeof redirect === 'undefined' || typeof accessToken === 'undefined') {
+        throw new Error(
+          `No redirect (${redirect}) or access token (${accessToken}) provided`
+        );
+      }
+
+      url = redirect.includes('?')
+        ? `${redirect}&accessToken=${accessToken}`
+        : `${redirect}?accessToken=${accessToken}`;
+
+    } finally {
+      window.location.href = url;
     }
-
-    const url = redirect.includes('?')
-      ? `${redirect}&accessToken=${accessToken}`
-      : `${redirect}?accessToken=${accessToken}`;
-    window.location.href = url;
   },
 
   CACHE_USER_DATA: (context) => {
