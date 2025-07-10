@@ -20,12 +20,14 @@ export default ({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "/src/assets/css/main.scss";`,
+          api: 'modern',
+          additionalData: `@use "@/assets/css/main.scss" as *;`,
         },
       },
     },
     resolve: {
       alias: {
+        '@': resolve(__dirname, 'src'),
         '@aliasedDeps/api-services/axios': resolve(__dirname, 'src/api/instance'),
       },
     },
