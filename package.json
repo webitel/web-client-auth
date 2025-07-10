@@ -16,17 +16,16 @@
     "@egjs/vue3-flicking": "^4.10.6",
     "@vuelidate/core": "^2.0.0",
     "@vuelidate/validators": "^2.0.0",
-    "@webitel/ui-sdk": "^24.4.17",
-    "axios": "^1.6.8",
+    "@webitel/ui-sdk": "~25.8",
+    "axios": "^1.10.0",
     "deep-copy": "^1.4.2",
-    "vue": "^3.4.21",
+    "vue": "^3.5.17",
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.1.6",
     "vuex": "^4.1.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "@vitest/coverage-v8": "^1.4.0",
     "typescript-eslint": "^8.26.1",
     "globals": "^16.0.0",
     "lint-staged": "^15.5.0",
@@ -37,14 +36,17 @@
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-vue": "^10.0.0",
     "@eslint/js": "^9.22.0",
-    "@vue/compiler-sfc": "^3.4.21",
+    "@vue/compiler-sfc": "^3.5.17",
     "@vue/test-utils": "2.3.0",
-    "happy-dom": "^14.3.1",
+    "happy-dom": "^18.0.1",
     "sass": "^1.52.1",
     "tslint": "^6.1.3",
-    "vite": "^5.1.6",
-    "vite-plugin-node-polyfills": "^0.21.0",
-    "vite-plugin-svg-sprite": "^0.5.1",
-    "vitest": "^1.4.0"
+    "vite": "^7.0.3",
+    "vite-plugin-node-polyfills": "^0.24.0",
+    "vite-plugin-svg-sprite": "^0.6.2",
+    "vitest": "^3.2.4"
+  },
+  "overrides": {
+    "vite": "^7.0.3"
   }
 }

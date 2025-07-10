@@ -1,5 +1,6 @@
 import vue from '@vitejs/plugin-vue';
 import { defineConfig, loadEnv } from 'vite';
+import { resolve } from 'path';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
 import createSvgSpritePlugin from 'vite-plugin-svg-sprite';
 
@@ -19,8 +20,13 @@ export default ({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@import "./src/assets/css/main.scss";`,
+          additionalData: `@import "/src/assets/css/main.scss";`,
         },
+      },
+    },
+    resolve: {
+      alias: {
+        '@aliasedDeps/api-services/axios': resolve(__dirname, 'src/api/instance'),
       },
     },
     plugins: [

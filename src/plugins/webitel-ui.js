@@ -1,8 +1,7 @@
 //styles
 import '@webitel/ui-sdk/dist/ui-sdk.css';
-import '@webitel/ui-sdk/dist/img/sprite';
 
-import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk.umd';
+import WebitelUI from '@webitel/ui-sdk/dist/ui-sdk';
 // locales
 import WebitelUIEn from '@webitel/ui-sdk/src/locale/en/en';
 import WebitelUIKz from '@webitel/ui-sdk/src/locale/kz/kz';
