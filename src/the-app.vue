@@ -20,6 +20,8 @@ export default {
     setLanguage() {
       const lang = localStorage.getItem('lang');
       if (lang) this.$i18n.locale = lang;
+      const fallbackLang = localStorage.getItem('fallbackLang');
+      if (fallbackLang) this.$i18n.fallbackLocale = fallbackLang;
     },
     handlePathQuery() {
       const query = objSnakeToCamel(querystring.parse(window.parent.location.search.slice(1))); // query, without "?" sign
