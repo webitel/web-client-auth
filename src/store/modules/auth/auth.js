@@ -114,7 +114,7 @@ const actions = {
         : `${redirect}?accessToken=${accessToken}`;
 
     } finally {
-      window.location.href = url;
+      if (!import.meta.env.DEV) window.location.href = url;
     }
   },
 
