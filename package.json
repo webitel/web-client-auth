@@ -1,5 +1,5 @@
 {
-  "name": "auth-client",
+  "name": "@webitel/auth",
   "version": "25.05.0",
   "private": true,
   "scripts": {
