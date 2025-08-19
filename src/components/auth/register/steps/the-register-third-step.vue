@@ -1,10 +1,10 @@
 <template>
   <div>
     <wt-textarea
-      :value="certificate"
+      :model-value="certificate"
       :label="$t('auth.key')"
       :v="v$.certificate"
-      @input="setProp({ prop: 'certificate', value: $event })"
+      @update:model-value="setProp({ prop: 'certificate', value: $event })"
     />
 
     <div class="auth-form-actions">
