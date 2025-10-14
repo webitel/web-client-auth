@@ -1,7 +1,5 @@
 import instance, { config } from '../instance';
-import * as models from '@webitel/api-services/gen/models';
-
-const { ApiLoginResponse } = models;
+import { ApiLoginResponse } from '@webitel/api-services/gen/models';
 export const login = async (credentials) => {
   const url = '/login';
 
