@@ -1,9 +1,12 @@
 import instance, { config } from '../instance';
+import * as models from '@webitel/api-services/gen/models';
 
+const { ApiLoginResponse } = models;
 export const login = async (credentials) => {
   const url = '/login';
 
   try {
+    /** @type {ApiLoginResponse} */
     const response = await instance.post(url, credentials);
 
     // [https://webitel.atlassian.net/browse/WTEL-3405]
@@ -11,8 +14,8 @@ export const login = async (credentials) => {
     // API returns the two-factor authentication session ID instead of a token
     // and saving to localStorage is not needed
 
-    if (response.accessToken) {
-      localStorage.setItem('access-token', response.accessToken);
+    if (response.authorization.accessToken) {
+      localStorage.setItem('access-token', response.authorization.accessToken);
       return postToken();
     }
     return response;
