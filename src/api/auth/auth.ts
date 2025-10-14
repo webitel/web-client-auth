@@ -4,8 +4,7 @@ export const login = async (credentials) => {
   const url = '/login';
 
   try {
-    /** @type {ApiLoginResponse} */
-    const response = await instance.post(url, credentials);
+    const response: AxiosResponse<ApiLoginResponse> = await instance.post(url, credentials)
 
     // [https://webitel.atlassian.net/browse/WTEL-3405]
     // If two-factor authentication is enabled,
