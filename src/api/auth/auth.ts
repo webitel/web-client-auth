@@ -32,6 +32,15 @@ export const login2fa = async (credentials) => {
   }
 };
 
+export const changePassword = async (data) => {
+  const url = '/users/password';
+  try {
+    await instance.put(url, data);
+  } catch (err) {
+    throw err;
+  }
+};
+
 export const register = async (credentials) => {
   const url = '/signup';
 
@@ -122,6 +131,7 @@ const AuthAPI = {
   login,
   login2fa,
   register,
+  changePassword,
   checkCurrentSession,
   checkDomainExistence,
 };

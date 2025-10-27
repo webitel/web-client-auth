@@ -1,5 +1,6 @@
 <template>
   <wt-stepper
+    v-if="!isExpiredPassword"
     :steps="steps"
     :active-step="activeStep"
   >
@@ -31,121 +32,126 @@
 
     </template>
   </wt-stepper>
+
+  <wt-login-change-password
+    v-else
+    @save="saveChangedPassword"
+    @back="closePasswordChange"
+  ></wt-login-change-password>
 </template>
 
-<script>
-import { mapActions, mapState } from 'vuex';
+<script setup lang="ts">
+import { computed, onUnmounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
 
 import FirstStep from '../login/steps/the-login-first-step.vue';
 import SecondStep from '../login/steps/the-login-second-step.vue';
 import ThirdStep from './steps/the-login-third-step.vue';
-export default {
-  name: 'TheLogin',
-  components: {
-    FirstStep,
-    SecondStep,
-    ThirdStep,
+import WtLoginChangePassword from './the-login-change-password.vue';
+
+const props = defineProps({
+  isBackPrevStep: {
+    type: Boolean,
+    default: false,
   },
-  props: {
-    isBackPrevStep: {
-      type: Boolean,
-      default: false,
+});
+const emit = defineEmits(['change-tab', 'submit', 'change-is-back-prev-step']);
+
+const store = useStore();
+const { t } = useI18n();
+
+const activeStep = ref(1);
+const isFirstStepSubmitting = ref(false);
+
+const enabledTfa = computed(() => store.state.auth.enabledTfa);
+const isExpiredPassword = computed(() => store.state.auth.isExpiredPassword);
+
+const steps = computed(() => {
+  const stepsArray = [
+    {
+      name: t('reusable.step', { count: 1 }),
+      description: t('auth.enterDomain'),
     },
-  },
-  data: () => ({
-    activeStep: 1,
-    isFirstStepSubmitting: false,
-  }),
-
-  computed: {
-    ...mapState('auth', {
-      enabledTfa: (state) => state.enabledTfa,
-    }),
-
-    steps() {
-      const steps = [
-        {
-          name: this.$t('reusable.step', { count: 1 }),
-          description: this.$t('auth.enterDomain'),
-        },
-        {
-          name: this.$t('reusable.step', { count: 2 }),
-          description: this.$t('auth.enterUsername'),
-        },
-      ];
-
-      if (this.enabledTfa) steps.push({
-        name: this.$t('reusable.step', { count: 3 }),
-        description: this.$t('auth.enterAuthenticationCode'),
-      });
-
-      return steps;
+    {
+      name: t('reusable.step', { count: 2 }),
+      description: t('auth.enterUsername'),
     },
-  },
+  ];
 
-  methods: {
-    ...mapActions('auth', {
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-      checkDomain: 'CHECK_DOMAIN',
-      get2faSessionId: 'GET_2FA_SESSION_ID',
-    }),
+  if (enabledTfa.value) stepsArray.push({
+    name: t('reusable.step', { count: 3 }),
+    description: t('auth.enterAuthenticationCode'),
+  });
 
-    backPrevStep() {
-      if (this.activeStep === 1) {
-        this.$emit('change-tab', { value: 'register' });
-      } else {
-        this.activeStep = this.activeStep - 1;
-      }
+  return stepsArray;
+});
 
-      if (this.activeStep === 2 && this.enabledTfa) {
-        this.setProp({ prop: 'totp', value: '' });
-      }
-    },
-
-    async goNextStep() {
-      if (this.steps.length > this.activeStep) {
-
-        if (this.activeStep === 1) {
-          try {
-            this.isFirstStepSubmitting = true;
-            await this.checkDomain();
-          } finally {
-            this.isFirstStepSubmitting = false;
-          }
-        }
-
-        if (this.activeStep === 2 && this.enabledTfa) {
-          try{
-            await this.get2faSessionId();
-          } catch (err) {
-            return;
-          }
-        }
-
-        this.activeStep = this.activeStep + 1;
-
-      } else {
-        this.$emit('submit');
-      }
-    },
-  },
-
-  watch: {
-    isBackPrevStep: {
-      handler(value) {
-        if(value && this.activeStep === 3)
-          this.backPrevStep();
-          this.$emit('change-is-back-prev-step');
-      }
-    }
-  },
-
-  unmounted() {
-    this.resetState();
+const backPrevStep = () => {
+  if (activeStep.value === 1) {
+    emit('change-tab', { value: 'register' });
+  } else {
+    activeStep.value = activeStep.value - 1;
   }
 
+  if (activeStep.value === 2 && enabledTfa.value) {
+    store.dispatch('auth/SET_PROPERTY', { prop: 'totp', value: '' });
+  }
 };
+
+const goNextStep = async () => {
+  if (steps.value.length > activeStep.value) {
+
+    if (activeStep.value === 1) {
+      try {
+        isFirstStepSubmitting.value = true;
+        await store.dispatch('auth/CHECK_DOMAIN');
+      } finally {
+        isFirstStepSubmitting.value = false;
+      }
+    }
+
+    if (activeStep.value === 2 && enabledTfa.value) {
+        await store.dispatch('auth/GET_2FA_SESSION_ID');
+    }
+    activeStep.value += 1;
+
+  } else {
+    emit('submit');
+  }
+};
+
+const saveChangedPassword = async () => {
+  try {
+    await store.dispatch('auth/CHANGE_PASSWORD');
+    if(enabledTfa.value) {
+      try {
+        await store.dispatch('auth/GET_2FA_SESSION_ID');
+      } catch (err) {
+        activeStep.value = 2
+      }
+    } else {
+      emit('submit');
+    }
+  } catch (err) {
+    throw err;
+  }
+};
+
+const closePasswordChange = () => {
+  store.dispatch('auth/DELETE_EXPIRED_PASSWORD_FIELDS');
+};
+
+watch(() => props.isBackPrevStep, (value) => {
+  if(value && activeStep.value === 3) {
+    backPrevStep();
+    emit('change-is-back-prev-step');
+  }
+});
+
+onUnmounted(() => {
+  store.dispatch('auth/RESET_STATE');
+});
 </script>
 
 <style lang="scss" scoped>
