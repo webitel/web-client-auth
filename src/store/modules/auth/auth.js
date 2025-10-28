@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import { StatusCodes } from 'http-status-codes';
 
 import AuthAPI from '../../../api/auth/auth';
 import router from '../../../router/router';
@@ -88,26 +89,20 @@ const actions = {
       if (id) {
         await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
       }
-    } catch (error) {
-      throw error;
     } finally {
-      await context.dispatch('DELETE_EXPIRED_PASSWORD_FIELDS');
+      await context.dispatch('CLEAR_EXPIRED_PASSWORD_FIELDS');
     }
   },
 
   CHANGE_PASSWORD: async (context) => {
-    try {
-      await AuthAPI.changePassword({
-        confirm_password: context.state.confirmPassword,
-        domain: context.state.domain,
-        old_password: context.state.password,
-        user_password: context.state.newPassword,
-        username: context.state.username,
-      });
-      await context.dispatch('SET_PROPERTY', { prop: 'password', value: context.state.newPassword } );
-    } catch (error) {
-      throw error;
-    }
+    await AuthAPI.changePassword({
+      confirm_password: context.state.confirmPassword,
+      domain: context.state.domain,
+      old_password: context.state.password,
+      user_password: context.state.newPassword,
+      username: context.state.username,
+    });
+    await context.dispatch('SET_PROPERTY', { prop: 'password', value: context.state.newPassword } );
   },
 
   UPDATE_EXPIRED_PASSWORD_FIELDS: async (context, { id }) => {
@@ -116,7 +111,7 @@ const actions = {
     await context.dispatch('SET_PROPERTY', { prop: 'reasonExpiredPassword', value: reason });
   },
 
-  DELETE_EXPIRED_PASSWORD_FIELDS: async (context) => {
+  CLEAR_EXPIRED_PASSWORD_FIELDS: async (context) => {
     if(context.state.isExpiredPassword) {
       await context.dispatch('SET_PROPERTY', { prop: 'isExpiredPassword', value: false });
       await context.dispatch('SET_PROPERTY', { prop: 'reasonExpiredPassword', value: '' });
@@ -124,10 +119,10 @@ const actions = {
   },
 
   HANDLE_PASSWORD_EXPIRATION_ERROR: async (context, { error }) => {
-    if (error.code === 412) {
+    if (error.code === StatusCodes.PRECONDITION_FAILED) { // 412 error code
       await context.dispatch('UPDATE_EXPIRED_PASSWORD_FIELDS', { id: error.id });
     } else {
-      await context.dispatch('DELETE_EXPIRED_PASSWORD_FIELDS');
+      await context.dispatch('CLEAR_EXPIRED_PASSWORD_FIELDS');
     }
   },
 

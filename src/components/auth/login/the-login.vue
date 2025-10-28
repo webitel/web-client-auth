@@ -50,13 +50,9 @@ import SecondStep from '../login/steps/the-login-second-step.vue';
 import ThirdStep from './steps/the-login-third-step.vue';
 import WtLoginChangePassword from './the-login-change-password.vue';
 
-const props = defineProps({
-  isBackPrevStep: {
-    type: Boolean,
-    default: false,
-  },
-});
-const emit = defineEmits(['change-tab', 'submit', 'change-is-back-prev-step']);
+const emit = defineEmits(['change-tab', 'submit']);
+
+const isBackPrevStep = defineModel('isBackPrevStep', { type: Boolean, default: false });
 
 const store = useStore();
 const { t } = useI18n();
@@ -139,13 +135,13 @@ const saveChangedPassword = async () => {
 };
 
 const closePasswordChange = () => {
-  store.dispatch('auth/DELETE_EXPIRED_PASSWORD_FIELDS');
+  store.dispatch('auth/CLEAR_EXPIRED_PASSWORD_FIELDS');
 };
 
-watch(() => props.isBackPrevStep, (value) => {
-  if(value && activeStep.value === 3) {
+watch(() => isBackPrevStep, (value) => {
+  if (value && activeStep.value === 3) {
     backPrevStep();
-    emit('change-is-back-prev-step');
+    isBackPrevStep.value = false;
   }
 });
 

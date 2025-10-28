@@ -16,9 +16,9 @@
         <component
           :is="currentTab.value"
           :is-back-prev-step="isBackPrevStepInLogin"
+          @update:is-back-prev-step="isBackPrevStepInLogin = false"
           @change-tab="currentTab = $event"
           @submit="authorization(currentTab.value)"
-          @change-is-back-prev-step="changeIsBackPrevStepInLogin"
         />
       </div>
     </section>
@@ -125,9 +125,6 @@ export default {
         if(tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
       }
     },
-    changeIsBackPrevStepInLogin() {
-      this.isBackPrevStepInLogin = false;
-    }
   },
   created() {
     this.setInnitialTab();
