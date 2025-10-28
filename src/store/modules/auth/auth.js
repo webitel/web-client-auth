@@ -1,4 +1,5 @@
 import querystring from 'querystring';
+import { StatusCodes } from 'http-status-codes';
 
 import AuthAPI from '../../../api/auth/auth';
 import router from '../../../router/router';
@@ -16,7 +17,10 @@ const state = {
   loginProviders: {},
   enabledTfa: false,
   totp: '',
+  newPassword: '',
   sessionId: '', // it's necessary for two-factor authentication
+  isExpiredPassword: false,
+  reasonExpiredPassword: '', // 'expired' | 'temporary' | ''
 };
 
 const getters = {};
@@ -42,11 +46,16 @@ const actions = {
   },
 
   LOGIN: async (context) => {
-    return await AuthAPI.login({
-      username: context.state.username,
-      password: context.state.password,
-      domain: context.state.domain,
-    });
+    try {
+      return await AuthAPI.login({
+        username:  context.state.username,
+        password: context.state.password,
+        domain: context.state.domain,
+      });
+    } catch (error) {
+      await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', { error });
+      throw error;
+    }
   },
 
   REGISTER: (context) => {
@@ -58,22 +67,62 @@ const actions = {
     });
   },
 
-  LOGIN_2FA: (context) => {
-    return AuthAPI.login2fa({
-      id: context.state.sessionId,
-      totp: context.state.totp,
-    });
+  LOGIN_2FA: async (context) => {
+    try {
+      return await AuthAPI.login2fa({
+        id: context.state.sessionId,
+        totp: context.state.totp,
+      });
+    } catch (error) {
+      await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', { error });
+    }
   },
 
   GET_2FA_SESSION_ID: async (context) => {
-    const { id } = await AuthAPI.login({
-      username: context.state.username,
-      password: context.state.password,
-      domain: context.state.domain,
-    });
+    try {
+      const { id } = await AuthAPI.login({
+        username: context.state.username,
+        password: context.state.password,
+        domain: context.state.domain,
+      });
 
-    if (id) {
-      await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
+      if (id) {
+        await context.dispatch('SET_PROPERTY', { prop: 'sessionId', value: id });
+      }
+    } finally {
+      await context.dispatch('CLEAR_EXPIRED_PASSWORD_FIELDS');
+    }
+  },
+
+  CHANGE_PASSWORD: async (context) => {
+    await AuthAPI.changePassword({
+      confirm_password: context.state.confirmPassword,
+      domain: context.state.domain,
+      old_password: context.state.password,
+      user_password: context.state.newPassword,
+      username: context.state.username,
+    });
+    await context.dispatch('SET_PROPERTY', { prop: 'password', value: context.state.newPassword } );
+  },
+
+  UPDATE_EXPIRED_PASSWORD_FIELDS: async (context, { id }) => {
+    const reason = id.includes('expired') ? 'expired' : 'temporary';
+    await context.dispatch('SET_PROPERTY', { prop: 'isExpiredPassword', value: true });
+    await context.dispatch('SET_PROPERTY', { prop: 'reasonExpiredPassword', value: reason });
+  },
+
+  CLEAR_EXPIRED_PASSWORD_FIELDS: async (context) => {
+    if(context.state.isExpiredPassword) {
+      await context.dispatch('SET_PROPERTY', { prop: 'isExpiredPassword', value: false });
+      await context.dispatch('SET_PROPERTY', { prop: 'reasonExpiredPassword', value: '' });
+    }
+  },
+
+  HANDLE_PASSWORD_EXPIRATION_ERROR: async (context, { error }) => {
+    if (error.code === StatusCodes.PRECONDITION_FAILED) { // 412 error code
+      await context.dispatch('UPDATE_EXPIRED_PASSWORD_FIELDS', { id: error.id });
+    } else {
+      await context.dispatch('CLEAR_EXPIRED_PASSWORD_FIELDS');
     }
   },
 
