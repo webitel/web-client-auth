@@ -14,7 +14,8 @@ export const login = async (credentials) => {
     if (response.warnings) {
       const expiredPasswordWarning = response.warnings.find(warning => warning.id === 'app.password.expiring');
       if(expiredPasswordWarning){
-        localStorage.setItem('passwordExpirationDays', expiredPasswordWarning.warningData.passwordExpiry.daysRemaining);
+        localStorage.setItem('passwordExpirationDays',
+          expiredPasswordWarning.warningData.passwordExpiry.daysRemaining || '0');
       }
     }
 
