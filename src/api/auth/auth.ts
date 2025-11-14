@@ -6,19 +6,6 @@ export const login = async (credentials) => {
   try {
     const response: AxiosResponse<ApiLoginResponse> = await instance.post(url, credentials)
 
-    /* @author @Lera24
-    * [https://webitel.atlassian.net/browse/WTEL-7784]
-    * necessary to display notification to user about password expiration date
-    * */
-
-    if (response.warnings) {
-      const expiredPasswordWarning = response.warnings.find(warning => warning.id === 'app.password.expiring');
-      if(expiredPasswordWarning){
-        localStorage.setItem('passwordExpirationDays',
-          expiredPasswordWarning.warningData.passwordExpiry.daysRemaining || '0');
-      }
-    }
-
     // [https://webitel.atlassian.net/browse/WTEL-3405]
     // If two-factor authentication is enabled,
     // API returns the two-factor authentication session ID instead of a token
@@ -38,18 +25,6 @@ export const login2fa = async (credentials) => {
   const url = '/login/2fa';
   try {
     const response = await instance.post(url, credentials);
-
-    /* @author @Lera24
-    * [https://webitel.atlassian.net/browse/WTEL-7784]
-    * necessary to display notification to user about password expiration date
-    * */
-
-    if (response.warnings) {
-      const expiredPasswordWarning = response.warnings.find(warning => warning.id === 'app.password.expiring');
-      if(expiredPasswordWarning){
-        localStorage.setItem('passwordExpirationDays', expiredPasswordWarning.warningData.passwordExpiry.daysRemaining);
-      }
-    }
 
     localStorage.setItem('access-token', response.accessToken);
     return postToken();
