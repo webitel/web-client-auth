@@ -11,8 +11,8 @@ export const login = async (credentials) => {
     // API returns the two-factor authentication session ID instead of a token
     // and saving to localStorage is not needed
 
-    if (response.authorization.accessToken) {
-      localStorage.setItem('access-token', response.authorization.accessToken);
+    if (response.accessToken) {
+      localStorage.setItem('access-token', response.accessToken);
       return postToken();
     }
     return response;
