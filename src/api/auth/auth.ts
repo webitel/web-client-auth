@@ -24,7 +24,7 @@ export const login = async (credentials) => {
 export const login2fa = async (credentials) => {
   const url = '/login/2fa';
   try {
-    const response = await instance.post(url, credentials);
+    const response: AxiosResponse<ApiLoginResponse>  = await instance.post(url, credentials);
 
     if(response?.accessToken) {
       localStorage.setItem('access-token', response.accessToken);
