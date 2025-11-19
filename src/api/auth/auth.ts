@@ -26,8 +26,10 @@ export const login2fa = async (credentials) => {
   try {
     const response = await instance.post(url, credentials);
 
-    localStorage.setItem('access-token', response.accessToken);
-    return postToken();
+    if(response?.accessToken) {
+      localStorage.setItem('access-token', response.accessToken);
+      return postToken();
+    }
   } catch (err) {
     throw err;
   }
