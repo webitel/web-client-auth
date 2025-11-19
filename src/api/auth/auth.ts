@@ -25,10 +25,11 @@ export const login2fa = async (credentials) => {
   const url = '/login/2fa';
   try {
     const response: AxiosResponse<ApiLoginResponse>  = await instance.post(url, credentials);
-    console.log(response.accessToken);
 
-    localStorage.setItem('access-token', response.accessToken);
-    return postToken();
+    if(response?.accessToken) {
+      localStorage.setItem('access-token', response.accessToken);
+      return postToken();
+    }
   } catch (err) {
     throw err;
   }
@@ -116,7 +117,6 @@ const clearToken = () => {
 
 const postToken = () => {
   const accessToken = localStorage.getItem('access-token');
-  console.log('Access Token:', accessToken);
   return accessToken;
 };
 
