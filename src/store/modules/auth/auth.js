@@ -119,7 +119,8 @@ const actions = {
   },
 
   HANDLE_PASSWORD_EXPIRATION_ERROR: async (context, { error }) => {
-    if (error.code === StatusCodes.PRECONDITION_FAILED) { // 412 error code
+    if (error.code === StatusCodes.PRECONDITION_FAILED
+      && error.id === 'app.password.force_change') { // 412 error code
       await context.dispatch('UPDATE_EXPIRED_PASSWORD_FIELDS', { id: error.id });
     } else {
       await context.dispatch('CLEAR_EXPIRED_PASSWORD_FIELDS');
