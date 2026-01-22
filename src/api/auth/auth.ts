@@ -1,5 +1,6 @@
 import instance, { config } from '../instance';
 import { ApiLoginResponse } from '@webitel/api-services/gen/models';
+
 export const login = async (credentials) => {
   const url = '/login';
 
@@ -39,6 +40,18 @@ export const changePassword = async (data) => {
   const url = '/users/password';
   try {
     await instance.put(url, data);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getPasswordSettings = async (credentials) => {
+  const url = 'users/password/settings';
+  try {
+    const response = await instance.get(url, {
+      params: credentials,
+    });
+    return response;
   } catch (err) {
     throw err;
   }
@@ -135,6 +148,7 @@ const AuthAPI = {
   login2fa,
   register,
   changePassword,
+  getPasswordSettings,
   checkCurrentSession,
   checkDomainExistence,
 };

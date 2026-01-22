@@ -50,16 +50,20 @@
 
 <script lang="ts" setup>
 import {useVuelidate} from '@vuelidate/core';
-import {required, sameAs} from '@vuelidate/validators';
-import {computed, onMounted, onUnmounted} from 'vue';
+import {required, sameAs, helpers} from '@vuelidate/validators';
+import {computed, onMounted, onUnmounted, ref } from 'vue';
 import {useI18n} from 'vue-i18n';
 import {useStore} from "vuex";
+
 import {useNextOnEnter} from '../../../composables/useNextOnEnter.js';
+import AuthAPI from '../../../api/auth/auth';
 
 const {t} = useI18n();
 
 const emit = defineEmits(['back', 'save']);
 const store = useStore();
+
+const vSettings = ref({});
 
 const newPassword = computed({
   get: () => store.state.auth.newPassword,
@@ -71,10 +75,39 @@ const confirmPassword = computed({
 });
 const reasonExpiredPassword = computed(() => store.state.auth.reasonExpiredPassword);
 
+const loadSettings = async () => {
+  const { settings } = await AuthAPI.getPasswordSettings({
+    domain: store.state.auth.domain,
+    username: store.state.auth.username,
+    password: store.state.auth.password,
+  });
+
+  vSettings.value = settings;
+};
+
+const regExpSettings = computed(() => {
+  if (!vSettings.value?.passwordRegExp) {
+    return {};
+  }
+
+  const regexpInstance = new RegExp(vSettings.value.passwordRegExp);
+  const vRegexRule = (v) => regexpInstance.test(v);
+
+  return {
+    regex: helpers.withParams(
+      { regex: vSettings.value.passwordRegExp },
+      vSettings.value.passwordValidationText
+        ? helpers.withMessage(vSettings.value.passwordValidationText, vRegexRule)
+        : vRegexRule,
+    ),
+  };
+});
+
 const v$ = useVuelidate(
   computed(() => ({
     newPassword: {
       required,
+      ...regExpSettings.value,
     },
     confirmPassword: {
       sameAs: sameAs(newPassword)
@@ -95,6 +128,7 @@ async function setProp(payload) {
 };
 
 onMounted(async () => {
+  await loadSettings();
   v$.value.$touch();
 });
 onUnmounted(() => {
