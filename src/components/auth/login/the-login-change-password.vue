@@ -58,12 +58,20 @@ import {useStore} from "vuex";
 import {useNextOnEnter} from '../../../composables/useNextOnEnter.js';
 import AuthAPI from '../../../api/auth/auth';
 
+type PasswordSettings = {
+  passwordRegExp: string;
+  passwordValidationText?: string;
+  passwordCategories?: string;
+  PasswordMinLength?: string;
+  PasswordContainsLogin?: string;
+}
+
 const {t} = useI18n();
 
 const emit = defineEmits(['back', 'save']);
 const store = useStore();
 
-const vSettings = ref({});
+const vPasswordSettings = ref<PasswordSettings>({});
 
 const newPassword = computed({
   get: () => store.state.auth.newPassword,
@@ -75,30 +83,30 @@ const confirmPassword = computed({
 });
 const reasonExpiredPassword = computed(() => store.state.auth.reasonExpiredPassword);
 
-const loadSettings = async () => {
+const loadPasswordSettings = async (): Promise<void> => {
   const { settings } = await AuthAPI.getPasswordSettings({
     domain: store.state.auth.domain,
     username: store.state.auth.username,
     password: store.state.auth.password,
   });
 
-  vSettings.value = settings;
+  vPasswordSettings.value = settings as PasswordSettings;
 };
 
 const regExpSettings = computed(() => {
-  if (!vSettings.value?.passwordRegExp) {
+  if (!vPasswordSettings.value?.passwordRegExp) {
     return {};
   }
 
-  const regexpInstance = new RegExp(vSettings.value.passwordRegExp);
-  const vRegexRule = (v) => regexpInstance.test(v);
+  const regExpInstance = new RegExp(vPasswordSettings.value.passwordRegExp);
+  const vRegExpRule = (v) => regExpInstance.test(v);
 
   return {
     regex: helpers.withParams(
-      { regex: vSettings.value.passwordRegExp },
-      vSettings.value.passwordValidationText
-        ? helpers.withMessage(vSettings.value.passwordValidationText, vRegexRule)
-        : vRegexRule,
+      { regex: vPasswordSettings.value.passwordRegExp },
+      vPasswordSettings.value.passwordValidationText
+        ? helpers.withMessage(vPasswordSettings.value.passwordValidationText, vRegExpRule)
+        : vRegExpRule,
     ),
   };
 });
@@ -128,7 +136,7 @@ async function setProp(payload) {
 };
 
 onMounted(async () => {
-  await loadSettings();
+  await loadPasswordSettings();
   v$.value.$touch();
 });
 onUnmounted(() => {
