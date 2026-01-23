@@ -9,7 +9,7 @@
           History and Analytics
         </div>
         <div class="history-and-analytics-slide__line"></div>
-        <div  class="history-and-analytics-slide__text">
+        <div  class="history-and-analytics-slide__text" :class="{ 'typo-body-2': $breakpoint.lgOnly, 'typo-body-1': !$breakpoint.lgOnly }">
           <p> Records of all calls made through the platform, with the ability to comment, search by keywords and filter for a selected period. Enhanced options for transcribing conversation recordings into text, and text messages – into sound files.</p>
           <br/>
           <p> A built-in analytical module for tracking, displaying, and visualizing key indicators and processes within a contact center with the possibility to create custom reports. </p>
@@ -38,6 +38,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/styleguide/viewport-breakpoints' as *;
+
 $text-width-lg: 387px;
 $text-width-md: 291px;
 $img-width-lg: 1024px;
@@ -68,7 +70,6 @@ $img-width-md: 640px;
   }
 
   &__text {
-    @extend %typo-body-1;
   }
 
   &__line {
@@ -78,12 +79,6 @@ $img-width-md: 640px;
 
   &__image {
     width: $img-width-lg;
-  }
-}
-
-.history-and-analytics-slide--lg {
-  .history-and-analytics-slide__text {
-      @extend %typo-body-2;
   }
 }
 
