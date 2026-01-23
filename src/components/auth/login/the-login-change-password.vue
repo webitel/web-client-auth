@@ -50,16 +50,28 @@
 
 <script lang="ts" setup>
 import {useVuelidate} from '@vuelidate/core';
-import {required, sameAs} from '@vuelidate/validators';
-import {computed, onMounted, onUnmounted} from 'vue';
+import {required, sameAs, helpers} from '@vuelidate/validators';
+import {computed, onMounted, onUnmounted, ref } from 'vue';
 import {useI18n} from 'vue-i18n';
 import {useStore} from "vuex";
+
 import {useNextOnEnter} from '../../../composables/useNextOnEnter.js';
+import AuthAPI from '../../../api/auth/auth';
+
+type PasswordSettings = {
+  passwordRegExp: string;
+  passwordValidationText?: string;
+  passwordCategories?: string;
+  PasswordMinLength?: string;
+  PasswordContainsLogin?: string;
+}
 
 const {t} = useI18n();
 
 const emit = defineEmits(['back', 'save']);
 const store = useStore();
+
+const vPasswordSettings = ref<PasswordSettings>({});
 
 const newPassword = computed({
   get: () => store.state.auth.newPassword,
@@ -71,10 +83,39 @@ const confirmPassword = computed({
 });
 const reasonExpiredPassword = computed(() => store.state.auth.reasonExpiredPassword);
 
+const loadPasswordSettings = async (): Promise<void> => {
+  const { settings } = await AuthAPI.getPasswordSettings({
+    domain: store.state.auth.domain,
+    username: store.state.auth.username,
+    password: store.state.auth.password,
+  });
+
+  vPasswordSettings.value = settings as PasswordSettings;
+};
+
+const regExpSettings = computed(() => {
+  if (!vPasswordSettings.value?.passwordRegExp) {
+    return {};
+  }
+
+  const regExpInstance = new RegExp(vPasswordSettings.value.passwordRegExp);
+  const vRegExpRule = (v) => regExpInstance.test(v);
+
+  return {
+    regex: helpers.withParams(
+      { regex: vPasswordSettings.value.passwordRegExp },
+      vPasswordSettings.value.passwordValidationText
+        ? helpers.withMessage(vPasswordSettings.value.passwordValidationText, vRegExpRule)
+        : vRegExpRule,
+    ),
+  };
+});
+
 const v$ = useVuelidate(
   computed(() => ({
     newPassword: {
       required,
+      ...regExpSettings.value,
     },
     confirmPassword: {
       sameAs: sameAs(newPassword)
@@ -95,6 +136,7 @@ async function setProp(payload) {
 };
 
 onMounted(async () => {
+  await loadPasswordSettings();
   v$.value.$touch();
 });
 onUnmounted(() => {
