@@ -1,6 +1,6 @@
 <template>
   <div>
-    <wt-input
+    <wt-input-text
       v-model.trim="totp"
       :label="$t('auth.code')"
     />
@@ -22,38 +22,39 @@
 </template>
 
 <script setup>
-import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
-import { computed, onMounted } from 'vue';
-import { useStore } from 'vuex';
+import { useVuelidate } from "@vuelidate/core";
+import { required } from "@vuelidate/validators";
+import { computed, onMounted } from "vue";
+import { useStore } from "vuex";
 
-import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
+import { useNextOnEnter } from "../../../../composables/useNextOnEnter.js";
 
-const emit = defineEmits(['back', 'next']);
+const emit = defineEmits(["back", "next"]);
 
 const store = useStore();
 
 const totp = computed({
-  get: () => store.state.auth.totp,
-  set: (value) => setProp({ prop: 'totp', value })
+	get: () => store.state.auth.totp,
+	set: (value) => setProp({ prop: "totp", value }),
 });
 
 const v$ = useVuelidate(
-  computed(() => ({
-    totp: {
-      required,
-    },
-  })),
-  { totp },
-  { $autoDirty: true },
+	computed(() => ({
+		totp: {
+			required,
+		},
+	})),
+	{ totp },
+	{ $autoDirty: true },
 );
 
-onMounted(() => { v$.value.$touch() });
+onMounted(() => {
+	v$.value.$touch();
+});
 
-useNextOnEnter(() => !v$.value.$invalid && emit('next'));
+useNextOnEnter(() => !v$.value.$invalid && emit("next"));
 
 async function setProp(payload) {
-  return store.dispatch('auth/SET_PROPERTY', payload);
+	return store.dispatch("auth/SET_PROPERTY", payload);
 }
-
 </script>
