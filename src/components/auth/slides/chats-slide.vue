@@ -9,7 +9,7 @@
           Chats
         </div>
         <div class="chats-slide__line"></div>
-        <div  class="chats-slide__text">
+        <div  class="chats-slide__text" :class="{ 'typo-body-2': $breakpoint.lgOnly, 'typo-body-1': !$breakpoint.lgOnly }">
           Easy way to improve customer service and engagement. Efficient handling of text communications from multiple channels: messengers, emails, and website chats, on one platform.
         </div>
       </div>
@@ -35,6 +35,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/styleguide/viewport-breakpoints' as *;
+
 $text-width-lg: 331px;
 $text-width-md: 245px;
 $img-width-lg: 1024px;
@@ -65,7 +67,6 @@ $img-width-md: 640px;
   }
 
   &__text {
-    @extend %typo-body-1;
   }
 
   &__line {
@@ -75,12 +76,6 @@ $img-width-md: 640px;
 
   &__image {
     width: $img-width-lg;
-  }
-}
-
-.chats-slide--lg {
-  .chats-slide__text {
-      @extend %typo-body-2;
   }
 }
 

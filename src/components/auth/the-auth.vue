@@ -7,12 +7,10 @@
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
         <header class="auth-form-wrapper__header">
-          <wt-logo
-            :dark-mode="theme === 'dark'"
-          />
+          <wt-logo :dark-mode="theme === 'dark'" />
           <wt-dark-mode-switcher />
         </header>
-        <h1 class="auth-tabs-title">{{ currentTab.title }}</h1>
+        <h1 class="auth-tabs-title typo-heading-3">{{ currentTab.title }}</h1>
         <component
           :is="currentTab.value"
           :is-back-prev-step="isBackPrevStepInLogin"
@@ -57,7 +55,7 @@
 <script>
 import '@egjs/vue3-flicking/dist/flicking.css';
 
-import { AutoPlay,Pagination } from '@egjs/flicking-plugins';
+import { AutoPlay, Pagination } from '@egjs/flicking-plugins';
 import Flicking from '@egjs/vue3-flicking';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { mapActions, mapState } from 'vuex';
@@ -122,7 +120,7 @@ export default {
       try {
         await this.submitAuth(tab)
       } catch (err) {
-        if(tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
+        if (tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
       }
     },
   },
@@ -133,6 +131,7 @@ export default {
 </script>
 
 <style lang="scss">
+@use '@webitel/styleguide/viewport-breakpoints' as *;
 @import '../../assets/css/auth/auth';
 
 $form-width-lg: 528px;
@@ -173,7 +172,6 @@ $slide-width-md: 640px;
     }
 
     .auth-tabs-title {
-      @extend %typo-heading-3;
       margin: var(--spacing-lg) auto;
       text-align: center;
     }
@@ -184,12 +182,10 @@ $slide-width-md: 640px;
   }
 
   .auth-form-header__title {
-    @extend %typo-heading-2;
     margin-bottom: var(--spacing-sm);
   }
 
   .auth-form-header__subtitle {
-    @extend %typo-body-1;
     margin-bottom: var(--spacing-sm);
   }
 
@@ -246,7 +242,6 @@ $slide-width-md: 640px;
 
 .auth--xs {
   .auth-form-header__title {
-    @extend %typo-heading-3;
     text-align: center;
     margin-bottom: var(--spacing-xs);
   }
@@ -327,5 +322,4 @@ $slide-width-md: 640px;
     }
   }
 }
-
 </style>

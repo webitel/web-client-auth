@@ -9,7 +9,7 @@
           Supervisor
         </div>
         <div class="supervisor-slide__line"></div>
-        <div  class="supervisor-slide__text">
+        <div  class="supervisor-slide__text" :class="{ 'typo-body-2': $breakpoint.lgOnly, 'typo-body-1': !$breakpoint.lgOnly }">
           A comprehensive service to monitor and effectively manage queues, active calls, agents' work and KPIs. Advanced settings for configuring agent skills and statuses, dedicated teams, participating in ongoing calls, and forming detailed reports.
         </div>
       </div>
@@ -36,6 +36,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use '@webitel/styleguide/viewport-breakpoints' as *;
+
 $text-width-lg: 473px;
 $text-width-md: 301px;
 $img-width-lg: 1024px;
@@ -66,7 +68,6 @@ $img-width-md: 602px;
   }
 
   &__text {
-    @extend %typo-body-1;
   }
 
   &__line {
@@ -76,12 +77,6 @@ $img-width-md: 602px;
 
   &__image {
     width: $img-width-lg;
-  }
-}
-
-.supervisor-slide--lg {
-  .supervisor-slide__text {
-      @extend %typo-body-2;
   }
 }
 

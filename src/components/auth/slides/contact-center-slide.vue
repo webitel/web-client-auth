@@ -6,21 +6,26 @@
     <div class="contact-center-slide__wrap">
       <div class="contact-center-slide__text-wrap">
         <div class="contact-center-slide__title">
-         Contact Center
+          Contact Center
         </div>
         <div class="contact-center-slide__subtitle">
           Automation Platform
         </div>
         <div class="contact-center-slide__line"></div>
-        <div  class="contact-center-slide__text">
-          Flexible and fully customizable contact center software that drives business growth and delivers a unique customer experience. Powerful tools for managing omnichannel communications, teams, workflows, tasks, integrations, call history, analytics, and more.
+        <div
+          class="contact-center-slide__text"
+          :class="{ 'typo-body-2': $breakpoint.lgOnly, 'typo-body-1': !$breakpoint.lgOnly }"
+        >
+          Flexible and fully customizable contact center software that drives business growth and delivers a unique
+          customer experience. Powerful tools for managing omnichannel communications, teams, workflows, tasks,
+          integrations, call history, analytics, and more.
         </div>
       </div>
       <img
-          alt="contact-center-pic"
-          class="contact-center-slide__image"
-          src="../../../assets/img/auth/slides/contact-center.svg"
-          draggable="false"
+        alt="contact-center-pic"
+        class="contact-center-slide__image"
+        src="../../../assets/img/auth/slides/contact-center.svg"
+        draggable="false"
       >
     </div>
   </section>
@@ -38,7 +43,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style
+  lang="scss"
+  scoped
+>
+@use '@webitel/styleguide/viewport-breakpoints' as *;
+
 $text-width-lg: 462px;
 $text-width-md: 290px;
 $img-width-lg: 1024px;
@@ -74,9 +84,7 @@ $img-width-md: 640px;
     line-height: 49px;
   }
 
-  &__text {
-    @extend %typo-body-1;
-  }
+  &__text {}
 
   &__line {
     border-top: 3px solid var(--primary-color);
@@ -85,12 +93,6 @@ $img-width-md: 640px;
 
   &__image {
     width: $img-width-lg;
-  }
-}
-
-.contact-center-slide--lg {
-  .contact-center-slide__text {
-      @extend %typo-body-2;
   }
 }
 
@@ -121,5 +123,4 @@ $img-width-md: 640px;
     }
   }
 }
-
 </style>
