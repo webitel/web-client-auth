@@ -16,7 +16,7 @@
           @keyup.enter="emit('save')"
         />
 
-        <wt-input-password
+        <wt-password
           v-model.trim="confirmPassword"
           name="password"
           :label="t('auth.confirmNewPassword')"
