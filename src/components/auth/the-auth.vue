@@ -68,65 +68,73 @@ import HistoryAndAnalyticsSlide from './slides/history-and-analytics-slide.vue';
 import SupervisorSlide from './slides/supervisor-slide.vue';
 
 export default {
-  name: 'Auth',
-  components: {
-    HistoryAndAnalyticsSlide,
-    ChatsSlide,
-    SupervisorSlide,
-    ContactCenterSlide,
-    Login,
-    Register,
-    Flicking,
-    WtDarkModeSwitcher,
-  },
-  data: () => ({
-    currentTab: { value: 'login' },
-    plugins: [
-      new Pagination({ type: 'bullet' }),
-      new AutoPlay({ duration: 9000, stopOnHover: false }),
-    ],
-    isBackPrevStepInLogin: false,
-  }),
-  computed: {
-    ...mapState('appearance', {
-      theme: (state) => state.theme,
-    }),
-    tabs() {
-      return [
-        {
-          title: this.$t('auth.signIn'),
-          text: this.$t('auth.login'),
-          value: 'login',
-        },
-        {
-          title: this.$t('auth.titleRegistration'),
-          text: this.$t('auth.register'),
-          value: 'register',
-        },
-      ];
-    },
-  },
+	name: 'Auth',
+	components: {
+		HistoryAndAnalyticsSlide,
+		ChatsSlide,
+		SupervisorSlide,
+		ContactCenterSlide,
+		Login,
+		Register,
+		Flicking,
+		WtDarkModeSwitcher,
+	},
+	data: () => ({
+		currentTab: {
+			value: 'login',
+		},
+		plugins: [
+			new Pagination({
+				type: 'bullet',
+			}),
+			new AutoPlay({
+				duration: 9000,
+				stopOnHover: false,
+			}),
+		],
+		isBackPrevStepInLogin: false,
+	}),
+	computed: {
+		...mapState('appearance', {
+			theme: (state) => state.theme,
+		}),
+		tabs() {
+			return [
+				{
+					title: this.$t('auth.signIn'),
+					text: this.$t('auth.login'),
+					value: 'login',
+				},
+				{
+					title: this.$t('auth.titleRegistration'),
+					text: this.$t('auth.register'),
+					value: 'register',
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions('auth', {
-      submitAuth: 'SUBMIT_AUTH',
-    }),
-    setInnitialTab() {
-      const loginTab = this.tabs.find(({ value }) => value === 'login');
-      const registerTab = this.tabs.find(({ value }) => value === 'register');
-      this.currentTab = this.$route.query.reset ? registerTab : loginTab;
-    },
-    async authorization(tab) {
-      try {
-        await this.submitAuth(tab)
-      } catch (err) {
-        if (tab === 'login' && err.code === 419) this.isBackPrevStepInLogin = true;
-      }
-    },
-  },
-  created() {
-    this.setInnitialTab();
-  },
+	methods: {
+		...mapActions('auth', {
+			submitAuth: 'SUBMIT_AUTH',
+		}),
+		setInnitialTab() {
+			const loginTab = this.tabs.find(({ value }) => value === 'login');
+			const registerTab = this.tabs.find(({ value }) => value === 'register');
+			this.currentTab = this.$route.query.reset ? registerTab : loginTab;
+		},
+		async authorization(tab) {
+			try {
+				await this.submitAuth(tab);
+			} catch (err) {
+				if (tab === 'login' && err.code === 419)
+					this.isBackPrevStepInLogin = true;
+			}
+		},
+	},
+	created() {
+		this.setInnitialTab();
+	},
 };
 </script>
 

@@ -33,13 +33,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'ContactCenterSlide',
-  data: () => ({
-  }),
-  methods: {
-  },
+	name: 'ContactCenterSlide',
+	data: () => ({}),
+	methods: {},
 };
 </script>
 

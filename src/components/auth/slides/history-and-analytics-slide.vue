@@ -27,13 +27,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'HistoryAndAnalyticsSlide',
-  data: () => ({
-  }),
-  methods: {
-  },
+	name: 'HistoryAndAnalyticsSlide',
+	data: () => ({}),
+	methods: {},
 };
 </script>
 

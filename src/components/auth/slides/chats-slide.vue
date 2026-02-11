@@ -24,13 +24,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'ChatsSlide',
-  data: () => ({
-  }),
-  methods: {
-  },
+	name: 'ChatsSlide',
+	data: () => ({}),
+	methods: {},
 };
 </script>
 

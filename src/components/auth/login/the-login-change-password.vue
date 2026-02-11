@@ -45,14 +45,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useVuelidate } from "@vuelidate/core";
-import { required, sameAs, helpers } from "@vuelidate/validators";
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import { useI18n } from "vue-i18n";
-import { useStore } from "vuex";
-
-import { useNextOnEnter } from "../../../composables/useNextOnEnter.js";
-import AuthAPI from "../../../api/auth/auth";
+import { useVuelidate } from '@vuelidate/core';
+import { helpers, required, sameAs } from '@vuelidate/validators';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import AuthAPI from '../../../api/auth/auth';
+import { useNextOnEnter } from '../../../composables/useNextOnEnter.js';
 
 type PasswordSettings = {
 	passwordRegExp: string;
@@ -64,18 +63,29 @@ type PasswordSettings = {
 
 const { t } = useI18n();
 
-const emit = defineEmits(["back", "save"]);
+const emit = defineEmits([
+	'back',
+	'save',
+]);
 const store = useStore();
 
 const vPasswordSettings = ref<PasswordSettings>({});
 
 const newPassword = computed({
 	get: () => store.state.auth.newPassword,
-	set: (value) => setProp({ prop: "newPassword", value }),
+	set: (value) =>
+		setProp({
+			prop: 'newPassword',
+			value,
+		}),
 });
 const confirmPassword = computed({
 	get: () => store.state.auth.confirmPassword,
-	set: (value) => setProp({ prop: "confirmPassword", value }),
+	set: (value) =>
+		setProp({
+			prop: 'confirmPassword',
+			value,
+		}),
 });
 const reasonExpiredPassword = computed(
 	() => store.state.auth.reasonExpiredPassword,
@@ -101,7 +111,9 @@ const regExpSettings = computed(() => {
 
 	return {
 		regex: helpers.withParams(
-			{ regex: vPasswordSettings.value.passwordRegExp },
+			{
+				regex: vPasswordSettings.value.passwordRegExp,
+			},
 			vPasswordSettings.value.passwordValidationText
 				? helpers.withMessage(
 						vPasswordSettings.value.passwordValidationText,
@@ -122,20 +134,25 @@ const v$ = useVuelidate(
 			sameAs: sameAs(newPassword),
 		},
 	})),
-	{ newPassword, confirmPassword },
-	{ $autoDirty: true },
+	{
+		newPassword,
+		confirmPassword,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
-useNextOnEnter(() => !v$.value.$invalid && emit("save"));
+useNextOnEnter(() => !v$.value.$invalid && emit('save'));
 
 const message = computed(() =>
-	reasonExpiredPassword.value === "temporary"
-		? t("auth.temporaryPasswordMessage")
-		: t("auth.expiredPasswordMessage"),
+	reasonExpiredPassword.value === 'temporary'
+		? t('auth.temporaryPasswordMessage')
+		: t('auth.expiredPasswordMessage'),
 );
 
 async function setProp(payload) {
-	return store.dispatch("auth/SET_PROPERTY", payload);
+	return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
 onMounted(async () => {
@@ -143,8 +160,14 @@ onMounted(async () => {
 	v$.value.$touch();
 });
 onUnmounted(() => {
-	setProp({ prop: "newPassword", value: "" });
-	setProp({ prop: "confirmPassword", value: "" });
+	setProp({
+		prop: 'newPassword',
+		value: '',
+	});
+	setProp({
+		prop: 'confirmPassword',
+		value: '',
+	});
 });
 </script>
 

@@ -26,13 +26,13 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import domainValidator from "@webitel/ui-sdk/src/validators/domainValidator";
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-import { useNextOnEnter } from "../../../../composables/useNextOnEnter.js";
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
 const props = defineProps({
 	isSubmitting: {
@@ -41,13 +41,20 @@ const props = defineProps({
 	},
 });
 
-const emit = defineEmits(["login", "next"]);
+const emit = defineEmits([
+	'login',
+	'next',
+]);
 
 const store = useStore();
 
 const domain = computed({
 	get: () => store.state.auth.domain,
-	set: (value) => setProp({ prop: "domain", value }),
+	set: (value) =>
+		setProp({
+			prop: 'domain',
+			value,
+		}),
 });
 
 const v$ = useVuelidate(
@@ -57,14 +64,18 @@ const v$ = useVuelidate(
 			domainValidator,
 		},
 	})),
-	{ domain },
-	{ $autoDirty: true },
+	{
+		domain,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
-useNextOnEnter(() => !v$.value.$invalid && emit("next"));
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
-	return store.dispatch("auth/SET_PROPERTY", payload);
+	return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
 onMounted(() => {

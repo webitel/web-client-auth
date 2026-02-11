@@ -42,73 +42,82 @@ import SecondStep from '../register/steps/the-register-second-step.vue';
 import ThirdStep from '../register/steps/the-register-third-step.vue';
 
 export default {
-  name: 'TheRegister',
-  components: {
-    FirstStep,
-    SecondStep,
-    ThirdStep,
-  },
-  data: () => ({
-    activeStep: 1,
-    isFirstStepSubmitting: false,
-  }),
+	name: 'TheRegister',
+	components: {
+		FirstStep,
+		SecondStep,
+		ThirdStep,
+	},
+	data: () => ({
+		activeStep: 1,
+		isFirstStepSubmitting: false,
+	}),
 
-  computed: {
-    steps() {
-      return [
-        {
-          name: this.$t('reusable.step', { count: 1 }),
-          description: this.$t('auth.enterDomain'),
-        },
-        {
-          name: this.$t('reusable.step', { count: 2 }),
-          description: this.$t('auth.enterNewUsername'),
-        },
-        {
-          name: this.$t('reusable.step', { count: 3 }),
-          description: this.$t('auth.enterLicense'),
-        },
-      ];
-    },
-  },
+	computed: {
+		steps() {
+			return [
+				{
+					name: this.$t('reusable.step', {
+						count: 1,
+					}),
+					description: this.$t('auth.enterDomain'),
+				},
+				{
+					name: this.$t('reusable.step', {
+						count: 2,
+					}),
+					description: this.$t('auth.enterNewUsername'),
+				},
+				{
+					name: this.$t('reusable.step', {
+						count: 3,
+					}),
+					description: this.$t('auth.enterLicense'),
+				},
+			];
+		},
+	},
 
-  methods: {
-    ...mapActions('auth', {
-      register: 'REGISTER',
-      setProp: 'SET_PROPERTY',
-      resetState: 'RESET_STATE',
-    }),
+	methods: {
+		...mapActions('auth', {
+			register: 'REGISTER',
+			setProp: 'SET_PROPERTY',
+			resetState: 'RESET_STATE',
+		}),
 
-    backPrevStep() {
-      if (this.activeStep === 1) {
-        this.$emit('change-tab', { value: 'login' });
-      } else {
-        this.activeStep = this.activeStep - 1;
-      }
-    },
+		backPrevStep() {
+			if (this.activeStep === 1) {
+				this.$emit('change-tab', {
+					value: 'login',
+				});
+			} else {
+				this.activeStep = this.activeStep - 1;
+			}
+		},
 
-    async goNextStep() {
-      if (this.steps.length > this.activeStep) {
-        if (this.activeStep === 1) {
-          try {
-            this.isFirstStepSubmitting = true;
-          } finally {
-            this.isFirstStepSubmitting = false;
-          }
-        }
+		async goNextStep() {
+			if (this.steps.length > this.activeStep) {
+				if (this.activeStep === 1) {
+					try {
+						this.isFirstStepSubmitting = true;
+					} finally {
+						this.isFirstStepSubmitting = false;
+					}
+				}
 
-        if (this.activeStep === 2) {}
+				if (this.activeStep === 2) {
+				}
 
-        this.activeStep = this.activeStep + 1;
-      } else {
-        this.$emit('submit');
-      }
-    },
-  },
+				this.activeStep = this.activeStep + 1;
+			} else {
+				this.$emit('submit');
+			}
+		},
+	},
 
-  unmounted() {
-    this.resetState();
-  },
+	unmounted() {
+		this.resetState();
+	},
 };
 </script>
 

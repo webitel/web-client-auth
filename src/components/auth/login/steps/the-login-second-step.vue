@@ -44,26 +44,37 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { required } from "@vuelidate/validators";
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { required } from '@vuelidate/validators';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-import { useNextOnEnter } from "../../../../composables/useNextOnEnter.js";
-import LoginProviders from "../providers/the-login-providers.vue";
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
+import LoginProviders from '../providers/the-login-providers.vue';
 
-const emit = defineEmits(["back", "next"]);
+const emit = defineEmits([
+	'back',
+	'next',
+]);
 
 const store = useStore();
 1;
 const domain = computed(() => store.state.auth.domain);
 const username = computed({
 	get: () => store.state.auth.username,
-	set: (value) => setProp({ prop: "username", value }),
+	set: (value) =>
+		setProp({
+			prop: 'username',
+			value,
+		}),
 });
 const password = computed({
 	get: () => store.state.auth.password,
-	set: (value) => setProp({ prop: "password", value }),
+	set: (value) =>
+		setProp({
+			prop: 'password',
+			value,
+		}),
 });
 
 const v$ = useVuelidate(
@@ -75,18 +86,23 @@ const v$ = useVuelidate(
 			required,
 		},
 	})),
-	{ username, password },
-	{ $autoDirty: true },
+	{
+		username,
+		password,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
 onMounted(() => {
 	v$.value.$touch();
 });
 
-useNextOnEnter(() => !v$.value.$invalid && emit("next"));
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
-	return store.dispatch("auth/SET_PROPERTY", payload);
+	return store.dispatch('auth/SET_PROPERTY', payload);
 }
 </script>
 

@@ -25,13 +25,10 @@
 </template>
 
 <script>
-
 export default {
-  name: 'SupervisorSlide',
-  data: () => ({
-  }),
-  methods: {
-  },
+	name: 'SupervisorSlide',
+	data: () => ({}),
+	methods: {},
 };
 </script>
 

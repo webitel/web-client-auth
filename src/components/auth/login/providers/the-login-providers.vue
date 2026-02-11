@@ -35,21 +35,23 @@ const loginProviders = computed(() => store.state.auth.loginProviders);
 const isOpenProviders = computed(() => !isEmpty(loginProviders.value));
 
 const serviceProviders = computed(() => {
-  const providerIcon = {
-    [ServiceProvider.ADFS]: 'adfs',
-    [ServiceProvider.GOOGLE]: 'google',
-    [ServiceProvider.FACEBOOK]: 'messenger-facebook',
-    [ServiceProvider.AZURE]: 'azure',
-  };
-  return Object.keys(loginProviders.value).map((provider) => ({
-    name: provider,
-    icon: providerIcon[provider],
-    ticket: loginProviders.value[provider],
-  }));
+	const providerIcon = {
+		[ServiceProvider.ADFS]: 'adfs',
+		[ServiceProvider.GOOGLE]: 'google',
+		[ServiceProvider.FACEBOOK]: 'messenger-facebook',
+		[ServiceProvider.AZURE]: 'azure',
+	};
+	return Object.keys(loginProviders.value).map((provider) => ({
+		name: provider,
+		icon: providerIcon[provider],
+		ticket: loginProviders.value[provider],
+	}));
 });
 
 function openProvider({ ticket }) {
-  return store.dispatch('auth/EXECUTE_PROVIDER', { ticket });
+	return store.dispatch('auth/EXECUTE_PROVIDER', {
+		ticket,
+	});
 }
 </script>
 

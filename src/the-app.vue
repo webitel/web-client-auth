@@ -7,37 +7,47 @@
 import Flicking from '@egjs/vue3-flicking';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import querystring from 'querystring';
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
-  name: 'TheApp',
-  components: { Flicking },
-  inject: ['$eventBus'],
-  methods: {
-    ...mapActions('auth', {
-      checkCurrentSession: 'CHECK_CURRENT_SESSION',
-    }),
-    setLanguage() {
-      const lang = localStorage.getItem('lang');
-      if (lang) this.$i18n.locale = lang;
-      const fallbackLang = localStorage.getItem('fallbackLang');
-      if (fallbackLang) this.$i18n.fallbackLocale = fallbackLang;
-    },
-    handlePathQuery() {
-      const query = objSnakeToCamel(querystring.parse(window.parent.location.search.slice(1))); // query, without "?" sign
-      if (query.error || query.errorDescription) this.handleErrorsInQuery(query);
-    },
-    handleErrorsInQuery({ error, errorDescription }) {
-      this.$eventBus.$emit('notification', { type: 'error', text: errorDescription });
-    },
-  },
-  created() {
-    this.setLanguage();
-    this.checkCurrentSession();
-  },
-  mounted() {
-    this.handlePathQuery();
-  },
+	name: 'TheApp',
+	components: {
+		Flicking,
+	},
+	inject: [
+		'$eventBus',
+	],
+	methods: {
+		...mapActions('auth', {
+			checkCurrentSession: 'CHECK_CURRENT_SESSION',
+		}),
+		setLanguage() {
+			const lang = localStorage.getItem('lang');
+			if (lang) this.$i18n.locale = lang;
+			const fallbackLang = localStorage.getItem('fallbackLang');
+			if (fallbackLang) this.$i18n.fallbackLocale = fallbackLang;
+		},
+		handlePathQuery() {
+			const query = objSnakeToCamel(
+				querystring.parse(window.parent.location.search.slice(1)),
+			); // query, without "?" sign
+			if (query.error || query.errorDescription)
+				this.handleErrorsInQuery(query);
+		},
+		handleErrorsInQuery({ error, errorDescription }) {
+			this.$eventBus.$emit('notification', {
+				type: 'error',
+				text: errorDescription,
+			});
+		},
+	},
+	created() {
+		this.setLanguage();
+		this.checkCurrentSession();
+	},
+	mounted() {
+		this.handlePathQuery();
+	},
 };
 </script>
 

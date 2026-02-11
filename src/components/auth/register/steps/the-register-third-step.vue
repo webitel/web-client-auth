@@ -31,27 +31,36 @@ import { useStore } from 'vuex';
 
 import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
-const emit = defineEmits(['back', 'next']);
+const emit = defineEmits([
+	'back',
+	'next',
+]);
 
 const store = useStore();
 
 const certificate = computed(() => store.state.auth.certificate);
 
 const v$ = useVuelidate(
-  computed(() => ({
-    certificate: {
-      required,
-    },
-  })),
-  { certificate },
-  { $autoDirty: true },
+	computed(() => ({
+		certificate: {
+			required,
+		},
+	})),
+	{
+		certificate,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
 useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
-  return store.dispatch('auth/SET_PROPERTY', payload);
+	return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
-onMounted(() => { v$.value.$touch() });
+onMounted(() => {
+	v$.value.$touch();
+});
 </script>

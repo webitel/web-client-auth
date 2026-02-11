@@ -41,28 +41,43 @@
 </template>
 
 <script setup>
-import { useVuelidate } from "@vuelidate/core";
-import { required, sameAs } from "@vuelidate/validators";
-import { computed, onMounted } from "vue";
-import { useStore } from "vuex";
+import { useVuelidate } from '@vuelidate/core';
+import { required, sameAs } from '@vuelidate/validators';
+import { computed, onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-import { useNextOnEnter } from "../../../../composables/useNextOnEnter.js";
+import { useNextOnEnter } from '../../../../composables/useNextOnEnter.js';
 
-const emit = defineEmits(["back", "next"]);
+const emit = defineEmits([
+	'back',
+	'next',
+]);
 
 const store = useStore();
 
 const username = computed({
 	get: () => store.state.auth.username,
-	set: (value) => setProp({ prop: "username", value }),
+	set: (value) =>
+		setProp({
+			prop: 'username',
+			value,
+		}),
 });
 const password = computed({
 	get: () => store.state.auth.password,
-	set: (value) => setProp({ prop: "password", value }),
+	set: (value) =>
+		setProp({
+			prop: 'password',
+			value,
+		}),
 });
 const confirmPassword = computed({
 	get: () => store.state.auth.confirmPassword,
-	set: (value) => setProp({ prop: "confirmPassword", value }),
+	set: (value) =>
+		setProp({
+			prop: 'confirmPassword',
+			value,
+		}),
 });
 
 const v$ = useVuelidate(
@@ -77,14 +92,20 @@ const v$ = useVuelidate(
 			sameAs: sameAs(password),
 		},
 	})),
-	{ username, password, confirmPassword },
-	{ $autoDirty: true },
+	{
+		username,
+		password,
+		confirmPassword,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
-useNextOnEnter(() => !v$.value.$invalid && emit("next"));
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 
 async function setProp(payload) {
-	return store.dispatch("auth/SET_PROPERTY", payload);
+	return store.dispatch('auth/SET_PROPERTY', payload);
 }
 
 onMounted(() => {
