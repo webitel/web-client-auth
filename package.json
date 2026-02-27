@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite --force",
 		"build": "vite build",
+		"preview": "npm run build && vite preview --base /app/auth",
 		"test:unit": "vitest",
 		"lint:fix": "npx biome check --write ./src",
 		"lint:fix-staged": "npx lint-staged",
