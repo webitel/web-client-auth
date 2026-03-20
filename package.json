@@ -21,7 +21,7 @@
 		"@vuelidate/validators": "^2.0.0",
 		"@webitel/api-services": "^0.1.1",
 		"@webitel/styleguide": "~26.2",
-		"@webitel/ui-sdk": "~26.2",
+		"@webitel/ui-sdk": "~26.4",
 		"axios": "^1.13",
 		"clipboard-copy": "^4.0.1",
 		"deep-copy": "^1.x",
