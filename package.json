@@ -22,7 +22,7 @@
 		"@webitel/api-services": "^0.1.1",
 		"@webitel/styleguide": "~26.2",
 		"@webitel/ui-sdk": "~26.2",
-		"axios": "^1.13",
+		"axios": "1.13.2",
 		"clipboard-copy": "^4.0.1",
 		"deep-copy": "^1.x",
 		"mitt": "^3.x",
