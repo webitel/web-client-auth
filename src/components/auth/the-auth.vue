@@ -127,7 +127,7 @@ export default {
 			try {
 				await this.submitAuth(tab);
 			} catch (err) {
-				if (tab === 'login' && err.code === 419)
+				if (tab === 'login' && err.code === 412)
 					this.isBackPrevStepInLogin = true;
 			}
 		},
