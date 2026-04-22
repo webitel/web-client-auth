@@ -31,9 +31,11 @@ const actions = {
 
 		switch (action) {
 			case 'login':
+				console.log('login');
 				accessToken = await context.dispatch(
 					context.state.sessionId ? 'LOGIN_2FA' : 'LOGIN',
 				);
+				console.log('login accessToken', accessToken);
 				break;
 			case 'register':
 				accessToken = await context.dispatch('REGISTER');
@@ -41,7 +43,7 @@ const actions = {
 			default:
 				throw new Error(`Invalid action: ${action}`);
 		}
-
+		console.log('accessToken', accessToken);
 		return context.dispatch('ON_AUTH_SUCCESS', {
 			accessToken,
 		});
@@ -73,14 +75,19 @@ const actions = {
 
 	LOGIN_2FA: async (context) => {
 		try {
-			return await AuthAPI.login2fa({
+			const response = await AuthAPI.login2fa({
 				id: context.state.sessionId,
 				totp: context.state.totp,
 			});
+			console.log('response LOGIN_2FA', response);
+			return response;
+
 		} catch (error) {
+			console.log('error LOGIN_2FA', response);
 			await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', {
 				error,
 			});
+			throw error;
 		}
 	},
 
@@ -177,17 +184,26 @@ const actions = {
 		let url;
 		try {
 			await context.dispatch('CACHE_USER_DATA');
+			console.log('ON_AUTH_SUCCESS accessToken', accessToken);
 
 			const redirectTo = router.currentRoute.value.query?.redirectTo;
+			console.log('redirectTo', redirectTo);
 
 			const redirect = redirectTo
 				? decodeURIComponent(redirectTo)
 				: import.meta.env.VITE_START_PAGE_URL;
 
+			console.log('redirect', redirect);
+			console.log('import.meta.env.VITE_START_PAGE_URL', import.meta.env.VITE_START_PAGE_URL);
+
 			if (
 				typeof redirect === 'undefined' ||
 				typeof accessToken === 'undefined'
 			) {
+				console.log('Missing redirect or access token', {
+					redirect,
+					accessToken,
+				});
 				throw new Error(
 					`No redirect (${redirect}) or access token (${accessToken}) provided`,
 				);
@@ -196,7 +212,9 @@ const actions = {
 			url = redirect.includes('?')
 				? `${redirect}&accessToken=${accessToken}`
 				: `${redirect}?accessToken=${accessToken}`;
+			console.log('url', url);
 		} finally {
+			console.log(import.meta.env.DEV)
 			if (!import.meta.env.DEV) window.location.href = url;
 		}
 	},
