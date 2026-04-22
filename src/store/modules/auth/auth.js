@@ -81,6 +81,7 @@ const actions = {
 			await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', {
 				error,
 			});
+			throw error;
 		}
 	},
 
@@ -174,31 +175,24 @@ const actions = {
 	},
 
 	ON_AUTH_SUCCESS: async (context, { accessToken }) => {
-		let url;
-		try {
-			await context.dispatch('CACHE_USER_DATA');
+		await context.dispatch('CACHE_USER_DATA');
 
-			const redirectTo = router.currentRoute.value.query?.redirectTo;
+		const redirectTo = router.currentRoute.value.query?.redirectTo;
 
-			const redirect = redirectTo
-				? decodeURIComponent(redirectTo)
-				: import.meta.env.VITE_START_PAGE_URL;
+		const redirect = redirectTo
+			? decodeURIComponent(redirectTo)
+			: import.meta.env.VITE_START_PAGE_URL;
 
-			if (
-				typeof redirect === 'undefined' ||
-				typeof accessToken === 'undefined'
-			) {
-				throw new Error(
-					`No redirect (${redirect}) or access token (${accessToken}) provided`,
-				);
-			}
-
-			url = redirect.includes('?')
-				? `${redirect}&accessToken=${accessToken}`
-				: `${redirect}?accessToken=${accessToken}`;
-		} finally {
-			if (!import.meta.env.DEV) window.location.href = url;
+		if (typeof redirect === 'undefined' ||
+			typeof accessToken === 'undefined') {
+			throw new Error(`No redirect (${redirect}) or access token (${accessToken}) provided`);
 		}
+
+		const url = redirect.includes('?')
+			? `${redirect}&accessToken=${accessToken}`
+			: `${redirect}?accessToken=${accessToken}`;
+
+		if (!import.meta.env.DEV) window.location.href = url;
 	},
 
 	CACHE_USER_DATA: (context) => {
