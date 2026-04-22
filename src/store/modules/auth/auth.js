@@ -75,13 +75,11 @@ const actions = {
 
 	LOGIN_2FA: async (context) => {
 		try {
-			const response = await AuthAPI.login2fa({
+			console.log('LOGIN_2FA');
+			return await AuthAPI.login2fa({
 				id: context.state.sessionId,
 				totp: context.state.totp,
 			});
-			console.log('response LOGIN_2FA', response);
-			return response;
-
 		} catch (error) {
 			console.log('error LOGIN_2FA', response);
 			await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', {
