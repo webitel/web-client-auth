@@ -81,11 +81,10 @@ const actions = {
 				totp: context.state.totp,
 			});
 		} catch (error) {
-			console.log('error LOGIN_2FA', response);
+			console.log('error LOGIN_2FA', error);
 			await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', {
 				error,
 			});
-			throw error;
 		}
 	},
 
