@@ -85,6 +85,7 @@ const actions = {
 			await context.dispatch('HANDLE_PASSWORD_EXPIRATION_ERROR', {
 				error,
 			});
+			throw error;
 		}
 	},
 
@@ -212,7 +213,7 @@ const actions = {
 			console.log('url', url);
 		} finally {
 			console.log(import.meta.env.DEV)
-			if (!import.meta.env.DEV) window.location.href = url;
+			if (!import.meta.env.DEV && url ) window.location.href = url;
 		}
 	},
 
