@@ -8,21 +8,19 @@
     <div>
       <div class="the-login-change-password-fields">
         <wt-password
-          v-model.trim="newPassword"
+          v-model:model-value="newPassword"
           name="password"
           :label="t('auth.newPassword')"
           :v="v$.newPassword"
           autocomplete
-          @keyup.enter="emit('save')"
         />
 
         <wt-password
-          v-model.trim="confirmPassword"
+          v-model:model-value="confirmPassword"
           name="password"
           :label="t('auth.confirmNewPassword')"
           :v="v$.confirmPassword"
           autocomplete
-          @keyup.enter="emit('save')"
         />
       </div>
 
