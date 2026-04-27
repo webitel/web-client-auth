@@ -12,10 +12,10 @@ export default {
 		password: 'Пароль',
 		newPassword: 'Новий пароль',
 		confirmPassword: 'Повторіть пароль',
-		confirmNewPassword: 'Підтвердьте новий пароль',
+		confirmNewPassword: 'Підтвердіть новий пароль',
 		temporaryPasswordMessage: 'Вам потрібно встановити новий пароль',
 		expiredPasswordMessage:
-			'Ваш пароль закінчився. Будь ласка, встановіть новий пароль',
+			'Термін вашого пароля сплив. Будь ласка, встановіть новий пароль',
 		key: 'Ключ',
 		registerSubmit: 'Створити',
 		signIn: 'Увійти',
