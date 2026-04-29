@@ -65,7 +65,7 @@ export const register = async (credentials) => {
 
 	try {
 		await instance.post(url, credentials);
-		await login({
+		return await login({
 			username: credentials.username,
 			password: credentials.password,
 			domain: credentials.domain,
