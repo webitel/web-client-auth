@@ -15,7 +15,7 @@ export default {
 		confirmNewPassword: 'Подтвердите новый пароль',
 		temporaryPasswordMessage: 'Вам необходимо установить новый пароль',
 		expiredPasswordMessage:
-			'Ваш пароль истёк. Пожалуйста, установите новый пароль',
+			'Ваш пароль истёк. Пожалуйста, установите новый пароль.',
 		key: 'Ключ',
 		registerSubmit: 'Создать',
 		signIn: 'Войти',
