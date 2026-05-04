@@ -15,7 +15,7 @@ export default {
 		confirmNewPassword: 'Confirm new password',
 		temporaryPasswordMessage: 'You need to set up a new password',
 		expiredPasswordMessage:
-			'Your password has expired. Please set up a new password',
+			'Your password has expired. Please set up a new password.',
 		key: 'License key',
 		registerSubmit: 'Register',
 		signIn: 'Sign in',
