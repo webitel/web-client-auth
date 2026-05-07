@@ -6,6 +6,7 @@ import {
 } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import eventBus from '@webitel/ui-sdk/src/scripts/eventBus';
 import axios from 'axios';
+import { errorHandlersInterceptor } from './interceptors/errorHandlers.interceptor';
 
 export const config = {
 	silent: false,
@@ -41,38 +42,33 @@ instance.interceptors.request.use((request) => {
 instance.interceptors.request.use(...updateTokenInterceptor);
 
 instance.interceptors.response.use(
-	// show notification abount no license
-	undefined,
-	(error) => {
-		if (error.response?.data.id === 'app.context.authz.license.err') {
-			eventBus.$emit('notification', {
-				type: 'error',
-				text: 'User has no license grants',
-			});
-		}
-		return Promise.reject(error.response.data);
-	},
-);
-
-instance.interceptors.response.use(
 	(response) => {
 		return objSnakeToCamel(response.data);
 	},
 	(error) => {
+		const normalizedError = error.response?.data || error;
+		const { id } = normalizedError;
+
 		// catches 401 error across all api's
 		if (error.response?.status === 401) {
 			console.warn('intercepted 401');
 			localStorage.removeItem('access-token');
-		} else {
+		}
+		const handler = errorHandlersInterceptor[id];
+		if (handler) {
+			handler(normalizedError);
+			return Promise.reject(normalizedError);
+		}
+
 			// if error isn't 401, returns it
 			// error.detail or err.response.data.detail cause Promise.rehect(error.response.data) could already be thrown
-			if (!config.silent)
+			if (!config.silent) {
 				eventBus.$emit('notification', {
 					type: 'error',
 					text: error.detail || error.response.data.detail,
 				});
-		}
-		return Promise.reject(error);
+			}
+		return Promise.reject(normalizedError);
 	},
 );
 
