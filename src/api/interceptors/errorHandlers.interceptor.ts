@@ -3,6 +3,7 @@ import i18n from '../../locale/i18n';
 
 export const handleLicenseExpired = (error) => {
   const match = error.detail?.match(/product:\s*(\w+)/);
+  const NOTIFICATION_DURATION_SEC = 20;
 
   const licenseName = match?.[1];
 
@@ -14,6 +15,7 @@ export const handleLicenseExpired = (error) => {
         name: licenseName,
       },
     ),
+    timeout: NOTIFICATION_DURATION_SEC,
   });
 };
 
