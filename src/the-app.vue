@@ -7,7 +7,8 @@
 import Flicking from '@egjs/vue3-flicking';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import querystring from 'querystring';
-import { mapActions } from 'vuex';
+import { mapActions, useStore } from 'vuex';
+import { computed, provide } from 'vue';
 
 export default {
 	name: 'TheApp',
@@ -17,6 +18,11 @@ export default {
 	inject: [
 		'$eventBus',
 	],
+	setup() {
+		const store = useStore();
+		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
+		provide('darkMode', darkMode);
+	},
 	methods: {
 		...mapActions('auth', {
 			checkCurrentSession: 'CHECK_CURRENT_SESSION',
