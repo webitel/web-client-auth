@@ -5,12 +5,13 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 export default ({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '');
+	const isStagingEnv = !!env.VITE_STAGING_ENV;
 
 	return defineConfig({
 		base: '/app/auth',
 		build: {
-			sourcemap: import.meta.env.VITE_STAGING_ENV,
-			minify: !import.meta.env.VITE_STAGING_ENV, // Disable minification for readable debugging
+			sourcemap: isStagingEnv,
+			minify: !isStagingEnv, // Disable minification for readable debugging
 		},
 		define: {
 			'process.env': JSON.parse(
