@@ -64,7 +64,7 @@ export const register = async (credentials) => {
 	const url = '/signup';
 
 	try {
-		await instance.post(url, credentials);
+		await instance.post(`${url}?generate_device=true`, credentials);
 		return await login({
 			username: credentials.username,
 			password: credentials.password,
@@ -86,7 +86,7 @@ const checkSessionByToken = async () => {
 		throw err;
 	}
 };
-
+/// порефакторити
 const checkSessionByCookies = async () => {
 	const url = '/login';
 
