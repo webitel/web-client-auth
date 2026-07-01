@@ -1,7 +1,4 @@
-import { ExpiredPasswordReason } from './ExpiredPasswordReason/ExpiredPasswordReason.enum';
 import { AuthMode } from './AuthMode/AuthMode.enum';
+import { ExpiredPasswordReason } from './ExpiredPasswordReason/ExpiredPasswordReason.enum';
 
-export {
-  AuthMode,
-  ExpiredPasswordReason,
-}
+export { AuthMode, ExpiredPasswordReason };

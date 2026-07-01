@@ -58,8 +58,8 @@ import Flicking from '@egjs/vue3-flicking';
 import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/store/AppearanceStore';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAuthStore } from '../stores/useAuthStore.ts';
-import { AuthMode } from '../enums/index.ts';
+import { AuthMode } from '../enums';
+import { useAuthStore } from '../stores/useAuthStore';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
@@ -70,11 +70,11 @@ import SupervisorSlide from './slides/supervisor-slide.vue';
 
 const useAppearanceStore = createAppearanceStore();
 const appearanceStore = useAppearanceStore();
+
 const authStore = useAuthStore();
+const { submitRegister, submitLogin } = authStore;
 
 const { t } = useI18n();
-
-const { submitRegister, submitLogin } = authStore;
 
 const plugins = [
 	new Pagination({
@@ -105,18 +105,18 @@ const tabs = computed(() => {
 	];
 });
 
-const currentTab = computed(() => {
-	return (
-		tabs.value.find(({ value }) => value === activeTab.value) || tabs.value[0]
-	);
-});
+const currentTab = computed(
+	() =>
+		tabs.value.find(({ value }) => value === activeTab.value) || tabs.value[0],
+);
 const theme = computed(() => appearanceStore.theme);
 
 const handleChangeTab = ({ value }) => {
 	activeTab.value = value;
 };
 
-const authorization = async (tab) => tab === AuthMode.REGISTER ? submitRegister() : submitLogin();
+const authorization = async (tab) =>
+	tab === AuthMode.REGISTER ? submitRegister() : submitLogin();
 </script>
 
 <style lang="scss">

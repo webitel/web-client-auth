@@ -1,9 +1,10 @@
 <template>
-  <form class="the-login-form-fields">
+  <div class="login-form-fields">
     <wt-input-text
       v-model.trim="username"
       :label="t('vocabulary.login')"
       :v="v$.username"
+      name="username"
       autocomplete
     />
 
@@ -12,6 +13,7 @@
       v-model.trim="password"
       :label="t('auth.password')"
       :v="v$.password"
+      name="password"
       autocomplete
     />
 
@@ -21,7 +23,7 @@
       :label="t('auth.code')"
       :v="v$.totp"
     />
-  </form>
+  </div>
 </template>
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
@@ -32,14 +34,15 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-import { useNextOnEnter } from '../../../composables/useNextOnEnter.js';
+import { useNextOnEnter } from '../../../composables/useNextOnEnter';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import { useSsoStore } from '../../../stores/useSsoStore';
 import { useTfaStore } from '../../../stores/useTfaStore';
 
 const emit = defineEmits([
 	'invalid-change',
-	'submit',
+	'next',
+	'change-login',
 ]);
 
 const { t } = useI18n();
@@ -52,28 +55,33 @@ const props = defineProps({
 });
 
 const authStore = useAuthStore();
-const tfaStore = useTfaStore();
-const ssoStore = useSsoStore();
-
-const { enabledTfa } = storeToRefs(tfaStore);
 const { username, password, domain } = storeToRefs(authStore);
-const { totp } = storeToRefs(tfaStore);
+
+const tfaStore = useTfaStore();
+const { totp, enabledTfa } = storeToRefs(tfaStore);
+
+const ssoStore = useSsoStore();
 const { loginOptions } = storeToRefs(ssoStore);
 
-const displayPassword = computed(() =>
-  props.activeStep !== 1 && loginOptions.value !== LoginOptions.SSO_ONLY);
+const displayPassword = computed(
+	() => props.activeStep !== 1 && loginOptions.value !== LoginOptions.SSO_ONLY,
+);
 
 const displayTotp = computed(() => props.activeStep === 3 && enabledTfa.value);
 
 const rules = computed(() => ({
 	username: {
-    required,
-    domainValidator: () => {
-      return domain.value ? domainValidator(domain.value) : false;
-  },
-  },
-  password: { required: requiredIf(displayPassword.value) },
-	totp: { required: requiredIf(displayTotp.value) },
+		required,
+		domainValidator: () => {
+			return domain.value ? domainValidator(domain.value) : false;
+		},
+	},
+	password: {
+		required: requiredIf(displayPassword.value),
+	},
+	totp: {
+		required: requiredIf(displayTotp.value),
+	},
 }));
 
 const v$ = useVuelidate(
@@ -99,20 +107,24 @@ watch(
 );
 
 watch(
-  () => username.value,
-  (value) => {
-    domain.value = value.split('@')[1] ?? '';
-  },
+	() => username.value,
+	(value) => {
+		domain.value = value.split('@')[1] ?? '';
+		emit('change-login');
+	},
+	{
+		immediate: true,
+	},
 );
 
 onMounted(() => {
 	v$.value.$touch();
 });
 
-useNextOnEnter(() => !v$.value.$invalid && emit('submit'));
+useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 </script>
 <style scoped>
-.the-login-form-fields {
+.login-form-fields {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md);

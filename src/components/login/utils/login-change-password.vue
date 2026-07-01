@@ -1,15 +1,15 @@
 <template>
-  <div class="the-login-change-password">
+  <div class="login-change-password">
     <auth-wrapper >
       <template #title>
-        <div class="the-login-change-password-header">
+        <div class="login-change-password-header">
           <wt-icon icon="lock" color="error"></wt-icon>
-          <span class="the-login-change-password-header--text">{{ message }}</span>
+          <span class="login-change-password-header--text">{{ message }}</span>
         </div>
       </template>
 
       <template #default>
-        <div class="the-login-change-password-fields">
+        <div class="login-change-password-fields">
           <wt-password
             v-model:model-value="newPassword"
             name="password"
@@ -32,13 +32,13 @@
         <wt-button
           color="secondary"
           @click="isExpiredPassword = false"
-        >{{ $t('reusable.back') }}
+        >{{ t('reusable.back') }}
         </wt-button>
 
         <wt-button
           :disabled="v$.$invalid"
           @click="saveChangedPassword"
-        >{{ $t('reusable.save') }}
+        >{{ t('reusable.save') }}
         </wt-button>
       </template>
 
@@ -49,14 +49,15 @@
 <script lang="ts" setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, sameAs } from '@vuelidate/validators';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AuthAPI from '../../../api/auth/auth';
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
+import { ExpiredPasswordReason } from '../../../enums';
 import { useAuthStore } from '../../../stores/useAuthStore';
 import { useExpiredPasswordStore } from '../../../stores/useExpiredPasswordStore';
 import { useTfaStore } from '../../../stores/useTfaStore';
-import { storeToRefs } from 'pinia';
 import AuthWrapper from '../../_shared/auth-wrapper.vue';
 
 type PasswordSettings = {
@@ -73,30 +74,33 @@ const emit = defineEmits([
 	'submit',
 ]);
 const authStore = useAuthStore();
-const tfaStore = useTfaStore();
-const expiredPasswordStore = useExpiredPasswordStore();
+const { newPassword, confirmPassword, domain, username, password } =
+	storeToRefs(authStore);
+const { changePassword } = useAuthStore();
 
-const { newPassword, confirmPassword, domain, username, password } = storeToRefs(authStore);
+const tfaStore = useTfaStore();
 const { enabledTfa } = storeToRefs(tfaStore);
-const { reasonExpiredPassword, isExpiredPassword } = storeToRefs(expiredPasswordStore);
+const { get2faSessionId } = tfaStore;
+
+const expiredPasswordStore = useExpiredPasswordStore();
+const { reasonExpiredPassword, isExpiredPassword } =
+	storeToRefs(expiredPasswordStore);
 
 const passwordSettings = ref<PasswordSettings>({});
 
 const saveChangedPassword = async () => {
-  try {
-    await authStore.changePassword();
-    if (enabledTfa.value) {
-      try {
-        await tfaStore.get2faSessionId();
-      } catch (err) {
-        //////activeStep.value = 2;
-      }
-    } else {
-      emit('submit');
-    }
-  } catch (err) {
-    throw err;
-  }
+	try {
+		await changePassword();
+		if (enabledTfa.value) {
+			try {
+				await get2faSessionId();
+			} catch (err) {}
+		} else {
+			emit('submit');
+		}
+	} catch (err) {
+		throw err;
+	}
 };
 
 const loadPasswordSettings = async (): Promise<void> => {
@@ -106,7 +110,7 @@ const loadPasswordSettings = async (): Promise<void> => {
 		password: password.value,
 	});
 
-  passwordSettings.value = settings as PasswordSettings;
+	passwordSettings.value = settings as PasswordSettings;
 };
 
 const regExpSettings = computed(() => {
@@ -122,9 +126,9 @@ const regExpSettings = computed(() => {
 			{
 				regex: passwordSettings.value.passwordRegExp,
 			},
-      passwordSettings.value.passwordValidationText
+			passwordSettings.value.passwordValidationText
 				? helpers.withMessage(
-          passwordSettings.value.passwordValidationText,
+						passwordSettings.value.passwordValidationText,
 						vRegExpRule,
 					)
 				: vRegExpRule,
@@ -154,7 +158,7 @@ const v$ = useVuelidate(
 useNextOnEnter(() => !v$.value.$invalid && emit('submit'));
 
 const message = computed(() =>
-	reasonExpiredPassword.value === 'temporary'
+	reasonExpiredPassword.value === ExpiredPasswordReason.TEMPORARY
 		? t('auth.temporaryPasswordMessage')
 		: t('auth.expiredPasswordMessage'),
 );
@@ -170,7 +174,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-.the-login-change-password-header {
+.login-change-password-header {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -182,7 +186,7 @@ onUnmounted(() => {
   }
 }
 
-.the-login-change-password-fields {
+.login-change-password-fields {
   display: flex;
   margin-bottom: var(--spacing-md);
   flex-direction: column;

@@ -7,13 +7,15 @@
           <login-form-fields
             :active-step="activeStep"
             @invalid-change="isInvalidForm = $event"
+            @next="goNextStep"
+            @change-login="changeLogin"
           />
         </template>
 
         <template #actions>
             <a
-              class="the-login--link"
-              @click="emit('change-tab', { value: 'register'})"
+              class="the-login__link"
+              @click="emit('change-tab', { value: AuthMode.REGISTER })"
             >{{ t('auth.createAccount') }}</a>
 
             <wt-button
@@ -39,35 +41,38 @@
 <script setup lang="ts">
 import { LoginOptions } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
-import { computed, onUnmounted, ref, watch } from 'vue';
+import { computed, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { AuthMode } from '../../enums';
 import { useAuthStore } from '../../stores/useAuthStore';
 import { useExpiredPasswordStore } from '../../stores/useExpiredPasswordStore';
 import { useSsoStore } from '../../stores/useSsoStore';
 import { useTfaStore } from '../../stores/useTfaStore';
+import AuthWrapper from '../_shared/auth-wrapper.vue';
 import LoginChangePassword from './utils/login-change-password.vue';
 import LoginFormFields from './utils/login-form-fields.vue';
 import LoginProviders from './utils/login-providers.vue';
-import AuthWrapper from '../_shared/auth-wrapper.vue';
 
 const { t } = useI18n();
-
-const tfaStore = useTfaStore();
-const ssoStore = useSsoStore();
-const authStore = useAuthStore();
-const expiredPasswordStore = useExpiredPasswordStore();
 
 const activeStep = ref(1);
 const isLoadedCheckDomain = ref(true);
 const isInvalidForm = ref(true);
 
-const { enabledTfa } = storeToRefs(tfaStore);
-const { isExpiredPassword } = storeToRefs(expiredPasswordStore);
-const { domain } = storeToRefs(authStore);
-const { loginOptions, loginProviders } = storeToRefs(ssoStore);
+const authStore = useAuthStore();
+const { domain, password } = storeToRefs(authStore);
 const { reset } = authStore;
+
+const tfaStore = useTfaStore();
+const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
+
+const ssoStore = useSsoStore();
+const { loginOptions, providers } = storeToRefs(ssoStore);
 const { executeOnlySsoProvider, checkDomain } = ssoStore;
+
+const expiredPasswordStore = useExpiredPasswordStore();
+const { isExpiredPassword } = storeToRefs(expiredPasswordStore);
 
 const steps = computed(() => {
 	const stepsArray = [
@@ -97,6 +102,12 @@ const titleForm = computed(() => {
 	return currentStep ? currentStep.description : '';
 });
 
+const changeLogin = () => {
+	password.value = '';
+	providers.value = [];
+	activeStep.value = 1;
+};
+
 const goNextStep = async () => {
 	if (activeStep.value === 1) {
 		try {
@@ -108,9 +119,7 @@ const goNextStep = async () => {
 
 		if (loginOptions.value === LoginOptions.SSO_ONLY) {
 			executeOnlySsoProvider();
-			return;
 		}
-
 		activeStep.value = 2;
 		return;
 	}
@@ -125,18 +134,17 @@ const goNextStep = async () => {
 };
 
 const emit = defineEmits([
-	'register',
-	'next',
 	'submit',
+	'change-tab',
 ]);
 
 onUnmounted(() => {
-  reset();
+	reset();
 });
 </script>
 
 <style scoped>
-.the-login--link {
+.the-login__link {
   cursor: pointer;
   color: var(--info-color);
 }

@@ -1,7 +1,6 @@
 <template>
-  <auth-wrapper>
+  <auth-wrapper class="the-register">
     <template #default>
-      <form class="auth-form-inner">
         <wt-input-text
           v-model.trim="domain"
           name="domain"
@@ -22,14 +21,12 @@
           name="password"
           :label="t('auth.password')"
           :v="v$.password"
-          @keyup.enter="emit('next')"
         />
 
         <wt-password
           v-model.trim="confirmPassword"
           :label="t('auth.confirmPassword')"
           :v="v$.confirmPassword"
-          @keyup.enter="emit('next')"
         />
 
         <wt-textarea
@@ -37,20 +34,19 @@
           :label="t('auth.key')"
           :v="v$.certificate"
         />
-      </form>
     </template>
 
     <template #actions>
         <a
-          class="the-register--link"
-          @click="emit('change-tab', { value: 'login'})"
-        >{{ $t('auth.signIn') }}
+          class="the-register__link"
+          @click="emit('change-tab', { value: AuthMode.LOGIN })"
+        >{{ t('auth.signIn') }}
         </a>
 
         <wt-button
           :disabled="v$.$invalid"
           @click="emit('submit')"
-        >{{ $t('auth.registerSubmit') }}
+        >{{ t('auth.registerSubmit') }}
         </wt-button>
     </template>
   </auth-wrapper>
@@ -61,12 +57,12 @@ import { useVuelidate } from '@vuelidate/core/dist';
 import { required, sameAs } from '@vuelidate/validators/dist';
 import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
 import { storeToRefs } from 'pinia';
-import { onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { computed, onMounted } from 'vue/dist/vue.d.mts';
-import { useNextOnEnter } from '../../composables/useNextOnEnter.ts';
+import { useNextOnEnter } from '../../composables/useNextOnEnter';
+import { AuthMode } from '../../enums';
+import { useAuthStore } from '../../stores/useAuthStore';
 
-import { useAuthStore } from '../../stores/useAuthStore.ts';
 import AuthWrapper from '../_shared/auth-wrapper.vue';
 
 const emit = defineEmits([
@@ -75,57 +71,57 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
-const authStore = useAuthStore();
 
-const { domain, username, password, confirmPassword, certificate } = storeToRefs(authStore);
+const authStore = useAuthStore();
+const { domain, username, password, confirmPassword, certificate } =
+	storeToRefs(authStore);
 const { reset } = authStore;
 
 const v$ = useVuelidate(
-  computed(() => ({
-    domain: {
-      required,
-      domainValidator,
-    },
-    username: {
-      required,
-    },
-    password: {
-      required,
-    },
-    confirmPassword: {
-      required,
-      sameAs: sameAs(password),
-    },
-    certificate: {
-      required,
-    },
-  })),
-  {
-    domain,
-    username,
-    password,
-    confirmPassword,
-    certificate,
-  },
-  {
-    $autoDirty: true,
-  },
+	computed(() => ({
+		domain: {
+			required,
+			domainValidator,
+		},
+		username: {
+			required,
+		},
+		password: {
+			required,
+		},
+		confirmPassword: {
+			required,
+			sameAs: sameAs(password),
+		},
+		certificate: {
+			required,
+		},
+	})),
+	{
+		domain,
+		username,
+		password,
+		confirmPassword,
+		certificate,
+	},
+	{
+		$autoDirty: true,
+	},
 );
 
-useNextOnEnter(() => !v$.value.$invalid && emit('next')); ///чи треба?
+useNextOnEnter(() => !v$.value.$invalid && emit('submit'));
 
 onMounted(() => {
-  v$.value.$touch();
-
+	v$.value.$touch();
 });
 
 onUnmounted(() => {
-  reset();
+	reset();
 });
 </script>
 
 <style lang="scss" scoped>
-.the-register--link {
+.the-register__link {
   cursor: pointer;
   color: var(--info-color);
 }

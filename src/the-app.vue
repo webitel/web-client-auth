@@ -4,8 +4,8 @@
 </template>
 
 <script setup>
-import querystring from 'querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import querystring from 'querystring';
 import { inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from './stores/useAuthStore';

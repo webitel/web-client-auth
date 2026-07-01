@@ -1,45 +1,45 @@
-import querystring from 'querystring';
-import { defineStore, storeToRefs } from 'pinia';
-import { ref } from 'vue';
 import { LoginOptions } from '@webitel/ui-sdk/enums';
+import { defineStore, storeToRefs } from 'pinia';
+import querystring from 'querystring';
+import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
 import { useTfaStore } from './useTfaStore';
 
-
-type LoginProvider = Record<string, string>;
-
 export const useSsoStore = defineStore('sso', () => {
-  const loginProviders = ref<LoginProvider>({});
-  const loginOptions = ref(LoginOptions.LOCAL_PASSWORD_ONLY);
+	const providers = ref([]);
+	const loginOptions = ref(LoginOptions.LOCAL_PASSWORD_ONLY);
 
-  const tfaStore = useTfaStore();
-  const { enabledTfa } = storeToRefs(tfaStore);
+	const tfaStore = useTfaStore();
+	const { enabledTfa } = storeToRefs(tfaStore);
 
-  async function checkDomain(domain: string) {
-    const { federation = {}, enabledTfa: enabledTfaValue, loginOptions: loginOptionsValue } =
-      await AuthAPI.checkDomainExistence(domain);
+	async function checkDomain(domain: string) {
+		const {
+			providers: loginProviders,
+			enabledTfa: enabledTfaValue,
+			loginOptions: loginOptionsValue,
+		} = await AuthAPI.checkDomainExistence(domain);
 
-    loginProviders.value = federation;
-    enabledTfa.value = enabledTfaValue;
-    loginOptions.value = loginOptionsValue;
-  }
+		providers.value = loginProviders;
+		enabledTfa.value = enabledTfaValue;
+		loginOptions.value = loginOptionsValue;
+	}
 
-  function executeOnlySsoProvider() {
-    executeProvider(Object.values(loginProviders.value)[0])
-  }
+	const executeOnlySsoProvider = () => executeProvider(providers.value[0].url);
 
-  function executeProvider(ticket: string) {
-    const query = querystring.stringify({ redirect_uri: window.location.href });
-    window.location.href = `${import.meta.env.VITE_API_URL}/login${ticket}?${query}`;
-  }
+	function executeProvider(url: string) {
+		const query = querystring.stringify({
+			redirect_uri: window.location.href,
+		});
+		window.location.href = `${import.meta.env.VITE_API_URL}/login${url}?${query}`;
+	}
 
-  return {
-    loginProviders,
-    loginOptions,
+	return {
+		providers,
+		loginOptions,
 
-    checkDomain,
-    executeProvider,
-    executeOnlySsoProvider,
-  };
+		checkDomain,
+		executeProvider,
+		executeOnlySsoProvider,
+	};
 });

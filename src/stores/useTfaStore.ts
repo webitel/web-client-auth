@@ -6,45 +6,46 @@ import { useAuthStore } from './useAuthStore';
 import { useExpiredPasswordStore } from './useExpiredPasswordStore';
 
 export const useTfaStore = defineStore('tfa', () => {
-  const sessionId = ref('');
-  const totp = ref('');
-  const enabledTfa = ref(false);
+	const sessionId = ref('');
+	const totp = ref('');
+	const enabledTfa = ref(false);
 
-  const authStore = useAuthStore();
-  const expiredPasswordStore = useExpiredPasswordStore();
-  const { handleError, clearExpiredPasswordState } = expiredPasswordStore;
-  const { username, password } = storeToRefs(authStore);
+	const expiredPasswordStore = useExpiredPasswordStore();
+	const { handleError, clearExpiredPasswordState } = expiredPasswordStore;
 
-  async function login2fa() {
-    try {
-      return await AuthAPI.login2fa({
-        id: sessionId.value,
-        totp: totp.value,
-      });
-    } catch (error) {
-      handleError(error);
-      throw error;
-    }
-  }
+	async function login2fa() {
+		try {
+			return await AuthAPI.login2fa({
+				id: sessionId.value,
+				totp: totp.value,
+			});
+		} catch (error) {
+			handleError(error);
+			throw error;
+		}
+	}
 
-  async function get2faSessionId() {
-    try {
-      const { id } = await AuthAPI.login({
-        username: username.value,
-        password: password.value,
-      });
-      if (id) sessionId.value = id;
-    } finally {
-      clearExpiredPasswordState();
-    }
-  }
+	async function get2faSessionId() {
+		const authStore = useAuthStore();
+		const { username, password } = storeToRefs(authStore);
 
-  return {
-    sessionId,
-    totp,
-    enabledTfa,
+		try {
+			const { id } = await AuthAPI.login({
+				username: username?.value,
+				password: password?.value,
+			});
+			if (id) sessionId.value = id;
+		} finally {
+			clearExpiredPasswordState();
+		}
+	}
 
-    login2fa,
-    get2faSessionId,
-  };
+	return {
+		sessionId,
+		totp,
+		enabledTfa,
+
+		login2fa,
+		get2faSessionId,
+	};
 });

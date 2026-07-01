@@ -5,38 +5,40 @@ import { ref } from 'vue';
 import { ExpiredPasswordReason } from '../enums';
 
 export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
-  const isExpiredPassword = ref(false);
-  const reasonExpiredPassword = ref<ExpiredPasswordReason | ''>('');
+	const isExpired = ref(false);
+	const reason = ref<ExpiredPasswordReason | ''>('');
 
-  function setExpiredPasswordReason(id: string) {
-    isExpiredPassword.value = true;
-    reasonExpiredPassword.value = id.includes(ExpiredPasswordReason.EXPIRED) ? ExpiredPasswordReason.EXPIRED : ExpiredPasswordReason.TEMPORARY;
-  }
+	function setExpiredPasswordReason(id: string) {
+		isExpired.value = true;
+		reason.value = id.includes(ExpiredPasswordReason.EXPIRED)
+			? ExpiredPasswordReason.EXPIRED
+			: ExpiredPasswordReason.TEMPORARY;
+	}
 
-  function clearExpiredPasswordState() {
-    if (!isExpiredPassword.value) return;
-    isExpiredPassword.value = false;
-    reasonExpiredPassword.value = '';
-  }
+	function clearExpiredPasswordState() {
+		if (!isExpired.value) return;
+		isExpired.value = false;
+		reason.value = '';
+	}
 
-  function handleError(error) {
-    const isExpired =
-      error.code === StatusCodes.PRECONDITION_FAILED &&
-      (error.id === 'app.password.force_change' ||
-        error.id === 'app.password.expired');
+	function handleError(error) {
+		const isExpired =
+			error.code === StatusCodes.PRECONDITION_FAILED &&
+			(error.id === 'app.password.force_change' ||
+				error.id === 'app.password.expired');
 
-    if (isExpired) {
-      setExpiredPasswordReason(error.id);
-    } else {
-      clearExpiredPasswordState();
-    }
-  }
+		if (isExpired) {
+			setExpiredPasswordReason(error.id);
+		} else {
+			clearExpiredPasswordState();
+		}
+	}
 
-  return {
-    isExpiredPassword,
-    reasonExpiredPassword,
+	return {
+		isExpiredPassword: isExpired,
+		reasonExpiredPassword: reason,
 
-    handleError,
-    clearExpiredPasswordState,
-  };
+		handleError,
+		clearExpiredPasswordState,
+	};
 });

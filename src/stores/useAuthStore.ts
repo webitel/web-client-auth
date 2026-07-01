@@ -17,14 +17,13 @@ export const useAuthStore = defineStore('auth', () => {
 	const newPassword = ref('');
 
 	const expiredPasswordStore = useExpiredPasswordStore();
-	const tfaStore = useTfaStore();
-
 	const { handleError } = expiredPasswordStore;
+
+	const tfaStore = useTfaStore();
 	const { sessionId } = storeToRefs(tfaStore);
 	const { login2fa } = tfaStore;
 
 	async function login() {
-
 		try {
 			return await AuthAPI.login({
 				username: username.value,
@@ -65,7 +64,9 @@ export const useAuthStore = defineStore('auth', () => {
 		try {
 			localStorage.setItem(
 				'auth',
-				JSON.stringify({ username: username.value }),
+				JSON.stringify({
+					username: username.value,
+				}),
 			);
 
 			const redirectTo = router.currentRoute.value.query?.redirectTo;
@@ -90,14 +91,14 @@ export const useAuthStore = defineStore('auth', () => {
 	async function changePassword() {
 		await AuthAPI.changePassword({
 			confirm_password: confirmPassword.value,
-			///domain: domain.value,
 			old_password: password.value,
 			user_password: newPassword.value,
 			username: username.value,
 		});
+		password.value = newPassword.value;
 	}
 
-	function reset () {
+	function reset() {
 		username.value = '';
 		password.value = '';
 		domain.value = '';

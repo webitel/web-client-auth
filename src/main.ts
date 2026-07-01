@@ -1,8 +1,7 @@
+import { install as BreakpointPlugin } from '@webitel/ui-sdk/src/plugins/breakpoint/breakpoint.plugin';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
-
 import i18n from './locale/i18n';
-import { install as BreakpointPlugin } from '@webitel/ui-sdk/src/plugins/breakpoint/breakpoint.plugin';
 import {
 	plugin as WebitelUi,
 	options as WebitelUiOptions,

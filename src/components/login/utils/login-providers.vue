@@ -1,90 +1,74 @@
 <template>
   <footer
     v-if="isOpenProviders"
-    class="the-login-providers">
-    <div class="the-login-providers__inner">
+    class="login-providers">
+    <div class="login-providers__header">
       <wt-divider />
-      <p class="the-login-providers__title">{{ $t('auth.providersTitle') }}</p>
+      <p class="login-providers__title">{{ t('auth.providersTitle') }}</p>
       <wt-divider />
     </div>
 
-    <div class="the-login-providers__wrapper">
+    <div class="login-providers__wrapper">
       <wt-button
-        v-for="({ ticket, icon }) of serviceProviders"
-        :key="ticket"
-        class="the-login-providers__button"
+        v-for="({ name, url, icon }) of serviceProviders"
+        :key="url"
         color="secondary"
-        @click="openProvider({ ticket })"
+        @click="executeProvider(url)"
       >
         <wt-icon
           :icon="icon"
-        />
+        /> {{ name }}
       </wt-button>
     </div>
   </footer>
 </template>
 
 <script setup>
-import isEmpty from '@webitel/ui-sdk/src/scripts/isEmpty';
-import { LoginOptions } from '@webitel/ui-sdk/enums';
+import {
+	LoginOptions,
+	SingleSignOnProviderIconMappings,
+} from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useSsoStore } from '../../../stores/useSsoStore';
 
-import ServiceProvider from '../../../enums/ServiceProvider.enum.js';
-import { useSsoStore } from '../../../stores/useSsoStore.ts';
+const { t } = useI18n();
 
 const ssoStore = useSsoStore();
-const { loginOptions } = storeToRefs(ssoStore);
+const { loginOptions: loginOptionsValue, providers } = storeToRefs(ssoStore);
+const { executeProvider } = ssoStore;
 
-const loginProviders = computed(() => ssoStore.loginProviders);
-const isOpenProviders = computed(() => loginOptions.value === LoginOptions.SSO_AND_LOCAL && !isEmpty(loginProviders.value));
+const isOpenProviders = computed(
+	() =>
+		loginOptionsValue.value === LoginOptions.SSO_AND_LOCAL &&
+		providers.value.length,
+);
 
-const serviceProviders = computed(() => {
-	const providerIcon = {
-		[ServiceProvider.ADFS]: 'adfs',
-		[ServiceProvider.GOOGLE]: 'google',
-		[ServiceProvider.FACEBOOK]: 'messenger-facebook',
-		[ServiceProvider.AZURE]: 'azure',
-	};
-	return Object.keys(loginProviders.value).map((provider) => ({
-		name: provider,
-		icon: providerIcon[provider],
-		ticket: loginProviders.value[provider],
-	}));
-});
-
-function openProvider({ ticket }) {
-	return ssoStore.executeProvider(ticket);
-}
+const serviceProviders = computed(() =>
+	providers.value.map(({ name, url, vendor }) => ({
+		name,
+		icon: SingleSignOnProviderIconMappings[vendor],
+		url,
+	})),
+);
 </script>
 
 <style lang="scss" scoped>
-.the-login-providers {
+.login-providers__header {
+  display: flex;
+  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+}
+
+.login-providers__title {
+  width: 100%;
+  text-align: center;
+}
+
+.login-providers__wrapper {
   display: flex;
   flex-direction: column;
-
-  &__wrapper {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--spacing-sm);
-
-    .the-login-providers__button {
-      display: flex;
-      flex: 1 auto;
-      justify-content: center;
-      align-items: center;
-    }
-  }
-
-  &__inner {
-    display: flex;
-    align-items: center;
-    margin: var(--spacing-md) 0 var(--spacing-sm) 0;
-  }
-
-  &__title {
-    width: 100%;
-    text-align: center;
-  }
+  align-items: center;
+  gap: var(--spacing-sm);
 }
 </style>
