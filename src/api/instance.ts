@@ -1,9 +1,15 @@
-import { generateInstance } from '@webitel/api-services/api/axios';
-import updateTokenInterceptor from '@webitel/ui-sdk/src/api/interceptors/request/updateToken.interceptor';
-import handleUnauthorizedInterceptor from '@webitel/ui-sdk/src/api/interceptors/response/handleUnauthorized.interceptor';
+import { getDefaultInstance } from '@webitel/api-services/api/defaults';
 import { errorHandlersInterceptor } from './interceptors/errorHandlers.interceptor';
 
-const handleErrors = (error) => {
+export const instance = getDefaultInstance();
+
+instance.defaults.headers['X-Webitel-Access'] =
+	localStorage.getItem('access-token') || '';
+
+// 300 Multiple Choices is a valid response for service providers check at GET /login?domain
+instance.defaults.validateStatus = (status) => status <= 300;
+
+instance.interceptors.response.use(undefined, (error) => {
 	const normalizedError = error.response?.data || error;
 	const { id } = normalizedError;
 
@@ -17,26 +23,7 @@ const handleErrors = (error) => {
 		handler(normalizedError);
 	}
 
-	return Promise.reject(normalizedError);
-};
-
-const handleErrorsInterceptor = [
-	(response) => response,
-	handleErrors,
-];
-
-const instance = generateInstance({
-	interceptors: {
-		request: [
-			updateTokenInterceptor,
-		],
-		response: [
-			handleErrorsInterceptor,
-			handleUnauthorizedInterceptor,
-		],
-	},
-	baseURL: import.meta.env.VITE_API_URL,
-	validateStatus: (status) => status <= 300,
+	return Promise.reject(Object.assign(error, normalizedError));
 });
 
 export default instance;

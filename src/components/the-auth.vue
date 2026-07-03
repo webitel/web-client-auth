@@ -3,7 +3,7 @@
     class="auth"
     :class="{ 'auth--xs': $breakpoint.xsOnly }"
   >
-    <wt-notifications-bar></wt-notifications-bar>
+    <wt-notifications-bar />
     <section class="auth-form-wrapper">
       <div class="auth-form-wrapper__content">
         <header class="auth-form-wrapper__header">
@@ -52,7 +52,7 @@
 
 <script setup>
 import '@egjs/vue3-flicking/dist/flicking.css';
-
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { AutoPlay, Pagination } from '@egjs/flicking-plugins';
 import Flicking from '@egjs/vue3-flicking';
 import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/store/AppearanceStore';
@@ -60,6 +60,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AuthMode } from '../enums';
 import { useAuthStore } from '../stores/useAuthStore';
+import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';

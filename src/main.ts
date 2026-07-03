@@ -8,8 +8,14 @@ import {
 } from './plugins/webitel/ui-sdk';
 import router from './router/router';
 import App from './the-app.vue';
+import { setConfig as setApiServicesConfig } from '@webitel/api-services';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 
 const pinia = createPinia();
+
+setApiServicesConfig({
+	eventBus,
+});
 
 const app = createApp(App)
 	.use(router)
