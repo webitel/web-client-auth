@@ -87,20 +87,20 @@ const plugins = [
 	}),
 ];
 
-const activeTab = ref(AuthMode.LOGIN);
+const activeTab = ref(AuthMode.Login);
 
 const tabs = computed(() => {
 	return [
 		{
 			title: t('auth.signIn'),
 			text: t('auth.login'),
-			value: AuthMode.LOGIN,
+			value: AuthMode.Login,
 			component: Login,
 		},
 		{
 			title: t('auth.titleRegistration'),
 			text: t('auth.register'),
-			value: AuthMode.REGISTER,
+			value: AuthMode.Register,
 			component: Register,
 		},
 	];
@@ -117,7 +117,7 @@ const handleChangeTab = ({ value }) => {
 };
 
 const authorization = async (tab) =>
-	tab === AuthMode.REGISTER ? submitRegister() : submitLogin();
+	tab === AuthMode.Login ? submitRegister() : submitLogin();
 </script>
 
 <style lang="scss">

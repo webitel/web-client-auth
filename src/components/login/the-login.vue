@@ -15,7 +15,7 @@
         <template #actions>
             <a
               class="the-login__link"
-              @click="emit('change-tab', { value: AuthMode.REGISTER })"
+              @click="emit('change-tab', { value: AuthMode.Register })"
             >{{ t('auth.createAccount') }}</a>
 
             <wt-button

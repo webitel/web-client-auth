@@ -39,7 +39,7 @@
     <template #actions>
         <a
           class="the-register__link"
-          @click="emit('change-tab', { value: AuthMode.LOGIN })"
+          @click="emit('change-tab', { value: AuthMode.Login })"
         >{{ t('auth.signIn') }}
         </a>
 

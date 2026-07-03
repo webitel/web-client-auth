@@ -158,7 +158,7 @@ const v$ = useVuelidate(
 useNextOnEnter(() => !v$.value.$invalid && emit('submit'));
 
 const message = computed(() =>
-	reasonExpiredPassword.value === ExpiredPasswordReason.TEMPORARY
+	reasonExpiredPassword.value === ExpiredPasswordReason.Temporary
 		? t('auth.temporaryPasswordMessage')
 		: t('auth.expiredPasswordMessage'),
 );

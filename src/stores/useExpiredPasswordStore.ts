@@ -10,9 +10,9 @@ export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 
 	function setExpiredPasswordReason(id: string) {
 		isExpired.value = true;
-		reason.value = id.includes(ExpiredPasswordReason.EXPIRED)
-			? ExpiredPasswordReason.EXPIRED
-			: ExpiredPasswordReason.TEMPORARY;
+		reason.value = id.includes(ExpiredPasswordReason.Expired)
+			? ExpiredPasswordReason.Expired
+			: ExpiredPasswordReason.Temporary;
 	}
 
 	function clearExpiredPasswordState() {
