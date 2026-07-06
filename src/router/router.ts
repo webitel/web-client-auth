@@ -4,7 +4,7 @@ import auth from '../components/the-auth.vue';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
-	scrollBehavior(to, from, savedPosition) {
+	scrollBehavior() {
 		return {
 			left: 0,
 			top: 0,

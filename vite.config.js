@@ -49,6 +49,7 @@ export default ({ mode }) => {
 			vue(),
 			nodePolyfills({
 				include: [
+					'node:querystring',
 					'querystring',
 				],
 			}),

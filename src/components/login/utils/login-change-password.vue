@@ -89,17 +89,13 @@ const { reasonExpiredPassword, isExpiredPassword } =
 const passwordSettings = ref<PasswordSettings>({});
 
 const saveChangedPassword = async () => {
-	try {
-		await changePassword();
-		if (enabledTfa.value) {
-			try {
-				await get2faSessionId();
-			} catch (err) {}
-		} else {
-			emit('submit');
-		}
-	} catch (err) {
-		throw err;
+	await changePassword();
+	if (enabledTfa.value) {
+		try {
+			await get2faSessionId();
+		} catch (err) {}
+	} else {
+		emit('submit');
 	}
 };
 

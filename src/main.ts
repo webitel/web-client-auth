@@ -1,3 +1,5 @@
+import { setConfig as setApiServicesConfig } from '@webitel/api-services';
+import { eventBus } from '@webitel/ui-sdk/scripts';
 import { install as BreakpointPlugin } from '@webitel/ui-sdk/src/plugins/breakpoint/breakpoint.plugin';
 import { createPinia } from 'pinia';
 import { createApp } from 'vue';
@@ -8,8 +10,6 @@ import {
 } from './plugins/webitel/ui-sdk';
 import router from './router/router';
 import App from './the-app.vue';
-import { setConfig as setApiServicesConfig } from '@webitel/api-services';
-import { eventBus } from '@webitel/ui-sdk/scripts';
 
 const pinia = createPinia();
 

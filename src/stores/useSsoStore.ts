@@ -1,6 +1,6 @@
+import querystring from 'node:querystring';
 import { LoginOptions } from '@webitel/ui-sdk/enums';
 import { defineStore, storeToRefs } from 'pinia';
-import querystring from 'querystring';
 import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
