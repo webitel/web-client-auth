@@ -52,15 +52,15 @@
 
 <script setup>
 import '@egjs/vue3-flicking/dist/flicking.css';
-import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { AutoPlay, Pagination } from '@egjs/flicking-plugins';
 import Flicking from '@egjs/vue3-flicking';
+import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/store/AppearanceStore';
+import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AuthMode } from '../enums';
 import { useAuthStore } from '../stores/useAuthStore';
-import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
