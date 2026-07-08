@@ -3,7 +3,10 @@ export default {
 		register: 'Register',
 		titleRegistration: 'Create a Webitel Account',
 		enterDomain: 'Enter your Domain name',
+		enterLogin: 'Enter your login',
 		enterUsername: 'Enter your login and password',
+		enterPassword: 'Enter your password',
+		enterCredentials: 'Enter your credentials',
 		enterNewUsername: 'Create a login and a strong password',
 		enterLicense: 'Enter a License key',
 		createAccount: 'Create account',
@@ -21,7 +24,6 @@ export default {
 		signIn: 'Sign in',
 		login: 'Log in',
 		code: 'Code',
-		enterAuthenticationCode: 'Enter your two-factor authentication code',
 		carousel: {
 			title1: 'Cloud vs. On-Site',
 			text1:

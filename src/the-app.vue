@@ -1,60 +1,50 @@
 <template>
   <!--  :class="$i18n.locale" root element class to control fonts on each locale  -->
-  <router-view :class="$i18n.locale"></router-view>
+  <router-view :class="locale"></router-view>
 </template>
 
-<script>
-import Flicking from '@egjs/vue3-flicking';
+<script setup>
+import querystring from 'node:querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import querystring from 'querystring';
-import { mapActions, useStore } from 'vuex';
-import { computed, provide } from 'vue';
+import { inject, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useAuthStore } from './stores/auth';
 
-export default {
-	name: 'TheApp',
-	components: {
-		Flicking,
-	},
-	inject: [
-		'$eventBus',
-	],
-	setup() {
-		const store = useStore();
-		const darkMode = computed(() => store.getters['appearance/DARK_MODE']);
-		provide('darkMode', darkMode);
-	},
-	methods: {
-		...mapActions('auth', {
-			checkCurrentSession: 'CHECK_CURRENT_SESSION',
-		}),
-		setLanguage() {
-			const lang = localStorage.getItem('lang');
-			if (lang) this.$i18n.locale = lang;
-			const fallbackLang = localStorage.getItem('fallbackLang');
-			if (fallbackLang) this.$i18n.fallbackLocale = fallbackLang;
-		},
-		handlePathQuery() {
-			const query = objSnakeToCamel(
-				querystring.parse(window.parent.location.search.slice(1)),
-			); // query, without "?" sign
-			if (query.error || query.errorDescription)
-				this.handleErrorsInQuery(query);
-		},
-		handleErrorsInQuery({ error, errorDescription }) {
-			this.$eventBus.$emit('notification', {
-				type: 'error',
-				text: errorDescription,
-			});
-		},
-	},
-	created() {
-		this.setLanguage();
-		this.checkCurrentSession();
-	},
-	mounted() {
-		this.handlePathQuery();
-	},
+const authStore = useAuthStore();
+const { checkCurrentSession } = authStore;
+
+const eventBus = inject('$eventBus');
+const { locale, fallbackLocale } = useI18n();
+
+const setLanguage = () => {
+	const lang = localStorage.getItem('lang');
+	if (lang) locale.value = lang;
+
+	const fallbackLang = localStorage.getItem('fallbackLang');
+	if (fallbackLang) fallbackLocale.value = fallbackLang;
 };
+
+setLanguage();
+checkCurrentSession();
+
+const handleErrorsInQuery = ({ errorDescription }) => {
+	eventBus.$emit('notification', {
+		type: 'error',
+		text: errorDescription,
+	});
+};
+
+const handlePathQuery = () => {
+	const query = objSnakeToCamel(
+		querystring.parse(window.parent.location.search.slice(1)),
+	); // query, without "?" sign
+
+	if (query.error || query.errorDescription) handleErrorsInQuery(query);
+};
+
+onMounted(() => {
+	handlePathQuery();
+});
 </script>
 
 <style lang="scss">

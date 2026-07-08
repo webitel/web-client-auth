@@ -1,50 +1,80 @@
+import {
+	applyTransform,
+	camelToSnake,
+	notify,
+	snakeToCamel,
+} from '@webitel/api-services/api/transformers';
 import { ApiLoginResponse } from '@webitel/api-services/gen/models';
-import instance, { config } from '../instance';
+import instance from '../instance';
 
 export const login = async (credentials) => {
 	const url = '/login';
 
+	const options = applyTransform(credentials, [
+		camelToSnake(),
+	]);
+
 	try {
 		const response: AxiosResponse<ApiLoginResponse> = await instance.post(
 			url,
-			credentials,
+			options,
 		);
+
+		const data = applyTransform(response.data, [
+			snakeToCamel(),
+		]);
 
 		// [https://webitel.atlassian.net/browse/WTEL-3405]
 		// If two-factor authentication is enabled,
 		// API returns the two-factor authentication session ID instead of a token
 		// and saving to localStorage is not needed
 
-		if (response.accessToken) {
-			localStorage.setItem('access-token', response.accessToken);
+		if (data.accessToken) {
+			localStorage.setItem('access-token', data.accessToken);
 			return postToken();
 		}
-		return response;
+		return data;
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
 export const login2fa = async (credentials) => {
 	const url = '/login/2fa';
+	const options = applyTransform(credentials, [
+		camelToSnake(),
+	]);
 	try {
-		const response = await instance.post(url, credentials);
+		const response = await instance.post(url, options);
 
-		if (response?.accessToken) {
-			localStorage.setItem('access-token', response.accessToken);
+		const data = applyTransform(response.data, [
+			snakeToCamel(),
+		]);
+
+		if (data?.accessToken) {
+			localStorage.setItem('access-token', data.accessToken);
 			return postToken();
 		}
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
 export const changePassword = async (data) => {
 	const url = '/users/password';
+	const options = applyTransform(data, [
+		camelToSnake(),
+	]);
 	try {
-		await instance.put(url, data);
+		await instance.put(url, options);
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
@@ -54,24 +84,33 @@ export const getPasswordSettings = async (credentials) => {
 		const response = await instance.get(url, {
 			params: credentials,
 		});
-		return response;
+		return applyTransform(response.data, [
+			snakeToCamel(),
+		]);
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
 export const register = async (credentials) => {
 	const url = '/signup';
+	const options = applyTransform(credentials, [
+		camelToSnake(),
+	]);
 
 	try {
-		await instance.post(url, credentials);
+		await instance.post(`${url}?generate_device=true`, options);
 		return await login({
 			username: credentials.username,
 			password: credentials.password,
 			domain: credentials.domain,
 		});
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
@@ -83,7 +122,9 @@ const checkSessionByToken = async () => {
 		return postToken();
 	} catch (err) {
 		clearToken();
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
@@ -98,8 +139,7 @@ const checkSessionByCookies = async () => {
 				withCredentials: true,
 			});
 			localStorage.setItem('access-token', response.accessToken);
-			instance.defaults.headers['X-Webitel-Access'] =
-				localStorage.getItem('access-token') || '';
+			instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
 		} catch (err) {
 			console.error(err);
 		}
@@ -108,8 +148,6 @@ const checkSessionByCookies = async () => {
 
 const checkCurrentSession = async () => {
 	try {
-		config.silent = true;
-
 		const token = localStorage.getItem('access-token');
 		if (!token || token === 'undefined') {
 			clearToken();
@@ -119,12 +157,18 @@ const checkCurrentSession = async () => {
 		}
 
 		await checkSessionByCookies();
+
+		// @author @Lera24
+		// Don't show notification for unauthorized user during first load app
+		const currentToken = localStorage.getItem('access-token');
+		if (!currentToken) return;
+
 		const accessToken = await checkSessionByToken();
 		return accessToken;
 	} catch (err) {
-		throw err;
-	} finally {
-		config.silent = false;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
@@ -142,9 +186,14 @@ const checkDomainExistence = async (domain) => {
 	const baseUrl = '/login';
 	const url = `${baseUrl}?domain=${domain}`;
 	try {
-		return await instance.get(url);
+		const response = await instance.get(url);
+		return applyTransform(response.data, [
+			snakeToCamel(),
+		]);
 	} catch (err) {
-		throw err;
+		throw applyTransform(err, [
+			notify,
+		]);
 	}
 };
 
