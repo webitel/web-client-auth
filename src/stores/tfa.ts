@@ -2,14 +2,14 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
-import { expiredPassword } from './expiredPassword';
+import { useExpiredPasswordStore } from './expiredPassword';
 
-export const tfa = defineStore('tfa', () => {
+export const useTfaStore = defineStore('tfa', () => {
 	const sessionId = ref('');
 	const totp = ref('');
 	const enabledTfa = ref(false);
 
-	const expiredPasswordStore = expiredPassword();
+	const expiredPasswordStore = useExpiredPasswordStore();
 	const { handleError, clearExpiredPasswordState } = expiredPasswordStore;
 
 	async function login2fa() {

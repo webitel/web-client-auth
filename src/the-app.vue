@@ -8,9 +8,9 @@ import querystring from 'node:querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { auth } from './stores/auth';
+import { useAuthStore } from './stores/auth';
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { checkCurrentSession } = authStore;
 
 const eventBus = inject('$eventBus');

@@ -60,7 +60,7 @@ import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/component
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AuthMode } from '../enums/AuthMode.enum';
-import { auth } from '../stores/auth';
+import { useAuthStore } from '../stores/auth';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
@@ -72,7 +72,7 @@ import SupervisorSlide from './slides/supervisor-slide.vue';
 const useAppearanceStore = createAppearanceStore();
 const appearanceStore = useAppearanceStore();
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { submitRegister, submitLogin } = authStore;
 
 const { t } = useI18n();

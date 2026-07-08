@@ -31,11 +31,11 @@ import {
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { sso } from '../../../stores/sso';
+import { useSsoStore } from '../../../stores/sso';
 
 const { t } = useI18n();
 
-const ssoStore = sso();
+const ssoStore = useSsoStore();
 const { loginOptions: loginOptionsValue, providers } = storeToRefs(ssoStore);
 const { executeProvider } = ssoStore;
 

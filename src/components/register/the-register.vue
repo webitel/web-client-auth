@@ -61,7 +61,7 @@ import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useNextOnEnter } from '../../composables/useNextOnEnter';
 import { AuthMode } from '../../enums/AuthMode.enum';
-import { auth } from '../../stores/auth';
+import { useAuthStore } from '../../stores/auth';
 
 import AuthWrapper from '../_shared/auth-wrapper.vue';
 
@@ -76,7 +76,7 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { domain, username, password, confirmPassword, certificate } =
 	storeToRefs(authStore);
 const { reset } = authStore;

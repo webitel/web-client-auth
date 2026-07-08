@@ -4,7 +4,7 @@ import { ref } from 'vue';
 
 import { ExpiredPasswordReason } from '../enums/ExpiredPasswordReason.enum';
 
-export const expiredPassword = defineStore('expiredPassword', () => {
+export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 	const isExpired = ref(false);
 	const reason = ref<ExpiredPasswordReason | ''>('');
 

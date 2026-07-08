@@ -35,9 +35,9 @@ import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
-import { auth } from '../../../stores/auth';
-import { sso } from '../../../stores/sso';
-import { tfa } from '../../../stores/tfa';
+import { useAuthStore } from '../../../stores/auth';
+import { useSsoStore } from '../../../stores/sso';
+import { useTfaStore } from '../../../stores/tfa';
 
 const props = defineProps({
 	activeStep: {
@@ -56,13 +56,13 @@ const emit = defineEmits<{
 
 const { t } = useI18n();
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { username, password, domain } = storeToRefs(authStore);
 
-const tfaStore = sso();
+const tfaStore = useTfaStore();
 const { totp, enabledTfa } = storeToRefs(tfaStore);
 
-const ssoStore = tfa();
+const ssoStore = useSsoStore();
 const { loginOptions } = storeToRefs(ssoStore);
 
 const displayPassword = computed(

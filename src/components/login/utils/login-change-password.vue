@@ -55,9 +55,9 @@ import { useI18n } from 'vue-i18n';
 import AuthAPI from '../../../api/auth/auth';
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
 import { ExpiredPasswordReason } from '../../../enums/ExpiredPasswordReason.enum';
-import { auth } from '../../../stores/auth';
-import { expiredPassword } from '../../../stores/expiredPassword';
-import { tfa } from '../../../stores/tfa';
+import { useAuthStore } from '../../../stores/auth';
+import { useExpiredPasswordStore } from '../../../stores/expiredPassword';
+import { useTfaStore } from '../../../stores/tfa';
 import AuthWrapper from '../../_shared/auth-wrapper.vue';
 
 const emit = defineEmits<{
@@ -74,16 +74,16 @@ type PasswordSettings = {
 
 const { t } = useI18n();
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { newPassword, confirmPassword, domain, username, password } =
 	storeToRefs(authStore);
 const { changePassword } = authStore();
 
-const tfaStore = tfa();
+const tfaStore = useTfaStore();
 const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
-const expiredPasswordStore = expiredPassword();
+const expiredPasswordStore = useExpiredPasswordStore();
 const { reasonExpiredPassword, isExpiredPassword } =
 	storeToRefs(expiredPasswordStore);
 

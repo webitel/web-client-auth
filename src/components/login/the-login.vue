@@ -44,10 +44,10 @@ import { storeToRefs } from 'pinia';
 import { computed, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AuthMode } from '../../enums/AuthMode.enum';
-import { auth } from '../../stores/auth';
-import { expiredPassword } from '../../stores/expiredPassword';
-import { sso } from '../../stores/sso';
-import { tfa } from '../../stores/tfa';
+import { useAuthStore } from '../../stores/auth';
+import { useExpiredPasswordStore } from '../../stores/expiredPassword';
+import { useSsoStore } from '../../stores/sso';
+import { useTfaStore } from '../../stores/tfa';
 import AuthWrapper from '../_shared/auth-wrapper.vue';
 import LoginChangePassword from './utils/login-change-password.vue';
 import LoginFormFields from './utils/login-form-fields.vue';
@@ -68,19 +68,19 @@ const activeStep = ref(1);
 const isLoadedCheckDomain = ref(true);
 const isInvalidForm = ref(true);
 
-const authStore = auth();
+const authStore = useAuthStore();
 const { domain, username, password } = storeToRefs(authStore);
 const { reset } = authStore;
 
-const tfaStore = tfa();
+const tfaStore = useTfaStore();
 const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
-const ssoStore = sso();
+const ssoStore = useSsoStore();
 const { loginOptions, providers } = storeToRefs(ssoStore);
 const { executeOnlySsoProvider, checkDomain } = ssoStore;
 
-const expiredPasswordStore = expiredPassword();
+const expiredPasswordStore = useExpiredPasswordStore();
 const { isExpiredPassword } = storeToRefs(expiredPasswordStore);
 
 const steps = computed(() => {
