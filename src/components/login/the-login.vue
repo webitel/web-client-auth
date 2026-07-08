@@ -43,15 +43,22 @@ import { LoginOptions } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AuthMode } from '../../enums';
-import { useAuthStore } from '../../stores/useAuthStore';
-import { useExpiredPasswordStore } from '../../stores/useExpiredPasswordStore';
-import { useSsoStore } from '../../stores/useSsoStore';
-import { useTfaStore } from '../../stores/useTfaStore';
+import { AuthMode } from '../../enums/AuthMode.enum';
+import { auth } from '../../stores/auth';
+import { expiredPassword } from '../../stores/expiredPassword';
+import { sso } from '../../stores/sso';
+import { tfa } from '../../stores/tfa';
 import AuthWrapper from '../_shared/auth-wrapper.vue';
 import LoginChangePassword from './utils/login-change-password.vue';
 import LoginFormFields from './utils/login-form-fields.vue';
 import LoginProviders from './utils/login-providers.vue';
+
+const emit = defineEmits<{
+  submit: [];
+  'change-tab': [
+    payload: { value: AuthMode },
+  ];
+}>();
 
 const { t } = useI18n();
 
@@ -59,19 +66,19 @@ const activeStep = ref(1);
 const isLoadedCheckDomain = ref(true);
 const isInvalidForm = ref(true);
 
-const authStore = useAuthStore();
-const { domain, password } = storeToRefs(authStore);
+const authStore = auth();
+const { domain, username, password } = storeToRefs(authStore);
 const { reset } = authStore;
 
-const tfaStore = useTfaStore();
+const tfaStore = tfa();
 const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
-const ssoStore = useSsoStore();
+const ssoStore = sso();
 const { loginOptions, providers } = storeToRefs(ssoStore);
 const { executeOnlySsoProvider, checkDomain } = ssoStore;
 
-const expiredPasswordStore = useExpiredPasswordStore();
+const expiredPasswordStore = expiredPassword();
 const { isExpiredPassword } = storeToRefs(expiredPasswordStore);
 
 const steps = computed(() => {
@@ -125,18 +132,13 @@ const goNextStep = async () => {
 	}
 
 	if (activeStep.value === 2 && enabledTfa.value) {
-		await get2faSessionId();
+		await get2faSessionId(username.value, password.value);
 		activeStep.value = 3;
 		return;
 	}
 
 	emit('submit');
 };
-
-const emit = defineEmits([
-	'submit',
-	'change-tab',
-]);
 
 onUnmounted(() => {
 	reset();

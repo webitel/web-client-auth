@@ -35,17 +35,9 @@ import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
-import { useAuthStore } from '../../../stores/useAuthStore';
-import { useSsoStore } from '../../../stores/useSsoStore';
-import { useTfaStore } from '../../../stores/useTfaStore';
-
-const emit = defineEmits([
-	'invalid-change',
-	'next',
-	'change-login',
-]);
-
-const { t } = useI18n();
+import { auth } from '../../../stores/auth';
+import { sso } from '../../../stores/sso';
+import { tfa } from '../../../stores/tfa';
 
 const props = defineProps({
 	activeStep: {
@@ -54,17 +46,27 @@ const props = defineProps({
 	},
 });
 
-const authStore = useAuthStore();
+const emit = defineEmits<{
+	'invalid-change': [
+		value: boolean,
+	];
+	next: [];
+	'change-login': [];
+}>();
+
+const { t } = useI18n();
+
+const authStore = auth();
 const { username, password, domain } = storeToRefs(authStore);
 
-const tfaStore = useTfaStore();
+const tfaStore = sso();
 const { totp, enabledTfa } = storeToRefs(tfaStore);
 
-const ssoStore = useSsoStore();
+const ssoStore = tfa();
 const { loginOptions } = storeToRefs(ssoStore);
 
 const displayPassword = computed(
-	() => props.activeStep !== 1 && loginOptions.value !== LoginOptions.SSO_ONLY,
+	() => props.activeStep !== 1 && loginOptions?.value !== LoginOptions.SSO_ONLY,
 );
 
 const displayTotp = computed(() => props.activeStep === 3 && enabledTfa.value);

@@ -157,6 +157,12 @@ const checkCurrentSession = async () => {
 		}
 
 		await checkSessionByCookies();
+
+		// @author @Lera24
+		// Don't show notification for unauthorized user during first load app
+		const currentToken = localStorage.getItem('access-token');
+		if (!currentToken) return;
+
 		const accessToken = await checkSessionByToken();
 		return accessToken;
 	} catch (err) {

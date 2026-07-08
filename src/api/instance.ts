@@ -17,6 +17,11 @@ instance.interceptors.response.use(undefined, (error) => {
 	if (error.response?.status === 401) {
 		console.warn('intercepted 401');
 		localStorage.removeItem('access-token');
+		/*
+		 * In auth app, keep 401 local and avoid passing Axios response object further.
+		 * This prevents global unauthorized interceptor redirecting the app to itself.
+		 */
+		return Promise.reject(normalizedError);
 	}
 	const handler = errorHandlersInterceptor[id];
 	if (handler) {

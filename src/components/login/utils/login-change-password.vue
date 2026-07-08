@@ -54,11 +54,15 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import AuthAPI from '../../../api/auth/auth';
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
-import { ExpiredPasswordReason } from '../../../enums';
-import { useAuthStore } from '../../../stores/useAuthStore';
-import { useExpiredPasswordStore } from '../../../stores/useExpiredPasswordStore';
-import { useTfaStore } from '../../../stores/useTfaStore';
+import { ExpiredPasswordReason } from '../../../enums/ExpiredPasswordReason.enum';
+import { auth } from '../../../stores/auth';
+import { expiredPassword } from '../../../stores/expiredPassword';
+import { tfa } from '../../../stores/tfa';
 import AuthWrapper from '../../_shared/auth-wrapper.vue';
+
+const emit = defineEmits<{
+  submit: [];
+}>();
 
 type PasswordSettings = {
 	passwordRegExp: string;
@@ -70,19 +74,16 @@ type PasswordSettings = {
 
 const { t } = useI18n();
 
-const emit = defineEmits([
-	'submit',
-]);
-const authStore = useAuthStore();
+const authStore = auth();
 const { newPassword, confirmPassword, domain, username, password } =
 	storeToRefs(authStore);
-const { changePassword } = useAuthStore();
+const { changePassword } = authStore();
 
-const tfaStore = useTfaStore();
+const tfaStore = tfa();
 const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
-const expiredPasswordStore = useExpiredPasswordStore();
+const expiredPasswordStore = expiredPassword();
 const { reasonExpiredPassword, isExpiredPassword } =
 	storeToRefs(expiredPasswordStore);
 
@@ -92,7 +93,7 @@ const saveChangedPassword = async () => {
 	await changePassword();
 	if (enabledTfa.value) {
 		try {
-			await get2faSessionId();
+			await get2faSessionId({username: username.value, password: password.value});
 		} catch (err) {}
 	} else {
 		emit('submit');

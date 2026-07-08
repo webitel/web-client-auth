@@ -52,7 +52,7 @@
   </auth-wrapper>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core/dist';
 import { required, sameAs } from '@vuelidate/validators/dist';
 import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
@@ -60,19 +60,21 @@ import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useNextOnEnter } from '../../composables/useNextOnEnter';
-import { AuthMode } from '../../enums';
-import { useAuthStore } from '../../stores/useAuthStore';
+import { AuthMode } from '../../enums/AuthMode.enum';
+import { auth } from '../../stores/auth';
 
 import AuthWrapper from '../_shared/auth-wrapper.vue';
 
-const emit = defineEmits([
-	'change-tab',
-	'submit',
-]);
+const emit = defineEmits<{
+	'change-tab': [
+		payload: { value: AuthMode },
+	];
+	submit: [];
+}>();
 
 const { t } = useI18n();
 
-const authStore = useAuthStore();
+const authStore = auth();
 const { domain, username, password, confirmPassword, certificate } =
 	storeToRefs(authStore);
 const { reset } = authStore;

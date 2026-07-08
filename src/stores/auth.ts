@@ -3,12 +3,12 @@ import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
 import router from '../router/router';
-import { useExpiredPasswordStore } from './useExpiredPasswordStore';
-import { useTfaStore } from './useTfaStore';
+import { expiredPassword } from './expiredPassword';
+import { tfa } from './tfa';
 
 const cached = JSON.parse(localStorage.getItem('auth') ?? '{}');
 
-export const useAuthStore = defineStore('auth', () => {
+export const auth = defineStore('auth', () => {
 	const username = ref(cached.username ?? '');
 	const password = ref('');
 	const domain = ref(cached.domain ?? '');
@@ -16,10 +16,10 @@ export const useAuthStore = defineStore('auth', () => {
 	const confirmPassword = ref('');
 	const newPassword = ref('');
 
-	const expiredPasswordStore = useExpiredPasswordStore();
+	const expiredPasswordStore = expiredPassword();
 	const { handleError } = expiredPasswordStore;
 
-	const tfaStore = useTfaStore();
+	const tfaStore = tfa();
 	const { sessionId } = storeToRefs(tfaStore);
 	const { login2fa } = tfaStore;
 

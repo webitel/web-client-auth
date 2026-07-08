@@ -4,13 +4,13 @@ import { defineStore, storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
-import { useTfaStore } from './useTfaStore';
+import { tfa } from './tfa';
 
-export const useSsoStore = defineStore('sso', () => {
+export const sso = defineStore('sso', () => {
 	const providers = ref([]);
 	const loginOptions = ref(LoginOptions.LOCAL_PASSWORD_ONLY);
 
-	const tfaStore = useTfaStore();
+	const tfaStore = tfa();
 	const { enabledTfa } = storeToRefs(tfaStore);
 
 	async function checkDomain(domain: string) {

@@ -8,9 +8,9 @@ import querystring from 'node:querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
 import { inject, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAuthStore } from './stores/useAuthStore';
+import { auth } from './stores/auth';
 
-const authStore = useAuthStore();
+const authStore = auth();
 const { checkCurrentSession } = authStore;
 
 const eventBus = inject('$eventBus');
@@ -23,6 +23,9 @@ const setLanguage = () => {
 	const fallbackLang = localStorage.getItem('fallbackLang');
 	if (fallbackLang) fallbackLocale.value = fallbackLang;
 };
+
+setLanguage();
+checkCurrentSession();
 
 const handleErrorsInQuery = ({ errorDescription }) => {
 	eventBus.$emit('notification', {
@@ -38,9 +41,6 @@ const handlePathQuery = () => {
 
 	if (query.error || query.errorDescription) handleErrorsInQuery(query);
 };
-
-setLanguage();
-checkCurrentSession();
 
 onMounted(() => {
 	handlePathQuery();

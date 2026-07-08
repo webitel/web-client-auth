@@ -2,9 +2,9 @@ import { StatusCodes } from 'http-status-codes';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
-import { ExpiredPasswordReason } from '../enums';
+import { ExpiredPasswordReason } from '../enums/ExpiredPasswordReason.enum';
 
-export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
+export const expiredPassword = defineStore('expiredPassword', () => {
 	const isExpired = ref(false);
 	const reason = ref<ExpiredPasswordReason | ''>('');
 

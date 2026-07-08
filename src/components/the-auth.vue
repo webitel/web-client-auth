@@ -59,8 +59,8 @@ import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AuthMode } from '../enums';
-import { useAuthStore } from '../stores/useAuthStore';
+import { AuthMode } from '../enums/AuthMode.enum';
+import { auth } from '../stores/auth';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
@@ -72,7 +72,7 @@ import SupervisorSlide from './slides/supervisor-slide.vue';
 const useAppearanceStore = createAppearanceStore();
 const appearanceStore = useAppearanceStore();
 
-const authStore = useAuthStore();
+const authStore = auth();
 const { submitRegister, submitLogin } = authStore;
 
 const { t } = useI18n();
@@ -117,7 +117,7 @@ const handleChangeTab = ({ value }) => {
 };
 
 const authorization = async (tab) =>
-	tab === AuthMode.Login ? submitRegister() : submitLogin();
+	tab === AuthMode.Login ? submitLogin() : submitRegister();
 </script>
 
 <style lang="scss">
