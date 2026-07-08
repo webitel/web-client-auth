@@ -67,7 +67,9 @@ import AuthWrapper from '../_shared/auth-wrapper.vue';
 
 const emit = defineEmits<{
 	'change-tab': [
-		payload: { value: AuthMode },
+		payload: {
+			value: AuthMode;
+		},
 	];
 	submit: [];
 }>();

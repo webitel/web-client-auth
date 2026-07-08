@@ -54,10 +54,12 @@ import LoginFormFields from './utils/login-form-fields.vue';
 import LoginProviders from './utils/login-providers.vue';
 
 const emit = defineEmits<{
-  submit: [];
-  'change-tab': [
-    payload: { value: AuthMode },
-  ];
+	submit: [];
+	'change-tab': [
+		payload: {
+			value: AuthMode;
+		},
+	];
 }>();
 
 const { t } = useI18n();

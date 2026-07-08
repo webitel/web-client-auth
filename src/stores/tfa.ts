@@ -24,7 +24,13 @@ export const tfa = defineStore('tfa', () => {
 		}
 	}
 
-	async function get2faSessionId({ username, password }: { username: string; password: string }) {
+	async function get2faSessionId({
+		username,
+		password,
+	}: {
+		username: string;
+		password: string;
+	}) {
 		try {
 			const { id } = await AuthAPI.login({
 				username,

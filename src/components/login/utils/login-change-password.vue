@@ -61,7 +61,7 @@ import { tfa } from '../../../stores/tfa';
 import AuthWrapper from '../../_shared/auth-wrapper.vue';
 
 const emit = defineEmits<{
-  submit: [];
+	submit: [];
 }>();
 
 type PasswordSettings = {
@@ -93,7 +93,10 @@ const saveChangedPassword = async () => {
 	await changePassword();
 	if (enabledTfa.value) {
 		try {
-			await get2faSessionId({username: username.value, password: password.value});
+			await get2faSessionId({
+				username: username.value,
+				password: password.value,
+			});
 		} catch (err) {}
 	} else {
 		emit('submit');
