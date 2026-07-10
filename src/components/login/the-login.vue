@@ -134,7 +134,7 @@ const goNextStep = async () => {
 	}
 
 	if (activeStep.value === 2 && enabledTfa.value) {
-		await get2faSessionId(username.value, password.value);
+		await get2faSessionId({username: username.value, password: password.value});
 		activeStep.value = 3;
 		return;
 	}
