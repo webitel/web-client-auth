@@ -77,7 +77,7 @@ const { t } = useI18n();
 const authStore = useAuthStore();
 const { newPassword, confirmPassword, domain, username, password } =
 	storeToRefs(authStore);
-const { changePassword } = authStore();
+const { changePassword } = authStore;
 
 const tfaStore = useTfaStore();
 const { enabledTfa } = storeToRefs(tfaStore);
