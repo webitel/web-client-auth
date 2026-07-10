@@ -27,7 +27,10 @@
 
 </template>
 
-<style >
+<style
+  lang="scss"
+  scoped
+>
 @use '@webitel/styleguide/viewport-breakpoints' as *;
 
 $text-width-lg: 331px;
