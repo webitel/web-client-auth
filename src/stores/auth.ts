@@ -56,18 +56,21 @@ export const useAuthStore = defineStore('auth', () => {
 
 	async function checkCurrentSession() {
 		const accessToken = await AuthAPI.checkCurrentSession();
+		if (!accessToken) return;
 		return onAuthSuccess(accessToken);
 	}
 
 	async function onAuthSuccess(accessToken: string) {
 		let url = '';
 		try {
-			localStorage.setItem(
-				'auth',
-				JSON.stringify({
-					username: username.value,
-				}),
-			);
+			if(username.value) {
+				localStorage.setItem(
+					'auth',
+					JSON.stringify({
+						username: username.value,
+					}),
+				);
+			}
 
 			const redirectTo = router.currentRoute.value.query?.redirectTo;
 			const redirect = redirectTo
