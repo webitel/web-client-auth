@@ -54,7 +54,6 @@
 import '@egjs/vue3-flicking/dist/flicking.css';
 import { AutoPlay, Pagination } from '@egjs/flicking-plugins';
 import Flicking from '@egjs/vue3-flicking';
-import { WtNotificationsBar } from '@webitel/ui-sdk/components';
 import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/store/AppearanceStore';
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { computed, ref } from 'vue';
