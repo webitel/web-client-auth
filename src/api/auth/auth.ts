@@ -138,7 +138,10 @@ const checkSessionByCookies = async () => {
 			const response = await instance.get(url, {
 				withCredentials: true,
 			});
-			localStorage.setItem('access-token', response.accessToken);
+			const data = applyTransform(response.data, [
+				snakeToCamel(),
+			]);
+			localStorage.setItem('access-token', data.accessToken);
 			instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
 		} catch (err) {
 			console.error(err);
