@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
 	async function onAuthSuccess(accessToken: string) {
 		let url = '';
 		try {
-			if(domain.value) {
+			if (domain.value) {
 				localStorage.setItem(
 					'auth',
 					JSON.stringify({

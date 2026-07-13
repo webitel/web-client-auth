@@ -26,10 +26,13 @@ instance.interceptors.response.use(undefined, (error) => {
 	if (error.response?.status === 401) {
 		console.warn('intercepted 401');
 		localStorage.removeItem('access-token');
-		/*
-		 * In auth app, keep 401 local and avoid passing Axios response object further.
-		 * This prevents global unauthorized interceptor redirecting the app to itself.
-		 */
+	}
+
+	// Requests marked `silent` (background session checks that 401 on every
+	// anonymous page load) reject with the bare data object, not an Error, so
+	// notify() (which requires instanceof Error) silently no-ops — otherwise
+	// every guest visitor would get an "Unauthorized" toast on page load.
+	if (error.config?.silent) {
 		return Promise.reject(normalizedError);
 	}
 	const handler = errorHandlersInterceptor[id];
