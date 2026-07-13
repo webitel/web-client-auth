@@ -143,8 +143,7 @@ const checkSessionByCookies = async () => {
 			]);
 			localStorage.setItem('access-token', data.accessToken);
 			instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
-		} catch (err) {
-			console.error(err);
+		} catch(err) {
 		}
 	}
 };
