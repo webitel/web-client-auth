@@ -1,6 +1,7 @@
 <template>
   <auth-wrapper class="the-register">
     <template #default>
+      <div class="the-register__form">
         <wt-input-text
           v-model.trim="domain"
           name="domain"
@@ -34,6 +35,7 @@
           :label="t('auth.key')"
           :v="v$.certificate"
         />
+      </div>
     </template>
 
     <template #actions>
@@ -125,6 +127,11 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
+.the-register__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+}
 .the-register__link {
   cursor: pointer;
   color: var(--info-color);

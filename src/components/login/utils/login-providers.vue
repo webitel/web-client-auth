@@ -57,7 +57,7 @@ const serviceProviders = computed(() =>
 <style lang="scss" scoped>
 .login-providers__header {
   display: flex;
-  margin: var(--spacing-md) 0 var(--spacing-sm) 0;
+  margin: var(--spacing-lg) 0 var(--spacing-sm) 0;
 }
 
 .login-providers__title {
