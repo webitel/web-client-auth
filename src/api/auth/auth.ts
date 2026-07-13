@@ -118,7 +118,9 @@ const checkSessionByToken = async () => {
 	const url = '/userinfo';
 
 	try {
-		await instance.get(url);
+		await instance.get(url, {
+			silent: true,
+		});
 		return postToken();
 	} catch (err) {
 		clearToken();
@@ -137,14 +139,14 @@ const checkSessionByCookies = async () => {
 		try {
 			const response = await instance.get(url, {
 				withCredentials: true,
+				silent: true,
 			});
 			const data = applyTransform(response.data, [
 				snakeToCamel(),
 			]);
 			localStorage.setItem('access-token', data.accessToken);
 			instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
-		} catch(err) {
-		}
+		} catch (err) {}
 	}
 };
 
