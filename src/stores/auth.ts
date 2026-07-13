@@ -97,6 +97,7 @@ export const useAuthStore = defineStore('auth', () => {
 			old_password: password.value,
 			user_password: newPassword.value,
 			username: username.value,
+			domain: domain.value,
 		});
 		password.value = newPassword.value;
 	}
