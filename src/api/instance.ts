@@ -3,6 +3,15 @@ import { errorHandlersInterceptor } from './interceptors/errorHandlers.intercept
 
 export const instance = getDefaultInstance();
 
+/*
+ * getDefaultInstance() registers handleUnauthorizedInterceptor as response
+ * interceptor #0, which on any 401 redirects to VITE_AUTH_URL with the current
+ * href as redirectTo. In the auth app itself that means redirecting to itself
+ * on its own session-check 401s, nesting redirectTo deeper on every reload.
+ * Eject it — this app already handles 401s locally below.
+ */
+instance.interceptors.response.eject(0);
+
 instance.defaults.headers['X-Webitel-Access'] =
 	localStorage.getItem('access-token') || '';
 
