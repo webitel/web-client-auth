@@ -77,7 +77,10 @@ export const useAuthStore = defineStore('auth', () => {
 				? decodeURIComponent(redirectTo as string)
 				: import.meta.env.VITE_START_PAGE_URL;
 
-			if (!redirect || !accessToken) {
+			if (
+				typeof redirect === 'undefined' ||
+				typeof accessToken === 'undefined'
+			) {
 				throw new Error(
 					`No redirect (${redirect}) or access token (${accessToken}) provided`,
 				);
