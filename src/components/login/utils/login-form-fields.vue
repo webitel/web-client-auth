@@ -129,6 +129,6 @@ useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 .login-form-fields {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
 }
 </style>

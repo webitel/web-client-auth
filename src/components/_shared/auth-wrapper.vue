@@ -38,8 +38,4 @@
   margin-bottom: var(--spacing-lg);
   text-align: center;
 }
-
-.auth-wrapper__actions {
-  margin-top: var(--spacing-md);
-}
 </style>
