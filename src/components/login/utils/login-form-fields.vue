@@ -29,15 +29,14 @@
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
 import { LoginOptions } from '@webitel/ui-sdk/enums';
-import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
 import { useAuthStore } from '../../../stores/auth';
 import { useSsoStore } from '../../../stores/sso';
 import { useTfaStore } from '../../../stores/tfa';
+import { loginValidator } from '../../../utils/validators';
 
 const props = defineProps({
 	activeStep: {
@@ -74,9 +73,7 @@ const displayTotp = computed(() => props.activeStep === 3 && enabledTfa.value);
 const rules = computed(() => ({
 	username: {
 		required,
-		domainValidator: () => {
-			return domain.value ? domainValidator(domain.value) : false;
-		},
+		loginValidator,
 	},
 	password: {
 		required: requiredIf(displayPassword.value),
