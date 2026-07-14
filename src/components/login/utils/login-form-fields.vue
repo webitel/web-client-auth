@@ -98,6 +98,8 @@ const v$ = useVuelidate(
 	},
 );
 
+const getDomain = (value: string) => value.split('@')[1] ?? '';
+
 watch(
 	() => v$.value.$invalid,
 	(value) => {
@@ -110,9 +112,15 @@ watch(
 
 watch(
 	() => username.value,
-	(value) => {
-		domain.value = value.split('@')[1] ?? '';
-		emit('change-login');
+	(newValue: string, oldValue?: string) => {
+		const newDomain = getDomain(newValue);
+		domain.value = newDomain;
+
+		if (typeof oldValue === 'undefined') return;
+
+		if (getDomain(oldValue) !== newDomain) {
+			emit('change-login');
+		}
 	},
 	{
 		immediate: true,
