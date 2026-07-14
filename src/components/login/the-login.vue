@@ -73,7 +73,7 @@ const { domain, username, password } = storeToRefs(authStore);
 const { reset } = authStore;
 
 const tfaStore = useTfaStore();
-const { enabledTfa } = storeToRefs(tfaStore);
+const { enabledTfa, sessionId, totp } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
 const ssoStore = useSsoStore();
@@ -115,6 +115,8 @@ const changeLogin = () => {
 	password.value = '';
 	providers.value = [];
 	activeStep.value = 1;
+  sessionId.value = '';
+  totp.value = '';
 };
 
 const goNextStep = async () => {
