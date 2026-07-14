@@ -115,8 +115,8 @@ const changeLogin = () => {
 	password.value = '';
 	providers.value = [];
 	activeStep.value = 1;
-  sessionId.value = '';
-  totp.value = '';
+	sessionId.value = '';
+	totp.value = '';
 };
 
 const goNextStep = async () => {
