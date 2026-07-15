@@ -36,7 +36,7 @@ import { useNextOnEnter } from '../../../composables/useNextOnEnter';
 import { useAuthStore } from '../../../stores/auth';
 import { useSsoStore } from '../../../stores/sso';
 import { useTfaStore } from '../../../stores/tfa';
-import { loginValidator } from '../../../utils/validators';
+import { loginValidator } from '../../../validations/validators';
 
 const props = defineProps({
 	activeStep: {
