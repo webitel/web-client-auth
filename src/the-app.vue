@@ -1,12 +1,15 @@
 <template>
   <!--  :class="$i18n.locale" root element class to control fonts on each locale  -->
-  <router-view :class="locale"></router-view>
+  <router-view
+    v-if="!isCheckingSession"
+    :class="locale"
+  ></router-view>
 </template>
 
 <script setup>
 import querystring from 'node:querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
-import { inject, onMounted } from 'vue';
+import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from './stores/auth';
 
@@ -15,6 +18,8 @@ const { checkCurrentSession } = authStore;
 
 const eventBus = inject('$eventBus');
 const { locale, fallbackLocale } = useI18n();
+
+const isCheckingSession = ref(true);
 
 const setLanguage = () => {
 	const lang = localStorage.getItem('lang');
@@ -25,7 +30,6 @@ const setLanguage = () => {
 };
 
 setLanguage();
-checkCurrentSession();
 
 const handleErrorsInQuery = ({ errorDescription }) => {
 	eventBus.$emit('notification', {
@@ -42,8 +46,13 @@ const handlePathQuery = () => {
 	if (query.error || query.errorDescription) handleErrorsInQuery(query);
 };
 
-onMounted(() => {
+onMounted(async () => {
 	handlePathQuery();
+	try {
+		await checkCurrentSession();
+	} finally {
+		isCheckingSession.value = false;
+	}
 });
 </script>
 
