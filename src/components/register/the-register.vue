@@ -130,7 +130,7 @@ onUnmounted(() => {
 .the-register__form {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-sm);
+  gap: var(--spacing-xs);
 }
 .the-register__link {
   cursor: pointer;
