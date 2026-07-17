@@ -9,12 +9,14 @@
 <script setup>
 import querystring from 'node:querystring';
 import { objSnakeToCamel } from '@webitel/ui-sdk/src/scripts/caseConverters';
+import { storeToRefs } from 'pinia';
 import { inject, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from './stores/auth';
 
 const authStore = useAuthStore();
 const { checkCurrentSession } = authStore;
+const { isRedirecting } = storeToRefs(authStore);
 
 const eventBus = inject('$eventBus');
 const { locale, fallbackLocale } = useI18n();
@@ -51,7 +53,9 @@ onMounted(async () => {
 	try {
 		await checkCurrentSession();
 	} finally {
-		isCheckingSession.value = false;
+		// if a redirect to the app was triggered, keep the login UI hidden
+		// until the browser navigates away instead of flashing it in between
+		if (!isRedirecting.value) isCheckingSession.value = false;
 	}
 });
 </script>
