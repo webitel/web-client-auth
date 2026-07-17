@@ -15,6 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
 	const certificate = ref('');
 	const confirmPassword = ref('');
 	const newPassword = ref('');
+	const isRedirecting = ref(false);
 
 	const expiredPasswordStore = useExpiredPasswordStore();
 	const { handleError } = expiredPasswordStore;
@@ -90,7 +91,8 @@ export const useAuthStore = defineStore('auth', () => {
 				? `${redirect}&accessToken=${accessToken}`
 				: `${redirect}?accessToken=${accessToken}`;
 		} finally {
-			if (!import.meta.env.DEV && url) window.location.href = url;
+			isRedirecting.value = !import.meta.env.DEV && !!url;
+			if (isRedirecting.value) window.location.href = url;
 		}
 	}
 
@@ -121,6 +123,7 @@ export const useAuthStore = defineStore('auth', () => {
 		certificate,
 		confirmPassword,
 		newPassword,
+		isRedirecting,
 
 		submitLogin,
 		submitRegister,
