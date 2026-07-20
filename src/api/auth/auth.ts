@@ -131,11 +131,11 @@ const checkSessionByToken = async () => {
 };
 
 const checkSessionByCookies = async () => {
-	const url = '/login';
-
 	/* OAUTH CHECK, IF THIS USER IS AUTHENTICATED AND HAS COOKIES */
 	const accessToken = localStorage.getItem('access-token');
-	if (!accessToken) {
+	const { domain } = JSON.parse(localStorage.getItem('auth') ?? '{}');
+	if (!accessToken && domain) {
+		const url = `/login?domain=${domain}`;
 		try {
 			const response = await instance.get(url, {
 				withCredentials: true,
