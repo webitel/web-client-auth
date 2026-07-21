@@ -52,6 +52,10 @@ onMounted(async () => {
 	handlePathQuery();
 	try {
 		await checkCurrentSession();
+	} catch {
+		// an invalid/expired access-token is expected on first load and is
+		// already cleared inside checkCurrentSession; swallow here so it
+		// doesn't surface as an unhandled promise rejection in the console
 	} finally {
 		// if a redirect to the app was triggered, keep the login UI hidden
 		// until the browser navigates away instead of flashing it in between
