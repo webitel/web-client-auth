@@ -1,0 +1,64 @@
+{
+	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"lib": [
+			"esnext",
+			"DOM"
+		],
+		"plugins": [
+			{
+				"name": "typescript-plugin-css-modules"
+			}
+		],
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"allowJs": false,
+		"skipLibCheck": true,
+
+		"moduleResolution": "Bundler",
+		"baseUrl": ".",
+		// @webitel/ui-sdk ships an exports map whose `types` conditions use
+		// extensionless wildcard targets (e.g. "./src/scripts*" -> "./types/scripts*").
+		// TS's Bundler resolver won't append `.d.ts` to those, so deep `src/*` imports
+		// fail in .ts / `<script lang="ts">`. Map them to shipped declarations
+		// (falling back to source).
+		// TODO(types): drop this once ui-sdk's exports map ships extensioned `types` targets.
+		"paths": {
+			"@/*": [
+				"./src/*"
+			],
+			"@webitel/ui-sdk/validators/*": [
+				"./node_modules/@webitel/ui-sdk/types/validations/vuelidate/validators/*",
+				"./node_modules/@webitel/ui-sdk/src/validations/vuelidate/validators/*"
+			],
+			"@webitel/ui-sdk/src/validators/*": [
+				"./node_modules/@webitel/ui-sdk/types/validations/vuelidate/validators/*",
+				"./node_modules/@webitel/ui-sdk/src/validations/vuelidate/validators/*"
+			],
+			"@webitel/ui-sdk/src/*": [
+				"./node_modules/@webitel/ui-sdk/types/*",
+				"./node_modules/@webitel/ui-sdk/src/*"
+			]
+		},
+		"isolatedModules": true,
+		"moduleDetection": "force",
+		"noEmit": true,
+		"noEmitOnError": false,
+
+		"strict": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true
+	},
+	"include": [
+		"src",
+		"env.d.ts"
+	],
+	"exclude": [
+		"**/*.spec.ts",
+		"**/*.test.ts"
+	]
+}

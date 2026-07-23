@@ -87,7 +87,7 @@ const expiredPasswordStore = useExpiredPasswordStore();
 const { reasonExpiredPassword, isExpiredPassword } =
 	storeToRefs(expiredPasswordStore);
 
-const passwordSettings = ref<PasswordSettings>({});
+const passwordSettings = ref<Partial<PasswordSettings>>({});
 
 const saveChangedPassword = async () => {
 	await changePassword();

@@ -15,7 +15,8 @@
 		"prepare": "husky || true",
 		"biome:ci:gh": "biome ci ./src --reporter=github",
 		"test:unit:ci": "vitest run --coverage",
-		"typecheck:ci": "true"
+		"typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
+		"typecheck:ci": "npm run typecheck"
 	},
 	"type": "module",
 	"dependencies": {
@@ -25,7 +26,7 @@
 		"@vuelidate/validators": "^2.0.0",
 		"@webitel/api-services": "^0.1.47",
 		"@webitel/styleguide": "~26.2",
-		"@webitel/ui-sdk": "~26.6",
+		"@webitel/ui-sdk": "~26.8",
 		"axios": "^1.18.1",
 		"clipboard-copy": "^4.0.1",
 		"deep-copy": "^1.x",
@@ -52,7 +53,8 @@
 		"typescript": "^5.9.x",
 		"vite": "npm:rolldown-vite@^7.3.x",
 		"vite-plugin-node-polyfills": "^0.x",
-		"vitest": "^4.x"
+		"vitest": "^4.x",
+		"vue-tsc": "^3.3.8"
 	},
 	"overrides": {
 		"vite": "npm:rolldown-vite@^7.3.x"

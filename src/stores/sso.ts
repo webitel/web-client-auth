@@ -8,7 +8,7 @@ import { useTfaStore } from './tfa';
 
 export const useSsoStore = defineStore('sso', () => {
 	const providers = ref([]);
-	const loginOptions = ref(LoginOptions.LOCAL_PASSWORD_ONLY);
+	const loginOptions = ref<LoginOptions>(LoginOptions.LOCAL_PASSWORD_ONLY);
 
 	const tfaStore = useTfaStore();
 	const { enabledTfa } = storeToRefs(tfaStore);

@@ -3,4 +3,4 @@ export const AuthMode = {
 	Register: 'register',
 } as const;
 
-export type AuthMode = keyof typeof AuthMode;
+export type AuthMode = (typeof AuthMode)[keyof typeof AuthMode];

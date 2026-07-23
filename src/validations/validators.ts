@@ -1,4 +1,4 @@
-import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
+import domainValidator from '@webitel/ui-sdk/validators/domainValidator';
 
 export const loginValidator = (value) => {
 	const credentials = value.split('@');

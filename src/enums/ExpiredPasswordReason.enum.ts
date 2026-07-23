@@ -3,4 +3,5 @@ export const ExpiredPasswordReason = {
 	Temporary: 'temporary',
 } as const;
 
-export type ExpiredPasswordReason = keyof typeof ExpiredPasswordReason;
+export type ExpiredPasswordReason =
+	(typeof ExpiredPasswordReason)[keyof typeof ExpiredPasswordReason];
