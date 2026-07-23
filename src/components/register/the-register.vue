@@ -55,9 +55,9 @@
 </template>
 
 <script setup lang="ts">
-import { useVuelidate } from '@vuelidate/core/dist';
-import { required, sameAs } from '@vuelidate/validators/dist';
-import domainValidator from '@webitel/ui-sdk/src/validators/domainValidator';
+import { useVuelidate } from '@vuelidate/core';
+import { required, sameAs } from '@vuelidate/validators';
+import domainValidator from '@webitel/ui-sdk/validators/domainValidator';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';

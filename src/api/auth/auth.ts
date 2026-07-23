@@ -5,6 +5,7 @@ import {
 	snakeToCamel,
 } from '@webitel/api-services/api/transformers';
 import { ApiLoginResponse } from '@webitel/api-services/gen/models';
+import type { AxiosResponse } from 'axios';
 import instance from '../instance';
 
 export const login = async (credentials) => {
