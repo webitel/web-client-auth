@@ -12,7 +12,7 @@
 		"utils:up-lib": "npm up @webitel/api-services @webitel/ui-sdk && npm run utils:ls-libs",
 		"utils:link-libs": "npm link @webitel/api-services @webitel/ui-sdk && npm run utils:ls-libs",
 		"utils:ls-libs": "npm ls @webitel/api-services @webitel/ui-sdk ",
-		"prepare": "husky || true",
+		"prepare": "husky",
 		"biome:ci:gh": "biome ci ./src --reporter=github",
 		"test:unit:ci": "vitest run --coverage",
 		"typecheck": "vue-tsc --noEmit -p ./tsconfig.json",
