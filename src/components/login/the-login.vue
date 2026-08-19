@@ -153,6 +153,10 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.the-login {
+  width: 100%;
+}
+
 .the-login__link {
   cursor: pointer;
   color: var(--info-color);
