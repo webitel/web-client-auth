@@ -160,7 +160,7 @@ $slide-width-md: 640px;
     }
 
     .auth-tabs-title {
-      margin: var(--spacing-lg) auto;
+      margin: var(--spacing-xs) auto;
       text-align: center;
     }
   }
@@ -292,7 +292,7 @@ $slide-width-md: 640px;
       display: flex;
       align-items: center;
       flex-direction: column;
-      padding: var(--spacing-md);
+      padding: var(--spacing-lg);
     }
 
     .logo {

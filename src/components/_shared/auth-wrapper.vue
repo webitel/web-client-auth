@@ -35,7 +35,7 @@
 }
 
 .auth-wrapper__title {
-  margin-bottom: var(--spacing-lg);
+  margin-bottom: var(--spacing-xs);
   text-align: center;
 }
 </style>
