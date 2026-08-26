@@ -40,10 +40,6 @@ export default ({ mode }) => {
 			alias: {
 				'@': resolve(__dirname, 'src'),
 				lodash: 'lodash-es',
-				'@aliasedDeps/api-services/axios': resolve(
-					__dirname,
-					'src/api/instance',
-				),
 			},
 		},
 		plugins: [
