@@ -2,6 +2,7 @@ import { createPinia, setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import AuthAPI from '../../api/auth/auth';
+import { useExpiredPasswordStore } from '../expiredPassword';
 import { useTfaStore } from '../tfa';
 
 vi.mock('../../api/auth/auth', () => ({
@@ -42,11 +43,16 @@ describe('useTfaStore', () => {
 		await expect(store.login2fa()).rejects.toEqual(error);
 	});
 
-	it('get2faSessionId stores the returned session id', async () => {
+	it('get2faSessionId stores the returned session id and clears the expired-password state', async () => {
 		vi.mocked(AuthAPI.login).mockResolvedValue({
 			id: 'session-2',
 		});
 		const store = useTfaStore();
+		const expiredPasswordStore = useExpiredPasswordStore();
+		expiredPasswordStore.handleError({
+			code: 412,
+			id: 'app.password.force_change',
+		});
 
 		await store.get2faSessionId({
 			username: 'user',
@@ -58,6 +64,7 @@ describe('useTfaStore', () => {
 			password: 'pass',
 		});
 		expect(store.sessionId).toBe('session-2');
+		expect(expiredPasswordStore.isExpiredPassword).toBe(false);
 	});
 
 	it('get2faSessionId leaves the session id untouched when none is returned', async () => {
@@ -70,5 +77,30 @@ describe('useTfaStore', () => {
 		});
 
 		expect(store.sessionId).toBe('');
+	});
+
+	// [WTEL-8161] a failed session refresh must not be treated as success:
+	// leaving the expired-password state cleared here strands the user on
+	// the 2FA code step with a stale sessionId, which the backend then
+	// rejects as "wrong_step" no matter how fresh the entered code is.
+	it('get2faSessionId keeps the expired-password state and rethrows when the refresh fails', async () => {
+		const error = {
+			code: 412,
+			id: 'app.password.force_change',
+		};
+		vi.mocked(AuthAPI.login).mockRejectedValue(error);
+		const store = useTfaStore();
+		store.sessionId = 'stale-session';
+		const expiredPasswordStore = useExpiredPasswordStore();
+
+		await expect(
+			store.get2faSessionId({
+				username: 'user',
+				password: 'pass',
+			}),
+		).rejects.toEqual(error);
+
+		expect(store.sessionId).toBe('stale-session');
+		expect(expiredPasswordStore.isExpiredPassword).toBe(true);
 	});
 });
