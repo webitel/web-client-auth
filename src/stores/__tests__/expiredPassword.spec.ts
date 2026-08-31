@@ -1,4 +1,5 @@
-import { createPinia, setActivePinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ExpiredPasswordReason } from '../../enums/ExpiredPasswordReason.enum';
@@ -6,7 +7,11 @@ import { useExpiredPasswordStore } from '../expiredPassword';
 
 describe('useExpiredPasswordStore', () => {
 	beforeEach(() => {
-		setActivePinia(createPinia());
+		setActivePinia(
+			createTestingPinia({
+				stubActions: false,
+			}),
+		);
 	});
 
 	it('starts with no expired password', () => {

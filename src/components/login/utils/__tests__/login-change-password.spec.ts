@@ -1,4 +1,5 @@
-import { createPinia, setActivePinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mountWithWebitelUi } from '../../../../../tests/utils/mount-with-webitel-ui';
 import AuthAPI from '../../../../api/auth/auth';
@@ -18,7 +19,11 @@ const mountComponent = () => mountWithWebitelUi(LoginChangePassword);
 
 describe('LoginChangePassword', () => {
 	beforeEach(() => {
-		setActivePinia(createPinia());
+		setActivePinia(
+			createTestingPinia({
+				stubActions: false,
+			}),
+		);
 		vi.mocked(AuthAPI.getPasswordSettings).mockResolvedValue({
 			settings: {},
 		});

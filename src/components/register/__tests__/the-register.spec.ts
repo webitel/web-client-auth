@@ -1,4 +1,5 @@
-import { createPinia, setActivePinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mountWithWebitelUi } from '../../../../tests/utils/mount-with-webitel-ui';
 import { useAuthStore } from '../../../stores/auth';
@@ -14,7 +15,11 @@ const mountComponent = () => mountWithWebitelUi(TheRegister);
 
 describe('TheRegister', () => {
 	beforeEach(() => {
-		setActivePinia(createPinia());
+		setActivePinia(
+			createTestingPinia({
+				stubActions: false,
+			}),
+		);
 	});
 
 	it('disables the submit button while the form is invalid', () => {

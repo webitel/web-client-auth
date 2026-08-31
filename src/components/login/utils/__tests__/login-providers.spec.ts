@@ -1,4 +1,5 @@
-import { createPinia, setActivePinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mountWithWebitelUi } from '../../../../../tests/utils/mount-with-webitel-ui';
 import { useSsoStore } from '../../../../stores/sso';
@@ -14,7 +15,11 @@ const mountComponent = () => mountWithWebitelUi(LoginProviders);
 
 describe('LoginProviders', () => {
 	beforeEach(() => {
-		setActivePinia(createPinia());
+		setActivePinia(
+			createTestingPinia({
+				stubActions: false,
+			}),
+		);
 	});
 
 	it('renders nothing when SSO is not enabled alongside local login', () => {

@@ -1,4 +1,5 @@
-import { createPinia, setActivePinia } from 'pinia';
+import { createTestingPinia } from '@pinia/testing';
+import { setActivePinia } from 'pinia';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import AuthAPI from '../../api/auth/auth';
@@ -13,7 +14,11 @@ vi.mock('../../api/auth/auth', () => ({
 
 describe('useSsoStore', () => {
 	beforeEach(() => {
-		setActivePinia(createPinia());
+		setActivePinia(
+			createTestingPinia({
+				stubActions: false,
+			}),
+		);
 		vi.clearAllMocks();
 	});
 
