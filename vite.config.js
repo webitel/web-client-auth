@@ -61,6 +61,14 @@ export default ({ mode }) => {
 			setupFiles: [
 				'./tests/config/config.js',
 			],
+			server: {
+				deps: {
+					inline: [
+						/@webitel\/ui-sdk/,
+						/@webitel\/api-services/,
+					],
+				},
+			},
 		},
 	});
 };
