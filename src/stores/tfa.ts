@@ -37,8 +37,10 @@ export const useTfaStore = defineStore('tfa', () => {
 				password,
 			});
 			if (id) sessionId.value = id;
-		} finally {
 			clearExpiredPasswordState();
+		} catch (error) {
+			handleError(error);
+			throw error;
 		}
 	}
 
