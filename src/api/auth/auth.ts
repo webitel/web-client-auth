@@ -145,8 +145,10 @@ const checkSessionByCookies = async () => {
 			const data = applyTransform(response.data, [
 				snakeToCamel(),
 			]);
-			localStorage.setItem('access-token', data.accessToken);
-			instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
+			if (data?.accessToken) {
+				localStorage.setItem('access-token', data.accessToken);
+				instance.defaults.headers['X-Webitel-Access'] = postToken() || '';
+			}
 		} catch (err) {}
 	}
 };
@@ -191,10 +193,16 @@ const checkDomainExistence = async (domain) => {
 	const baseUrl = '/login';
 	const url = `${baseUrl}?domain=${domain}`;
 	try {
-		const response = await instance.get(url);
-		return applyTransform(response.data, [
+		const response = await instance.get(url, {
+			withCredentials: true,
+		});
+		const data = applyTransform(response.data, [
 			snakeToCamel(),
 		]);
+		if (data?.accessToken) {
+			localStorage.setItem('access-token', data.accessToken);
+		}
+		return data;
 	} catch (err) {
 		throw applyTransform(err, [
 			notify,
