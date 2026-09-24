@@ -121,12 +121,15 @@ const changeLogin = () => {
 
 const goNextStep = async () => {
 	if (activeStep.value === 1) {
+		let isAuthenticated = false;
 		try {
 			isLoadedCheckDomain.value = false;
-			await checkDomain(domain.value);
+			isAuthenticated = await checkDomain(domain.value);
 		} finally {
 			isLoadedCheckDomain.value = true;
 		}
+
+		if (isAuthenticated) return;
 
 		if (loginOptions.value === LoginOptions.SSO_ONLY) {
 			executeOnlySsoProvider();

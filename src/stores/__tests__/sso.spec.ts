@@ -3,6 +3,7 @@ import { setActivePinia } from 'pinia';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import AuthAPI from '../../api/auth/auth';
+import { useAuthStore } from '../auth';
 import { useSsoStore } from '../sso';
 import { useTfaStore } from '../tfa';
 
@@ -47,6 +48,23 @@ describe('useSsoStore', () => {
 		expect(tfaStore.enabledTfa).toBe(true);
 	});
 
+	it('checkDomain finishes auth when the domain check returns an access token', async () => {
+		vi.mocked(AuthAPI.checkDomainExistence).mockResolvedValue({
+			accessToken: 'token',
+		});
+		const store = useSsoStore();
+		const authStore = useAuthStore();
+		const onAuthSuccessSpy = vi
+			.spyOn(authStore, 'onAuthSuccess')
+			.mockResolvedValue(undefined);
+
+		const isAuthenticated = await store.checkDomain('example.com');
+
+		expect(isAuthenticated).toBe(true);
+		expect(onAuthSuccessSpy).toHaveBeenCalledWith('token');
+		expect(store.providers).toEqual([]);
+	});
+
 	describe('executeProvider', () => {
 		const originalLocation = window.location;
 
@@ -70,6 +88,19 @@ describe('useSsoStore', () => {
 			expect(window.location.href).toContain(
 				`redirect_uri=${encodeURIComponent('https://app.webitel.com/')}`,
 			);
+		});
+
+		it('saves the domain to localStorage before redirecting to the provider', () => {
+			localStorage.removeItem('auth');
+			const store = useSsoStore();
+			const authStore = useAuthStore();
+			authStore.domain = 'example.com';
+
+			store.executeProvider('/oauth/google');
+
+			expect(JSON.parse(localStorage.getItem('auth') ?? '{}')).toEqual({
+				domain: 'example.com',
+			});
 		});
 
 		it('executeOnlySsoProvider uses the first provider url', () => {
