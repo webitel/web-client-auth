@@ -4,6 +4,7 @@ import { defineStore, storeToRefs } from 'pinia';
 import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
+import { useAuthStore } from './auth';
 import { useTfaStore } from './tfa';
 
 export const useSsoStore = defineStore('sso', () => {
@@ -13,21 +14,39 @@ export const useSsoStore = defineStore('sso', () => {
 	const tfaStore = useTfaStore();
 	const { enabledTfa } = storeToRefs(tfaStore);
 
+	const authStore = useAuthStore();
+	const { domain: authDomain } = storeToRefs(authStore);
+
 	async function checkDomain(domain: string) {
 		const {
+			accessToken,
 			providers: loginProviders,
 			enabledTfa: enabledTfaValue,
 			loginOptions: loginOptionsValue,
 		} = await AuthAPI.checkDomainExistence(domain);
 
+		if (accessToken) {
+			await authStore.onAuthSuccess(accessToken);
+			return true;
+		}
+
 		providers.value = loginProviders;
 		enabledTfa.value = enabledTfaValue;
 		loginOptions.value = loginOptionsValue;
+		return false;
 	}
 
 	const executeOnlySsoProvider = () => executeProvider(providers.value[0].url);
 
 	function executeProvider(url: string) {
+		if (authDomain.value) {
+			localStorage.setItem(
+				'auth',
+				JSON.stringify({
+					domain: authDomain.value,
+				}),
+			);
+		}
 		const query = querystring.stringify({
 			redirect_uri: window.location.href,
 		});
