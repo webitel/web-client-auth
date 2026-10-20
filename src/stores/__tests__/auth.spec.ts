@@ -136,6 +136,22 @@ describe('useAuthStore', () => {
 			expect(location.href).toBe('/?accessToken=token');
 		});
 
+		// an already logged-in user is redirected on page load, without the login form
+		it.each([
+			'https://dast-check.invalid/',
+			'javascript:alert(document.domain)',
+		])('checkCurrentSession with a valid session does not send the token to %s', async (redirectTo) => {
+			vi.mocked(AuthAPI.checkCurrentSession).mockResolvedValue('token');
+			router.currentRoute.value.query = {
+				redirectTo,
+			};
+			const store = useAuthStore();
+
+			await store.checkCurrentSession();
+
+			expect(location.href).toBe('/?accessToken=token');
+		});
+
 		it('redirects to a same-origin redirectTo with the token', async () => {
 			router.currentRoute.value.query = {
 				redirectTo: `${origin}/app/workspace/?x=1`,
