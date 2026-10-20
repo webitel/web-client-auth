@@ -5,6 +5,7 @@ import type { Breakpoint } from '@webitel/ui-sdk/src/plugins/breakpoint/breakpoi
 
 interface ImportMetaEnv {
 	readonly VITE_STAGING_ENV: string;
+	readonly VITE_BUILD_NUMBER?: string;
 }
 
 interface ImportMeta {
