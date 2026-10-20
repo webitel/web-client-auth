@@ -16,6 +16,9 @@
           @change-tab="handleChangeTab"
           @submit="authorization(activeTab)"
         />
+        <footer class="auth-form-wrapper__footer">
+          <p class="auth-form-wrapper__build typo-caption">{{ buildVersion }}</p>
+        </footer>
       </div>
     </section>
     <section class="auth-info">
@@ -58,6 +61,7 @@ import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import packageJson from '../../package.json' with { type: 'json' };
 import { AuthMode } from '../enums/AuthMode.enum';
 import { useAuthStore } from '../stores/auth';
 
@@ -111,6 +115,12 @@ const currentTab = computed(
 );
 const theme = computed(() => appearanceStore.theme);
 
+const buildVersion = computed(() => {
+	const release = `v${packageJson.version}`;
+	const build = import.meta.env.VITE_BUILD_NUMBER;
+	return `${t('webitelUI.headerActions.buildVersion')}: ${build ? `${release}-${build}` : release}`;
+});
+
 const handleChangeTab = ({ value }) => {
 	activeTab.value = value;
 };
@@ -151,6 +161,18 @@ $slide-width-md: 640px;
     background: var(--content-wrapper-color);
     border-radius: var(--border-radius);
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+
+    .auth-form-wrapper__footer {
+      margin-top: auto;
+      padding-top: var(--spacing-sm);
+      text-align: center;
+    }
+
+    .auth-form-wrapper__build {
+      color: var(--text-disabled-color);
+    }
 
     .auth-form-wrapper__header {
       width: 100%;
