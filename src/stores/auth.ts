@@ -90,9 +90,10 @@ export const useAuthStore = defineStore('auth', () => {
 				);
 			}
 
-			url = redirect.includes('?')
-				? `${redirect}&accessToken=${accessToken}`
-				: `${redirect}?accessToken=${accessToken}`;
+			// [https://webitel.atlassian.net/browse/WTEL-10705]
+			// the token is already in localStorage, shared with every app on this
+			// origin: never put it in the url (history, server logs, Referer)
+			url = redirect;
 		} finally {
 			isRedirecting.value = !import.meta.env.DEV && !!url;
 			if (isRedirecting.value) window.location.href = url;
