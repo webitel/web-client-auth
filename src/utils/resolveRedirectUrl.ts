@@ -1,8 +1,8 @@
 /**
  * [https://webitel.atlassian.net/browse/WTEL-10705]
- * The access token is appended to the redirect URL after login, so `redirectTo`
- * must never point outside the current origin: otherwise any link like
- * `/app/auth/?redirectTo=https://evil.example` leaks the user's token.
+ * `redirectTo` must never point outside the current origin: any link like
+ * `/app/auth/?redirectTo=https://evil.example` would otherwise turn the login
+ * page into an open redirect (and used to leak the user's token with it).
  *
  * Resolves `redirectTo` against the current origin and returns it only if it
  * stays on that origin (which also rules out `javascript:`, `data:`, etc.,

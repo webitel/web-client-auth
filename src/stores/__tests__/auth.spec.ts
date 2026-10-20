@@ -133,7 +133,7 @@ describe('useAuthStore', () => {
 
 			await store.onAuthSuccess('token');
 
-			expect(location.href).toBe('/?accessToken=token');
+			expect(location.href).toBe('/');
 		});
 
 		// an already logged-in user is redirected on page load, without the login form
@@ -149,10 +149,10 @@ describe('useAuthStore', () => {
 
 			await store.checkCurrentSession();
 
-			expect(location.href).toBe('/?accessToken=token');
+			expect(location.href).toBe('/');
 		});
 
-		it('redirects to a same-origin redirectTo with the token', async () => {
+		it('redirects to a same-origin redirectTo without the token', async () => {
 			router.currentRoute.value.query = {
 				redirectTo: `${origin}/app/workspace/?x=1`,
 			};
@@ -160,9 +160,16 @@ describe('useAuthStore', () => {
 
 			await store.onAuthSuccess('token');
 
-			expect(location.href).toBe(
-				`${origin}/app/workspace/?x=1&accessToken=token`,
-			);
+			expect(location.href).toBe(`${origin}/app/workspace/?x=1`);
+		});
+
+		it('redirects to the start page without the token', async () => {
+			const store = useAuthStore();
+
+			await store.onAuthSuccess('token');
+
+			expect(location.href).toBe('/');
+			expect(location.href).not.toContain('token');
 		});
 	});
 
