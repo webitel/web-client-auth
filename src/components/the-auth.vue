@@ -61,10 +61,9 @@ import { createAppearanceStore } from '@webitel/ui-sdk/modules/Appearance/pinia/
 import WtDarkModeSwitcher from '@webitel/ui-sdk/src/modules/Appearance/components/wt-dark-mode-switcher.vue';
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import packageJson from '../../package.json' with { type: 'json' };
 import { AuthMode } from '../enums/AuthMode.enum';
 import { useAuthStore } from '../stores/auth';
-
-import packageJson from '../../package.json' with { type: 'json' };
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
