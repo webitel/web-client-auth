@@ -1,8 +1,9 @@
 import { createTestingPinia } from '@pinia/testing';
 import { setActivePinia } from 'pinia';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import AuthAPI from '../../api/auth/auth';
+import router from '../../router/router';
 import { useAuthStore } from '../auth';
 import { useExpiredPasswordStore } from '../expiredPassword';
 
@@ -98,6 +99,78 @@ describe('useAuthStore', () => {
 		const result = await store.checkCurrentSession();
 
 		expect(result).toBeUndefined();
+	});
+
+	describe('onAuthSuccess redirect', () => {
+		const origin = 'https://dev.webitel.com';
+		let location: {
+			origin: string;
+			href: string;
+		};
+
+		beforeEach(() => {
+			location = {
+				origin,
+				href: `${origin}/app/auth/`,
+			};
+			vi.stubGlobal('location', location);
+			vi.stubEnv('DEV', false);
+			vi.stubEnv('VITE_START_PAGE_URL', '/');
+		});
+
+		afterEach(() => {
+			vi.unstubAllGlobals();
+			vi.unstubAllEnvs();
+			router.currentRoute.value.query = {};
+		});
+
+		// [https://webitel.atlassian.net/browse/WTEL-10705]
+		it('does not send the token to a foreign origin from redirectTo', async () => {
+			router.currentRoute.value.query = {
+				redirectTo: 'https://dast-check.invalid/',
+			};
+			const store = useAuthStore();
+
+			await store.onAuthSuccess('token');
+
+			expect(location.href).toBe('/');
+		});
+
+		// an already logged-in user is redirected on page load, without the login form
+		it.each([
+			'https://dast-check.invalid/',
+			'javascript:alert(document.domain)',
+		])('checkCurrentSession with a valid session does not send the token to %s', async (redirectTo) => {
+			vi.mocked(AuthAPI.checkCurrentSession).mockResolvedValue('token');
+			router.currentRoute.value.query = {
+				redirectTo,
+			};
+			const store = useAuthStore();
+
+			await store.checkCurrentSession();
+
+			expect(location.href).toBe('/');
+		});
+
+		it('redirects to a same-origin redirectTo without the token', async () => {
+			router.currentRoute.value.query = {
+				redirectTo: `${origin}/app/workspace/?x=1`,
+			};
+			const store = useAuthStore();
+
+			await store.onAuthSuccess('token');
+
+			expect(location.href).toBe(`${origin}/app/workspace/?x=1`);
+		});
+
+		it('redirects to the start page without the token', async () => {
+			const store = useAuthStore();
+
+			await store.onAuthSuccess('token');
+
+			expect(location.href).toBe('/');
+			expect(location.href).not.toContain('token');
+		});
 	});
 
 	it('reset clears all credential fields', () => {

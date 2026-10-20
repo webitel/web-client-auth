@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
 import router from '../router/router';
+import { resolveRedirectUrl } from '../utils/resolveRedirectUrl';
 import { useExpiredPasswordStore } from './expiredPassword';
 import { useTfaStore } from './tfa';
 
@@ -73,10 +74,12 @@ export const useAuthStore = defineStore('auth', () => {
 				);
 			}
 
-			const redirectTo = router.currentRoute.value.query?.redirectTo;
-			const redirect = redirectTo
-				? decodeURIComponent(redirectTo as string)
-				: import.meta.env.VITE_START_PAGE_URL;
+			const redirect = resolveRedirectUrl(
+				router.currentRoute.value.query?.redirectTo,
+				{
+					fallback: import.meta.env.VITE_START_PAGE_URL,
+				},
+			);
 
 			if (
 				typeof redirect === 'undefined' ||
@@ -87,9 +90,10 @@ export const useAuthStore = defineStore('auth', () => {
 				);
 			}
 
-			url = redirect.includes('?')
-				? `${redirect}&accessToken=${accessToken}`
-				: `${redirect}?accessToken=${accessToken}`;
+			// [https://webitel.atlassian.net/browse/WTEL-10705]
+			// the token is already in localStorage, shared with every app on this
+			// origin: never put it in the url (history, server logs, Referer)
+			url = redirect;
 		} finally {
 			isRedirecting.value = !import.meta.env.DEV && !!url;
 			if (isRedirecting.value) window.location.href = url;
