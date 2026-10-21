@@ -8,7 +8,7 @@
       <div class="auth-form-wrapper__content">
         <header class="auth-form-wrapper__header">
           <wt-logo :dark-mode="theme === 'dark'" />
-          <wt-dark-mode-switcher />
+          <wt-dark-mode-switcher @changed-mode="appearanceStore.setTheme" />
         </header>
         <h1 class="auth-tabs-title typo-heading-3">{{ currentTab.title }}</h1>
         <component
