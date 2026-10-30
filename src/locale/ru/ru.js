@@ -21,6 +21,8 @@ export default {
 		signIn: 'Войти',
 		login: 'Войти',
 		code: 'Код',
+		maxAttemptsReached:
+			'Достигнуто максимальное количество попыток. Следующая попытка через {time}',
 		enterAuthenticationCode: 'Введите ваш код двухфакторной аутентификации',
 	},
 };

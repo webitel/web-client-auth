@@ -3,6 +3,7 @@ import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mountWithWebitelUi } from '../../../../../tests/utils/mount-with-webitel-ui';
 import { useAuthStore } from '../../../../stores/auth';
+import { useLoginAttemptsStore } from '../../../../stores/loginAttempts';
 import { useSsoStore } from '../../../../stores/sso';
 import { useTfaStore } from '../../../../stores/tfa';
 import LoginFormFields from '../login-form-fields.vue';
@@ -78,6 +79,48 @@ describe('LoginFormFields', () => {
 
 		expect(authStore.domain).toBe('example.com');
 		expect(wrapper.emitted('change-login')).toBeUndefined();
+	});
+
+	it('shows the attempts message and stays invalid while the login is blocked', async () => {
+		const authStore = useAuthStore();
+		authStore.username = 'user@example.com';
+		authStore.password = 'secret';
+		const loginAttemptsStore = useLoginAttemptsStore();
+		loginAttemptsStore.handleError({
+			code: 429,
+			retry_after: 240,
+		});
+
+		const wrapper = mountComponent(2);
+		await wrapper.vm.$nextTick();
+
+		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			true,
+		]);
+
+		loginAttemptsStore.unblockLogin();
+		await wrapper.vm.$nextTick();
+
+		expect(wrapper.text()).not.toContain('auth.maxAttemptsReached');
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			false,
+		]);
+	});
+
+	it('removes the block when the username changes', async () => {
+		const authStore = useAuthStore();
+		authStore.username = 'user@example.com';
+		const loginAttemptsStore = useLoginAttemptsStore();
+		loginAttemptsStore.handleError({
+			code: 429,
+			retry_after: 240,
+		});
+		const wrapper = mountComponent(1);
+
+		await wrapper.find('input').setValue('other@example.com');
+
+		expect(loginAttemptsStore.isLoginBlocked).toBe(false);
 	});
 
 	it('emits invalid-change with the current validation state', async () => {

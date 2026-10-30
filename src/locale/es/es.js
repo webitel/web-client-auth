@@ -21,6 +21,8 @@ export default {
 		signIn: 'Iniciar sesión',
 		login: 'Iniciar sesión',
 		code: 'Código',
+		maxAttemptsReached:
+			'Has alcanzado el número máximo de intentos. Próximo intento en {time}',
 		enterAuthenticationCode:
 			'Ingrese su código de autenticación de dos factores',
 		carousel: {

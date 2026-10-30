@@ -21,6 +21,8 @@ export default {
 		signIn: 'Conectare',
 		login: 'Autentificare',
 		code: 'Cod',
+		maxAttemptsReached:
+			'Ați atins numărul maxim de încercări. Următoarea încercare în {time}',
 		enterAuthenticationCode:
 			'Introduceți codul de autentificare cu doi factori',
 		carousel: {

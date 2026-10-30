@@ -6,6 +6,7 @@ import {
 } from '@webitel/api-services/api/transformers';
 import { ApiLoginResponse } from '@webitel/api-services/gen/models';
 import type { AxiosResponse } from 'axios';
+import { StatusCodes } from 'http-status-codes';
 import instance from '../instance';
 
 export const login = async (credentials) => {
@@ -36,6 +37,9 @@ export const login = async (credentials) => {
 		}
 		return data;
 	} catch (err) {
+		// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
+		// login block is shown inline under the password field, not as a toast
+		if (err.code === StatusCodes.TOO_MANY_REQUESTS) throw err;
 		throw applyTransform(err, [
 			notify,
 		]);
