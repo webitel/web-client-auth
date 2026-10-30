@@ -38,8 +38,9 @@ export const login = async (credentials) => {
 		return data;
 	} catch (err) {
 		// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
-		// login block is shown inline under the password field, not as a toast
-		if (err.code === StatusCodes.TOO_MANY_REQUESTS) throw err;
+		// login block with a timer is shown inline under the password field, not as a toast
+		if (err.code === StatusCodes.TOO_MANY_REQUESTS && err.retry_after > 0)
+			throw err;
 		throw applyTransform(err, [
 			notify,
 		]);

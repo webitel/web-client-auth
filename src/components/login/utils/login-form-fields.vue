@@ -18,7 +18,7 @@
     />
 
     <wt-message
-      v-if="displayPassword && isLoginBlocked"
+      v-if="displayPassword && isCurrentLoginBlocked"
       :color="MessageColor.ERROR"
     >
       <div class="login-form-fields__attempts-message">
@@ -79,8 +79,14 @@ const ssoStore = useSsoStore();
 const { loginOptions } = storeToRefs(ssoStore);
 
 const loginAttemptsStore = useLoginAttemptsStore();
-const { isLoginBlocked, remainingTime } = storeToRefs(loginAttemptsStore);
-const { unblockLogin } = loginAttemptsStore;
+const { isLoginBlocked, remainingTime, blockedUsername } =
+	storeToRefs(loginAttemptsStore);
+
+// [Claude] the block belongs to the login it was issued for:
+// another login isn't blocked, retyping the same one shows the block again
+const isCurrentLoginBlocked = computed(
+	() => isLoginBlocked.value && username.value === blockedUsername.value,
+);
 
 const displayPassword = computed(
 	() => props.activeStep !== 1 && loginOptions?.value !== LoginOptions.SSO_ONLY,
@@ -97,7 +103,8 @@ const rules = computed(() => ({
 		required: requiredIf(displayPassword.value),
 		// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
 		// marks the field red and disables Next while the login is blocked
-		loginNotBlocked: () => !isLoginBlocked.value,
+		loginNotBlocked: () =>
+			!displayPassword.value || !isCurrentLoginBlocked.value,
 	},
 	totp: {
 		required: requiredIf(displayTotp.value),
@@ -136,8 +143,7 @@ watch(
 
 		if (typeof oldValue === 'undefined') return;
 
-		// [Claude] the block belongs to the user it was issued for
-		unblockLogin();
+		password.value = '';
 
 		if (getDomain(oldValue) !== newDomain) {
 			emit('change-login');

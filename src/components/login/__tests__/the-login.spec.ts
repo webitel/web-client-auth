@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { useAuthStore } from '../../../stores/auth';
 import { useExpiredPasswordStore } from '../../../stores/expiredPassword';
+import { useLoginAttemptsStore } from '../../../stores/loginAttempts';
 import { useSsoStore } from '../../../stores/sso';
 import { useTfaStore } from '../../../stores/tfa';
 import TheLogin from '../the-login.vue';
@@ -161,6 +162,27 @@ describe('TheLogin', () => {
 		await wrapper.find('button').trigger('click'); // step 3 -> submit
 
 		expect(wrapper.emitted('submit')).toHaveLength(1);
+	});
+
+	it('resets the login block on "next" with another login', async () => {
+		const authStore = useAuthStore();
+		authStore.username = 'other@example.com';
+		const ssoStore = useSsoStore();
+		vi.spyOn(ssoStore, 'checkDomain').mockResolvedValue(undefined);
+		const loginAttemptsStore = useLoginAttemptsStore();
+		loginAttemptsStore.handleError(
+			{
+				code: 429,
+				retry_after: 60,
+			},
+			'user@example.com',
+		);
+
+		const wrapper = mountComponent();
+		await wrapper.vm.$nextTick();
+		await wrapper.find('button').trigger('click');
+
+		expect(loginAttemptsStore.isLoginBlocked).toBe(false);
 	});
 
 	it('emits change-tab with register when the create-account link is clicked', async () => {

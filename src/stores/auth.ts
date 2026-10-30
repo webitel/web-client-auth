@@ -37,7 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
 			});
 		} catch (error) {
 			handleError(error);
-			handleLoginAttemptsError(error);
+			handleLoginAttemptsError(error, username.value);
 			throw error;
 		}
 	}
