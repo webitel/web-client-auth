@@ -44,7 +44,7 @@ export const useTfaStore = defineStore('tfa', () => {
 			clearExpiredPasswordState();
 		} catch (error) {
 			handleError(error);
-			handleLoginAttemptsError(error);
+			handleLoginAttemptsError(error, username);
 			throw error;
 		}
 	}
