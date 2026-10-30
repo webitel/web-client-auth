@@ -3,6 +3,7 @@ import { setActivePinia } from 'pinia';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mountWithWebitelUi } from '../../../../../tests/utils/mount-with-webitel-ui';
 import { useAuthStore } from '../../../../stores/auth';
+import { useLoginAttemptsStore } from '../../../../stores/loginAttempts';
 import { useSsoStore } from '../../../../stores/sso';
 import { useTfaStore } from '../../../../stores/tfa';
 import LoginFormFields from '../login-form-fields.vue';
@@ -69,6 +70,17 @@ describe('LoginFormFields', () => {
 		expect(wrapper.emitted('change-login')).toHaveLength(1);
 	});
 
+	it('clears the password when the login changes', async () => {
+		const authStore = useAuthStore();
+		authStore.username = 'user@example.com';
+		authStore.password = 'secret';
+		const wrapper = mountComponent(2);
+
+		await wrapper.find('input').setValue('admin@example.com');
+
+		expect(authStore.password).toBe('');
+	});
+
 	it('does not emit change-login when the domain stays the same', async () => {
 		const authStore = useAuthStore();
 		authStore.username = 'user@example.com';
@@ -78,6 +90,65 @@ describe('LoginFormFields', () => {
 
 		expect(authStore.domain).toBe('example.com');
 		expect(wrapper.emitted('change-login')).toBeUndefined();
+	});
+
+	const blockLogin = () => {
+		const authStore = useAuthStore();
+		authStore.username = 'user@example.com';
+		authStore.password = 'secret';
+		useLoginAttemptsStore().handleError(
+			{
+				code: 429,
+				retry_after: 240,
+			},
+			'user@example.com',
+		);
+	};
+
+	it('shows the attempts message and stays invalid while the login is blocked', async () => {
+		blockLogin();
+
+		const wrapper = mountComponent(2);
+		await wrapper.vm.$nextTick();
+
+		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			true,
+		]);
+	});
+
+	it('does not block "next" on step 1 for the blocked login', async () => {
+		blockLogin();
+
+		const wrapper = mountComponent(1);
+		await wrapper.vm.$nextTick();
+
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			false,
+		]);
+	});
+
+	it('does not block another login', async () => {
+		blockLogin();
+		const wrapper = mountComponent(2);
+
+		await wrapper.find('input').setValue('other@example.com');
+		await wrapper.find('input[type="password"]').setValue('other-secret');
+
+		expect(wrapper.text()).not.toContain('auth.maxAttemptsReached');
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			false,
+		]);
+	});
+
+	it('shows the block again when the same login is typed again', async () => {
+		blockLogin();
+		const wrapper = mountComponent(2);
+
+		await wrapper.find('input').setValue('user@example.co');
+		await wrapper.find('input').setValue('user@example.com');
+
+		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
 	});
 
 	it('emits invalid-change with the current validation state', async () => {

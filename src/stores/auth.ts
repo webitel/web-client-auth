@@ -5,6 +5,7 @@ import AuthAPI from '../api/auth/auth';
 import router from '../router/router';
 import { resolveRedirectUrl } from '../utils/resolveRedirectUrl';
 import { useExpiredPasswordStore } from './expiredPassword';
+import { useLoginAttemptsStore } from './loginAttempts';
 import { useTfaStore } from './tfa';
 
 const cached = JSON.parse(localStorage.getItem('auth') ?? '{}');
@@ -21,6 +22,9 @@ export const useAuthStore = defineStore('auth', () => {
 	const expiredPasswordStore = useExpiredPasswordStore();
 	const { handleError } = expiredPasswordStore;
 
+	const loginAttemptsStore = useLoginAttemptsStore();
+	const { handleError: handleLoginAttemptsError } = loginAttemptsStore;
+
 	const tfaStore = useTfaStore();
 	const { sessionId } = storeToRefs(tfaStore);
 	const { login2fa } = tfaStore;
@@ -33,6 +37,7 @@ export const useAuthStore = defineStore('auth', () => {
 			});
 		} catch (error) {
 			handleError(error);
+			handleLoginAttemptsError(error, username.value);
 			throw error;
 		}
 	}

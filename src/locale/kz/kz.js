@@ -21,6 +21,8 @@ export default {
 		signIn: 'Кіру',
 		login: 'Кіру',
 		code: 'Код',
+		maxAttemptsReached:
+			'Әрекеттердің ең көп санына жеттіңіз. Келесі әрекет {time} кейін',
 		enterAuthenticationCode: 'Екі факторлы аутентификация кодын енгізіңіз',
 		carousel: {
 			title1: 'Бұлт және Он-сайтқа',
