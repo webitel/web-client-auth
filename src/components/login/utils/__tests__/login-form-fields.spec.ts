@@ -151,6 +151,20 @@ describe('LoginFormFields', () => {
 		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
 	});
 
+	it('allows one more attempt after the password is edited while blocked', async () => {
+		blockLogin();
+		const wrapper = mountComponent(2);
+		const passwordInput = wrapper.find('input[type="password"]');
+
+		await passwordInput.setValue('secre');
+		await passwordInput.setValue('secret');
+
+		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
+		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
+			false,
+		]);
+	});
+
 	it('emits invalid-change with the current validation state', async () => {
 		const wrapper = mountComponent(1);
 		await wrapper.vm.$nextTick();
