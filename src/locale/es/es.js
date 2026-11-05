@@ -22,7 +22,7 @@ export default {
 		login: 'Iniciar sesión',
 		code: 'Código',
 		maxAttemptsReached:
-			'Has alcanzado el número máximo de intentos. Próximo intento en {time}',
+			'Has alcanzado el número máximo de intentos. Próximo intento en',
 		enterAuthenticationCode:
 			'Ingrese su código de autenticación de dos factores',
 		carousel: {

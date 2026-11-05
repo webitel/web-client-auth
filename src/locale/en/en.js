@@ -25,7 +25,7 @@ export default {
 		login: 'Log in',
 		code: 'Code',
 		maxAttemptsReached:
-			'You have reached the maximum number of attempts. Next attempt in {time}',
+			'You have reached the maximum number of attempts. Next attempt in',
 		carousel: {
 			title1: 'Cloud vs. On-Site',
 			text1:

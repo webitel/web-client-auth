@@ -21,8 +21,7 @@ export default {
 		signIn: 'Đăng nhập',
 		login: 'Đăng nhập',
 		code: 'Mã',
-		maxAttemptsReached:
-			'Bạn đã đạt số lần thử tối đa. Lần thử tiếp theo sau {time}',
+		maxAttemptsReached: 'Bạn đã đạt số lần thử tối đa. Lần thử tiếp theo sau',
 		enterAuthenticationCode: 'Nhập mã xác thực hai lớp',
 		carousel: {
 			title1: 'Đám mây vs. Tại chỗ',

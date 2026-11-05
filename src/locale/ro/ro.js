@@ -22,7 +22,7 @@ export default {
 		login: 'Autentificare',
 		code: 'Cod',
 		maxAttemptsReached:
-			'Ați atins numărul maxim de încercări. Următoarea încercare în {time}',
+			'Ați atins numărul maxim de încercări. Următoarea încercare în',
 		enterAuthenticationCode:
 			'Introduceți codul de autentificare cu doi factori',
 		carousel: {
