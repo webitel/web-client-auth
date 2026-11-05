@@ -79,7 +79,7 @@ const ssoStore = useSsoStore();
 const { loginOptions } = storeToRefs(ssoStore);
 
 const loginAttemptsStore = useLoginAttemptsStore();
-const { isLoginBlocked, remainingTime, blockedUsername } =
+const { isLoginBlocked, remainingTime, blockedUsername, isRetryAllowed } =
 	storeToRefs(loginAttemptsStore);
 
 // [Claude] the block belongs to the login it was issued for:
@@ -102,9 +102,12 @@ const rules = computed(() => ({
 	password: {
 		required: requiredIf(displayPassword.value),
 		// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
-		// marks the field red and disables Next while the login is blocked
+		// marks the field red and disables Next while the login is blocked,
+		// until the user edits login/password to retry and get a fresh retry_after
 		loginNotBlocked: () =>
-			!displayPassword.value || !isCurrentLoginBlocked.value,
+			!displayPassword.value ||
+			!isCurrentLoginBlocked.value ||
+			isRetryAllowed.value,
 	},
 	totp: {
 		required: requiredIf(displayTotp.value),
@@ -151,6 +154,18 @@ watch(
 	},
 	{
 		immediate: true,
+	},
+);
+
+// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
+// any edit after the block (even delete + retype a char) unlocks one more attempt
+watch(
+	[
+		username,
+		password,
+	],
+	() => {
+		if (isLoginBlocked.value) isRetryAllowed.value = true;
 	},
 );
 
