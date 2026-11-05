@@ -22,7 +22,7 @@ export default {
 		login: 'Kirish',
 		code: 'Kod',
 		maxAttemptsReached:
-			'Urinishlarning maksimal soniga yetdingiz. Keyingi urinish {time} dan keyin',
+			'Urinishlarning maksimal soniga yetdingiz. Keyingi urinish dan keyin',
 		enterAuthenticationCode: 'Ikki bosqichli autentifikatsiya kodini kiriting',
 		carousel: {
 			title1: 'Bulut va Mahalliy',

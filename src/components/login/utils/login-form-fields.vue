@@ -26,7 +26,10 @@
           icon="attention"
           :color="IconColor.ERROR"
         />
-        {{ t('auth.maxAttemptsReached', { time: remainingTime }) }}
+        <p>
+          {{ t('auth.maxAttemptsReached') }}
+          <span class="typo-body-1-bold">{{ remainingTime }}</span>
+        </p>
       </div>
     </wt-message>
 
