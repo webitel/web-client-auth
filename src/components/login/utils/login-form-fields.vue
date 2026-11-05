@@ -159,9 +159,15 @@ watch(
 
 // [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
 // any edit after the block (even delete + retype a char) unlocks one more attempt
-watch([username, password], () => {
-	if (isLoginBlocked.value) isRetryAllowed.value = true;
-});
+watch(
+	[
+		username,
+		password,
+	],
+	() => {
+		if (isLoginBlocked.value) isRetryAllowed.value = true;
+	},
+);
 
 onMounted(() => {
 	v$.value.$touch();
