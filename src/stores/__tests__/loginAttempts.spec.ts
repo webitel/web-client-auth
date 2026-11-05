@@ -102,6 +102,50 @@ describe('useLoginAttemptsStore', () => {
 		expect(store.isLoginBlocked).toBe(false);
 	});
 
+	it('restarts the timer with a fresh retry_after and locks retry again', () => {
+		const store = useLoginAttemptsStore();
+		store.handleError(
+			{
+				code: 429,
+				retry_after: 900,
+			},
+			'user@example.com',
+		);
+		store.isRetryAllowed = true;
+		expect(store.isRetryAllowed).toBe(true);
+
+		store.handleError(
+			{
+				code: 429,
+				retry_after: 60,
+			},
+			'user@example.com',
+		);
+
+		expect(store.remainingTime).toBe('01:00');
+		expect(store.isRetryAllowed).toBe(false);
+	});
+
+	it('stops the block when the blocked login gets another error', () => {
+		const store = useLoginAttemptsStore();
+		store.handleError(
+			{
+				code: 429,
+				retry_after: 60,
+			},
+			'user@example.com',
+		);
+
+		store.handleError(
+			{
+				code: 401,
+			},
+			'user@example.com',
+		);
+
+		expect(store.isLoginBlocked).toBe(false);
+	});
+
 	it('ignores other errors', () => {
 		const store = useLoginAttemptsStore();
 
