@@ -10,11 +10,6 @@ export const useLoginAttemptsStore = defineStore('loginAttempts', () => {
 	// [Claude] the login the block was issued for
 	const blockedUsername = ref('');
 
-	// [Claude] [https://webitel.atlassian.net/browse/WTEL-10763]
-	// the user edited login/password after the block: Next sends one more
-	// POST /login, so the backend returns a fresh retry_after (block_login_time may have changed)
-	const isRetryAllowed = ref(false);
-
 	const isLoginBlocked = computed(() => remainingSeconds.value > 0);
 
 	const remainingTime = computed(() =>
@@ -27,7 +22,6 @@ export const useLoginAttemptsStore = defineStore('loginAttempts', () => {
 	function handleError(error, username: string) {
 		if (error.code === StatusCodes.TOO_MANY_REQUESTS && error.retry_after > 0) {
 			blockedUsername.value = username;
-			isRetryAllowed.value = false;
 			start(error.retry_after);
 			return;
 		}
@@ -45,7 +39,6 @@ export const useLoginAttemptsStore = defineStore('loginAttempts', () => {
 		isLoginBlocked,
 		remainingTime,
 		blockedUsername,
-		isRetryAllowed,
 
 		handleError,
 		resetBlockForOtherLogin,
