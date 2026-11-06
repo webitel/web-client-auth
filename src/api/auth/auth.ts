@@ -100,6 +100,24 @@ export const getPasswordSettings = async (credentials) => {
 	}
 };
 
+export const generatePassword = async (
+	credentials,
+): Promise<{
+	password?: string;
+}> => {
+	const url = '/users/password/generate';
+	try {
+		const response = await instance.post(url, credentials);
+		return applyTransform(response.data, [
+			snakeToCamel(),
+		]);
+	} catch (err) {
+		throw applyTransform(err, [
+			notify,
+		]);
+	}
+};
+
 export const register = async (credentials) => {
 	const url = '/signup';
 	const options = applyTransform(credentials, [
@@ -221,6 +239,7 @@ const AuthAPI = {
 	register,
 	changePassword,
 	getPasswordSettings,
+	generatePassword,
 	checkCurrentSession,
 	checkDomainExistence,
 };
