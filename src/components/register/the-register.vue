@@ -22,6 +22,8 @@
           name="password"
           :label="t('auth.password')"
           :v="v$.password"
+          :actions="[PasswordAction.Copy, PasswordAction.Generate, PasswordAction.Toggle]"
+          @click:generate="generateRegisterPassword"
         />
 
         <wt-password
@@ -57,6 +59,8 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, sameAs } from '@vuelidate/validators';
+import { PasswordAction } from '@webitel/ui-sdk/enums';
+import { generatePassword } from '@webitel/ui-sdk/scripts';
 import domainValidator from '@webitel/ui-sdk/validators/domainValidator';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted } from 'vue';
@@ -82,6 +86,14 @@ const authStore = useAuthStore();
 const { domain, username, password, confirmPassword, certificate } =
 	storeToRefs(authStore);
 const { reset } = authStore;
+
+const generateRegisterPassword = () => {
+	password.value = generatePassword({
+		exclude: [
+			username.value,
+		],
+	});
+};
 
 const v$ = useVuelidate(
 	computed(() => ({
