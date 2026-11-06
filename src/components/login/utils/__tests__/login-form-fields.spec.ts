@@ -151,7 +151,8 @@ describe('LoginFormFields', () => {
 		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
 	});
 
-	it('allows one more attempt after the password is edited while blocked', async () => {
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-10930]
+	it('keeps "next" blocked after the password is edited while blocked', async () => {
 		blockLogin();
 		const wrapper = mountComponent(2);
 		const passwordInput = wrapper.find('input[type="password"]');
@@ -161,7 +162,7 @@ describe('LoginFormFields', () => {
 
 		expect(wrapper.text()).toContain('auth.maxAttemptsReached');
 		expect(wrapper.emitted('invalid-change')?.at(-1)).toEqual([
-			false,
+			true,
 		]);
 	});
 
