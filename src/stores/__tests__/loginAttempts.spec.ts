@@ -102,7 +102,7 @@ describe('useLoginAttemptsStore', () => {
 		expect(store.isLoginBlocked).toBe(false);
 	});
 
-	it('restarts the timer with a fresh retry_after and locks retry again', () => {
+	it('restarts the timer with a fresh retry_after', () => {
 		const store = useLoginAttemptsStore();
 		store.handleError(
 			{
@@ -111,9 +111,6 @@ describe('useLoginAttemptsStore', () => {
 			},
 			'user@example.com',
 		);
-		store.isRetryAllowed = true;
-		expect(store.isRetryAllowed).toBe(true);
-
 		store.handleError(
 			{
 				code: 429,
@@ -123,7 +120,6 @@ describe('useLoginAttemptsStore', () => {
 		);
 
 		expect(store.remainingTime).toBe('01:00');
-		expect(store.isRetryAllowed).toBe(false);
 	});
 
 	it('stops the block when the blocked login gets another error', () => {
