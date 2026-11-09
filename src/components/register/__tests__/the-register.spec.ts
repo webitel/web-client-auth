@@ -8,20 +8,6 @@ import { useAuthStore } from '../../../stores/auth';
 import TheRegister from '../the-register.vue';
 
 // [Claude] [https://webitel.atlassian.net/browse/WTEL-10807]
-// TODO: remove after the ui-sdk release with PasswordAction (the installed version doesn't have it yet)
-vi.mock('@webitel/ui-sdk/enums', async (importOriginal) => {
-	const original = await importOriginal<Record<string, unknown>>();
-	return {
-		...original,
-		PasswordAction: original.PasswordAction ?? {
-			Copy: 'copy',
-			Generate: 'generate',
-			Toggle: 'toggle',
-		},
-	};
-});
-
-// [Claude] [https://webitel.atlassian.net/browse/WTEL-10807]
 vi.mock('@webitel/ui-sdk/scripts', async (importOriginal) => ({
 	...(await importOriginal<Record<string, unknown>>()),
 	generatePassword: vi.fn(() => 'Generated1!'),

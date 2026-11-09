@@ -10,20 +10,6 @@ import { useExpiredPasswordStore } from '../../../../stores/expiredPassword';
 import { useTfaStore } from '../../../../stores/tfa';
 import LoginChangePassword from '../login-change-password.vue';
 
-// [Claude] [https://webitel.atlassian.net/browse/WTEL-10807]
-// TODO: remove after the ui-sdk release with PasswordAction (the installed version doesn't have it yet)
-vi.mock('@webitel/ui-sdk/enums', async (importOriginal) => {
-	const original = await importOriginal<Record<string, unknown>>();
-	return {
-		...original,
-		PasswordAction: original.PasswordAction ?? {
-			Copy: 'copy',
-			Generate: 'generate',
-			Toggle: 'toggle',
-		},
-	};
-});
-
 vi.mock('../../../../api/auth/auth', () => ({
 	default: {
 		getPasswordSettings: vi.fn(),
