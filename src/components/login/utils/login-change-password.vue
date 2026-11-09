@@ -15,7 +15,9 @@
             name="password"
             :label="t('auth.newPassword')"
             :v="v$.newPassword"
+            :actions="[PasswordAction.Copy, PasswordAction.Generate, PasswordAction.Toggle]"
             autocomplete
+            :generator="generateNewPassword"
           />
 
           <wt-password
@@ -49,6 +51,7 @@
 <script lang="ts" setup>
 import { useVuelidate } from '@vuelidate/core';
 import { helpers, required, sameAs } from '@vuelidate/validators';
+import { PasswordAction } from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -111,6 +114,15 @@ const loadPasswordSettings = async (): Promise<void> => {
 	});
 
 	passwordSettings.value = settings as PasswordSettings;
+};
+
+const generateNewPassword = async (): Promise<string> => {
+	const { password: generated } = await AuthAPI.generatePassword({
+		domain: domain.value,
+		username: username.value,
+		password: password.value,
+	});
+	return generated || newPassword.value;
 };
 
 const regExpSettings = computed(() => {
