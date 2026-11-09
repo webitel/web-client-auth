@@ -23,7 +23,7 @@
           :label="t('auth.password')"
           :v="v$.password"
           :actions="[PasswordAction.Copy, PasswordAction.Generate, PasswordAction.Toggle]"
-          @click:generate="generateRegisterPassword"
+          :generator="() => generatePassword({ exclude: [username] })"
         />
 
         <wt-password
@@ -86,14 +86,6 @@ const authStore = useAuthStore();
 const { domain, username, password, confirmPassword, certificate } =
 	storeToRefs(authStore);
 const { reset } = authStore;
-
-const generateRegisterPassword = () => {
-	password.value = generatePassword({
-		exclude: [
-			username.value,
-		],
-	});
-};
 
 const v$ = useVuelidate(
 	computed(() => ({

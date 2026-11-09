@@ -17,7 +17,7 @@
             :v="v$.newPassword"
             :actions="[PasswordAction.Copy, PasswordAction.Generate, PasswordAction.Toggle]"
             autocomplete
-            @click:generate="generateNewPassword"
+            :generator="generateNewPassword"
           />
 
           <wt-password
@@ -116,15 +116,13 @@ const loadPasswordSettings = async (): Promise<void> => {
 	passwordSettings.value = settings as PasswordSettings;
 };
 
-const generateNewPassword = async () => {
-	try {
-		const { password: generated } = await AuthAPI.generatePassword({
-			domain: domain.value,
-			username: username.value,
-			password: password.value,
-		});
-		if (generated) newPassword.value = generated;
-	} catch {}
+const generateNewPassword = async (): Promise<string> => {
+	const { password: generated } = await AuthAPI.generatePassword({
+		domain: domain.value,
+		username: username.value,
+		password: password.value,
+	});
+	return generated || newPassword.value;
 };
 
 const regExpSettings = computed(() => {

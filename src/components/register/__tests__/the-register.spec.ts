@@ -131,20 +131,22 @@ describe('TheRegister', () => {
 			expect(confirmField.props('actions')).toEqual([]);
 		});
 
-		it('sets a locally generated password without the login', async () => {
+		// [Claude] wt-password itself sets the generator result to v-model
+		it('passes a local generator that excludes the login', () => {
 			const authStore = useAuthStore();
 			authStore.username = 'user';
 
 			const wrapper = mountWithPasswordStub();
-			wrapper.findAllComponents(WtPasswordStub)[0].vm.$emit('click:generate');
-			await wrapper.vm.$nextTick();
+			const generator = wrapper
+				.findAllComponents(WtPasswordStub)[0]
+				.props('generator');
 
+			expect(generator()).toBe('Generated1!');
 			expect(generatePassword).toHaveBeenCalledWith({
 				exclude: [
 					'user',
 				],
 			});
-			expect(authStore.password).toBe('Generated1!');
 		});
 	});
 });
