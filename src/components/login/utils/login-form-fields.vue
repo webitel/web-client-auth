@@ -23,7 +23,9 @@
     >
       <div class="login-form-fields__attempts-message">
         <wt-icon
+          class="login-form-fields__attempts-icon"
           icon="attention"
+          :size="ComponentSize.MD"
           :color="IconColor.ERROR"
         />
         <p>
@@ -44,7 +46,12 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
-import { IconColor, LoginOptions, MessageColor } from '@webitel/ui-sdk/enums';
+import {
+	ComponentSize,
+	IconColor,
+	LoginOptions,
+	MessageColor,
+} from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -174,5 +181,9 @@ useNextOnEnter(() => !v$.value.$invalid && emit('next'));
 .login-form-fields__attempts-message {
   display: flex;
   gap: var(--spacing-xs);
+}
+
+.login-form-fields__attempts-icon {
+  flex-shrink: 0;
 }
 </style>
