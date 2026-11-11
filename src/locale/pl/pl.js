@@ -20,6 +20,7 @@ export default {
 		signIn: 'Zaloguj się',
 		login: 'Zaloguj się',
 		code: 'Kod',
+		maxAttemptsReached: 'Osiągnięto maksymalną liczbę prób. Następna próba za',
 		enterAuthenticationCode: 'Wprowadź kod uwierzytelniania dwuskładnikowego',
 		carousel: {
 			title1: 'Chmura vs. Lokalnie',

@@ -3,6 +3,7 @@ import { ref } from 'vue';
 
 import AuthAPI from '../api/auth/auth';
 import { useExpiredPasswordStore } from './expiredPassword';
+import { useLoginAttemptsStore } from './loginAttempts';
 
 export const useTfaStore = defineStore('tfa', () => {
 	const sessionId = ref('');
@@ -11,6 +12,9 @@ export const useTfaStore = defineStore('tfa', () => {
 
 	const expiredPasswordStore = useExpiredPasswordStore();
 	const { handleError, clearExpiredPasswordState } = expiredPasswordStore;
+
+	const loginAttemptsStore = useLoginAttemptsStore();
+	const { handleError: handleLoginAttemptsError } = loginAttemptsStore;
 
 	async function login2fa() {
 		try {
@@ -40,6 +44,7 @@ export const useTfaStore = defineStore('tfa', () => {
 			clearExpiredPasswordState();
 		} catch (error) {
 			handleError(error);
+			handleLoginAttemptsError(error, username);
 			throw error;
 		}
 	}

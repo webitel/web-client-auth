@@ -46,6 +46,7 @@ import { useI18n } from 'vue-i18n';
 import { AuthMode } from '../../enums/AuthMode.enum';
 import { useAuthStore } from '../../stores/auth';
 import { useExpiredPasswordStore } from '../../stores/expiredPassword';
+import { useLoginAttemptsStore } from '../../stores/loginAttempts';
 import { useSsoStore } from '../../stores/sso';
 import { useTfaStore } from '../../stores/tfa';
 import AuthWrapper from '../_shared/auth-wrapper.vue';
@@ -82,6 +83,8 @@ const { executeOnlySsoProvider, checkDomain } = ssoStore;
 
 const expiredPasswordStore = useExpiredPasswordStore();
 const { isExpiredPassword } = storeToRefs(expiredPasswordStore);
+
+const { resetBlockForOtherLogin } = useLoginAttemptsStore();
 
 const steps = computed(() => {
 	const stepsArray = [
@@ -120,6 +123,8 @@ const changeLogin = () => {
 };
 
 const goNextStep = async () => {
+	resetBlockForOtherLogin(username.value);
+
 	if (activeStep.value === 1) {
 		let isAuthenticated = false;
 		try {

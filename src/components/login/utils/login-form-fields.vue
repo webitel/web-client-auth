@@ -17,6 +17,24 @@
       autocomplete
     />
 
+    <wt-message
+      v-if="displayPassword && isCurrentLoginBlocked"
+      :color="MessageColor.ERROR"
+    >
+      <div class="login-form-fields__attempts-message">
+        <wt-icon
+          class="login-form-fields__attempts-icon"
+          icon="attention"
+          :size="ComponentSize.MD"
+          :color="IconColor.ERROR"
+        />
+        <p>
+          {{ t('auth.maxAttemptsReached') }}
+          <span class="typo-body-1-bold">{{ remainingTime }}</span>
+        </p>
+      </div>
+    </wt-message>
+
     <wt-input-text
       v-if="displayTotp"
       v-model.trim="totp"
@@ -28,12 +46,18 @@
 <script setup lang="ts">
 import { useVuelidate } from '@vuelidate/core';
 import { required, requiredIf } from '@vuelidate/validators';
-import { LoginOptions } from '@webitel/ui-sdk/enums';
+import {
+	ComponentSize,
+	IconColor,
+	LoginOptions,
+	MessageColor,
+} from '@webitel/ui-sdk/enums';
 import { storeToRefs } from 'pinia';
 import { computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useNextOnEnter } from '../../../composables/useNextOnEnter';
 import { useAuthStore } from '../../../stores/auth';
+import { useLoginAttemptsStore } from '../../../stores/loginAttempts';
 import { useSsoStore } from '../../../stores/sso';
 import { useTfaStore } from '../../../stores/tfa';
 import { loginValidator } from '../../../validations/validators';
@@ -64,6 +88,16 @@ const { totp, enabledTfa } = storeToRefs(tfaStore);
 const ssoStore = useSsoStore();
 const { loginOptions } = storeToRefs(ssoStore);
 
+const loginAttemptsStore = useLoginAttemptsStore();
+const { isLoginBlocked, remainingTime, blockedUsername } =
+	storeToRefs(loginAttemptsStore);
+
+// [Claude] the block belongs to the login it was issued for:
+// another login isn't blocked, retyping the same one shows the block again
+const isCurrentLoginBlocked = computed(
+	() => isLoginBlocked.value && username.value === blockedUsername.value,
+);
+
 const displayPassword = computed(
 	() => props.activeStep !== 1 && loginOptions?.value !== LoginOptions.SSO_ONLY,
 );
@@ -77,6 +111,11 @@ const rules = computed(() => ({
 	},
 	password: {
 		required: requiredIf(displayPassword.value),
+		// [Claude] [https://webitel.atlassian.net/browse/WTEL-10930]
+		// marks the field red and disables Next until the block timer ends,
+		// editing the password doesn't unlock it
+		loginNotBlocked: () =>
+			!displayPassword.value || !isCurrentLoginBlocked.value,
 	},
 	totp: {
 		required: requiredIf(displayTotp.value),
@@ -115,6 +154,8 @@ watch(
 
 		if (typeof oldValue === 'undefined') return;
 
+		password.value = '';
+
 		if (getDomain(oldValue) !== newDomain) {
 			emit('change-login');
 		}
@@ -135,5 +176,14 @@ useNextOnEnter(() => !v$.value.$invalid && emit('next'));
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
+}
+
+.login-form-fields__attempts-message {
+  display: flex;
+  gap: var(--spacing-xs);
+}
+
+.login-form-fields__attempts-icon {
+  flex-shrink: 0;
 }
 </style>
