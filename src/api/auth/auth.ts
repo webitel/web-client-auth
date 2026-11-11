@@ -87,9 +87,7 @@ export const changePassword = async (data) => {
 export const getPasswordSettings = async (credentials) => {
 	const url = 'users/password/settings';
 	try {
-		const response = await instance.get(url, {
-			params: credentials,
-		});
+		const response = await instance.post(url, credentials);
 		return applyTransform(response.data, [
 			snakeToCamel(),
 		]);
