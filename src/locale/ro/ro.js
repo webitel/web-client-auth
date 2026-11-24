@@ -1,5 +1,6 @@
 export default {
 	auth: {
+		recordDebugLogs: 'Înregistrează jurnale de depanare',
 		register: 'Înregistrare',
 		titleRegistration: 'Creați un cont Webitel',
 		enterDomain: 'Introduceți numele domeniului dvs.',

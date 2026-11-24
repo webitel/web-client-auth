@@ -1,5 +1,6 @@
 export default {
 	auth: {
+		recordDebugLogs: 'Ghi nhật ký gỡ lỗi',
 		register: 'Đăng ký',
 		titleRegistration: 'Tạo tài khoản Webitel',
 		enterDomain: 'Nhập tên miền',

@@ -1,5 +1,6 @@
 export default {
 	auth: {
+		recordDebugLogs: 'Ақаулар журналын жазу',
 		register: 'Тіркеу',
 		titleRegistration: 'Webitel аккаунтын құру',
 		enterDomain: 'Домен енгізіңіз',
