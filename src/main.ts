@@ -1,3 +1,5 @@
+// must stay the first import: wraps console/WebSocket/RTCPeerConnection before the SDK loads
+import './debug-recorder';
 import { setConfig as setApiServicesConfig } from '@webitel/api-services';
 import { setDefaultAxiosInstance } from '@webitel/api-services/api/axios';
 import { eventBus } from '@webitel/ui-sdk/scripts';
