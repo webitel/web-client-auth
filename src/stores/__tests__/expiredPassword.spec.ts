@@ -45,6 +45,33 @@ describe('useExpiredPasswordStore', () => {
 		expect(store.reasonExpiredPassword).toBe(ExpiredPasswordReason.Expired);
 	});
 
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('stores the password change token from the 412 error', () => {
+		const store = useExpiredPasswordStore();
+
+		store.handleError({
+			code: 412,
+			id: 'app.password.force_change',
+			password_change_token: 'change-token',
+		});
+
+		expect(store.passwordChangeToken).toBe('change-token');
+	});
+
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('drops the password change token when the expired state is cleared', () => {
+		const store = useExpiredPasswordStore();
+		store.handleError({
+			code: 412,
+			id: 'app.password.expired',
+			password_change_token: 'change-token',
+		});
+
+		store.clearExpiredPasswordState();
+
+		expect(store.passwordChangeToken).toBe('');
+	});
+
 	it('ignores unrelated errors', () => {
 		const store = useExpiredPasswordStore();
 

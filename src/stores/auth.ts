@@ -21,6 +21,7 @@ export const useAuthStore = defineStore('auth', () => {
 
 	const expiredPasswordStore = useExpiredPasswordStore();
 	const { handleError } = expiredPasswordStore;
+	const { passwordChangeToken } = storeToRefs(expiredPasswordStore);
 
 	const loginAttemptsStore = useLoginAttemptsStore();
 	const { handleError: handleLoginAttemptsError } = loginAttemptsStore;
@@ -107,13 +108,12 @@ export const useAuthStore = defineStore('auth', () => {
 
 	async function changePassword() {
 		await AuthAPI.changePassword({
-			confirm_password: confirmPassword.value,
-			old_password: password.value,
+			password_change_token: passwordChangeToken.value,
 			user_password: newPassword.value,
-			username: username.value,
-			domain: domain.value,
+			confirm_password: confirmPassword.value,
 		});
 		password.value = newPassword.value;
+		passwordChangeToken.value = '';
 	}
 
 	function reset() {

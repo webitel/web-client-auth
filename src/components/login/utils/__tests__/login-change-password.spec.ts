@@ -52,6 +52,19 @@ describe('LoginChangePassword', () => {
 		expect(wrapper.text()).toContain('auth.expiredPasswordMessage');
 	});
 
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('loads password settings with the password change token', async () => {
+		const expiredPasswordStore = useExpiredPasswordStore();
+		expiredPasswordStore.passwordChangeToken = 'change-token';
+
+		const wrapper = mountComponent();
+		await wrapper.vm.$nextTick();
+
+		expect(AuthAPI.getPasswordSettings).toHaveBeenCalledWith({
+			password_change_token: 'change-token',
+		});
+	});
+
 	it('goes back to login when the back button is clicked', async () => {
 		const expiredPasswordStore = useExpiredPasswordStore();
 		expiredPasswordStore.isExpiredPassword = true;
@@ -138,10 +151,9 @@ describe('LoginChangePassword', () => {
 
 		// [Claude] wt-password itself sets the generator result to v-model
 		it('passes a generator that returns the password by the domain policies via api', async () => {
-			const authStore = useAuthStore();
-			authStore.domain = 'example.com';
-			authStore.username = 'user@example.com';
-			authStore.password = 'temporary';
+			// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+			const expiredPasswordStore = useExpiredPasswordStore();
+			expiredPasswordStore.passwordChangeToken = 'change-token';
 			vi.mocked(AuthAPI.generatePassword).mockResolvedValue({
 				password: 'Generated1!',
 			});
@@ -153,9 +165,7 @@ describe('LoginChangePassword', () => {
 			await expect(generator()).resolves.toBe('Generated1!');
 
 			expect(AuthAPI.generatePassword).toHaveBeenCalledWith({
-				domain: 'example.com',
-				username: 'user@example.com',
-				password: 'temporary',
+				password_change_token: 'change-token',
 			});
 		});
 

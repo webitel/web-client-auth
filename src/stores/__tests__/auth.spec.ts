@@ -71,8 +71,11 @@ describe('useAuthStore', () => {
 		});
 	});
 
-	it('changePassword sends the mapped fields and updates the current password', async () => {
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('changePassword sends the password change token and updates the current password', async () => {
 		vi.mocked(AuthAPI.changePassword).mockResolvedValue(undefined);
+		const expiredPasswordStore = useExpiredPasswordStore();
+		expiredPasswordStore.passwordChangeToken = 'change-token';
 		const store = useAuthStore();
 		store.username = 'user@example.com';
 		store.domain = 'example.com';
@@ -83,13 +86,24 @@ describe('useAuthStore', () => {
 		await store.changePassword();
 
 		expect(AuthAPI.changePassword).toHaveBeenCalledWith({
-			confirm_password: 'new-pass',
-			old_password: 'old-pass',
+			password_change_token: 'change-token',
 			user_password: 'new-pass',
-			username: 'user@example.com',
-			domain: 'example.com',
+			confirm_password: 'new-pass',
 		});
 		expect(store.password).toBe('new-pass');
+		expect(expiredPasswordStore.passwordChangeToken).toBe('');
+	});
+
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('changePassword keeps the token when the api fails', async () => {
+		vi.mocked(AuthAPI.changePassword).mockRejectedValue(new Error('weak'));
+		const expiredPasswordStore = useExpiredPasswordStore();
+		expiredPasswordStore.passwordChangeToken = 'change-token';
+		const store = useAuthStore();
+
+		await expect(store.changePassword()).rejects.toThrow('weak');
+
+		expect(expiredPasswordStore.passwordChangeToken).toBe('change-token');
 	});
 
 	it('checkCurrentSession does nothing when there is no access token', async () => {
