@@ -78,7 +78,7 @@ type PasswordSettings = {
 const { t } = useI18n();
 
 const authStore = useAuthStore();
-const { newPassword, confirmPassword, domain, username, password } =
+const { newPassword, confirmPassword, username, password } =
 	storeToRefs(authStore);
 const { changePassword } = authStore;
 
@@ -87,7 +87,7 @@ const { enabledTfa } = storeToRefs(tfaStore);
 const { get2faSessionId } = tfaStore;
 
 const expiredPasswordStore = useExpiredPasswordStore();
-const { reasonExpiredPassword, isExpiredPassword } =
+const { reasonExpiredPassword, isExpiredPassword, passwordChangeToken } =
 	storeToRefs(expiredPasswordStore);
 
 const passwordSettings = ref<Partial<PasswordSettings>>({});
@@ -108,9 +108,7 @@ const saveChangedPassword = async () => {
 
 const loadPasswordSettings = async (): Promise<void> => {
 	const { settings } = await AuthAPI.getPasswordSettings({
-		domain: domain.value,
-		username: username.value,
-		password: password.value,
+		password_change_token: passwordChangeToken.value,
 	});
 
 	passwordSettings.value = settings as PasswordSettings;
@@ -118,9 +116,7 @@ const loadPasswordSettings = async (): Promise<void> => {
 
 const generateNewPassword = async (): Promise<string> => {
 	const { password: generated } = await AuthAPI.generatePassword({
-		domain: domain.value,
-		username: username.value,
-		password: password.value,
+		password_change_token: passwordChangeToken.value,
 	});
 	return generated || newPassword.value;
 };
@@ -167,7 +163,7 @@ const v$ = useVuelidate(
 	},
 );
 
-useNextOnEnter(() => !v$.value.$invalid && emit('submit'));
+useNextOnEnter(() => !v$.value.$invalid && saveChangedPassword());
 
 const message = computed(() =>
 	reasonExpiredPassword.value === ExpiredPasswordReason.Temporary
