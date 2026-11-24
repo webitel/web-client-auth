@@ -1,5 +1,6 @@
 export default {
 	auth: {
+		recordDebugLogs: 'Grabar registros de depuración',
 		register: 'Registrarse',
 		titleRegistration: 'Crear una cuenta de Webitel',
 		enterDomain: 'Ingrese el nombre de su dominio',

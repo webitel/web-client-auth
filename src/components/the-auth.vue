@@ -18,6 +18,7 @@
         />
         <footer class="auth-form-wrapper__footer">
           <p class="auth-form-wrapper__build typo-caption">{{ buildVersion }}</p>
+          <debug-recorder-start />
         </footer>
       </div>
     </section>
@@ -64,6 +65,7 @@ import { useI18n } from 'vue-i18n';
 import packageJson from '../../package.json' with { type: 'json' };
 import { AuthMode } from '../enums/AuthMode.enum';
 import { useAuthStore } from '../stores/auth';
+import DebugRecorderStart from './_shared/debug-recorder-start.vue';
 
 import Login from './login/the-login.vue';
 import Register from './register/the-register.vue';
@@ -165,6 +167,10 @@ $slide-width-md: 640px;
     flex-direction: column;
 
     .auth-form-wrapper__footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-2xs);
       margin-top: auto;
       padding-top: var(--spacing-sm);
       text-align: center;
