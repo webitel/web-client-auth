@@ -50,6 +50,19 @@ describe('LoginChangePassword', () => {
 		expect(wrapper.text()).toContain('auth.expiredPasswordMessage');
 	});
 
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11068]
+	it('loads password settings with the password change token', async () => {
+		const expiredPasswordStore = useExpiredPasswordStore();
+		expiredPasswordStore.passwordChangeToken = 'change-token';
+
+		const wrapper = mountComponent();
+		await wrapper.vm.$nextTick();
+
+		expect(AuthAPI.getPasswordSettings).toHaveBeenCalledWith({
+			password_change_token: 'change-token',
+		});
+	});
+
 	it('goes back to login when the back button is clicked', async () => {
 		const expiredPasswordStore = useExpiredPasswordStore();
 		expiredPasswordStore.isExpiredPassword = true;

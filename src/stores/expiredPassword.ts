@@ -7,6 +7,7 @@ import { ExpiredPasswordReason } from '../enums/ExpiredPasswordReason.enum';
 export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 	const isExpired = ref(false);
 	const reason = ref<ExpiredPasswordReason | ''>('');
+	const passwordChangeToken = ref('');
 
 	function setExpiredPasswordReason(id: string) {
 		isExpired.value = true;
@@ -19,6 +20,7 @@ export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 		if (!isExpired.value) return;
 		isExpired.value = false;
 		reason.value = '';
+		passwordChangeToken.value = '';
 	}
 
 	function handleError(error) {
@@ -29,6 +31,8 @@ export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 
 		if (isExpired) {
 			setExpiredPasswordReason(error.id);
+			passwordChangeToken.value =
+				error.password_change_token ?? error.passwordChangeToken ?? '';
 		} else {
 			clearExpiredPasswordState();
 		}
@@ -37,6 +41,7 @@ export const useExpiredPasswordStore = defineStore('expiredPassword', () => {
 	return {
 		isExpiredPassword: isExpired,
 		reasonExpiredPassword: reason,
+		passwordChangeToken,
 
 		handleError,
 		clearExpiredPasswordState,
