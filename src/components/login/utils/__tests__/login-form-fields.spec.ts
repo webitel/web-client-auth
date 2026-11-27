@@ -81,6 +81,20 @@ describe('LoginFormFields', () => {
 		expect(authStore.password).toBe('');
 	});
 
+	// [Claude] [https://webitel.atlassian.net/browse/WTEL-11079]
+	it('clears the 2FA code when the login changes', async () => {
+		const authStore = useAuthStore();
+		const tfaStore = useTfaStore();
+		authStore.username = 'user@example.com';
+		tfaStore.enabledTfa = true;
+		tfaStore.totp = '123456';
+		const wrapper = mountComponent(3);
+
+		await wrapper.find('input').setValue('admin@example.com');
+
+		expect(tfaStore.totp).toBe('');
+	});
+
 	it('does not emit change-login when the domain stays the same', async () => {
 		const authStore = useAuthStore();
 		authStore.username = 'user@example.com';

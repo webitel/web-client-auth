@@ -155,6 +155,7 @@ watch(
 		if (typeof oldValue === 'undefined') return;
 
 		password.value = '';
+		totp.value = '';
 
 		if (getDomain(oldValue) !== newDomain) {
 			emit('change-login');
